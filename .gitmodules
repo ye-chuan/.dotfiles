@@ -11,7 +11,7 @@
 	path = pack/neovim-only/start/nvim-lua-plenary
 	url = https://github.com/nvim-lua/plenary.nvim.git
 [submodule "airline"]
-	path = pack/vim-also/vim-airline
+	path = pack/vim-also/start/vim-airline
 	url = https://github.com/vim-airline/vim-airline.git
 [submodule "telescope"]
 	path = pack/neovim-only/start/nvim-telescope
