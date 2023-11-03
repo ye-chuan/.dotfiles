@@ -1,0 +1,21 @@
+[submodule "mason"]
+	path = pack/lsp/start/nvim-mason
+	url = https://github.com/williamboman/mason.nvim.git
+[submodule "lsp-config"]
+	path = pack/lsp/start/nvim-lspconfig
+	url = https://github.com/neovim/nvim-lspconfig.git
+[submodule "catppuccin-theme"]
+	path = pack/neovim-only/start/nvim-catppuccin-theme
+	url = https://github.com/catppuccin/nvim.git
+[submodule "nvim-lua-plenary"]
+	path = pack/neovim-only/start/nvim-lua-plenary
+	url = https://github.com/nvim-lua/plenary.nvim.git
+[submodule "airline"]
+	path = pack/vim-also/vim-airline
+	url = https://github.com/vim-airline/vim-airline.git
+[submodule "telescope"]
+	path = pack/neovim-only/start/nvim-telescope
+	url = https://github.com/nvim-telescope/telescope.nvim.git
+[submodule "treesitter"]
+	path = pack/neovim-only/start/nvim-treesitter
+	url = https://github.com/nvim-treesitter/nvim-treesitter.git
