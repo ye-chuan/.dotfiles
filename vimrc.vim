@@ -6,18 +6,20 @@ if exists('g:vscode')
     " line numbering are handled by VSCode: Settings>Editor>Line Numbers
 
 else
+
 " Normal Neovim Config
 set number
 set relativenumber
 
 set hlsearch
-set incsearch      " Search incrementally (highlight as you search)
+set incsearch       " Search incrementally (highlight as you search)
 
-set scrolloff=5    " Padding lines when scrolling
-set termguicolors  " Enables 24-bit RBG, doesn't work on some builds
+set termguicolors   " Enables 24-bit RBG, doesn't work on some builds
+syntax on
 
-set nowrap         " Do not wrap lines
-set sidescroll=1   " Each time we try to move out of screen to the right, we show 1 more character
+set scrolloff=5     " Padding lines when scrolling
+set nowrap          " Do not wrap lines
+set sidescroll=1    " Each time we try to move out of screen to the right, we show 1 more character
 
 set tabstop=4       " Width of `\t` character
 set softtabstop=4   " Width of a "Tab" key (and Backspace)
@@ -45,8 +47,8 @@ nnoremap <C-L> zL| " Overrides Redraw Screen but should be fine
 nnoremap <C-H> zH
 
 "" Explorer (Netrw)
-nnoremap <Leader>ec :Lexplore<cr>|       " Opens Netrw on the left panel (in cwd)
-nnoremap <Leader>ee :Lexplore %:h<cr>|   " Opens in current file directory (% gives path of current file, :h removes the filename leaving only the directory; see :h _% and :h ::h
+nnoremap <Leader>ee :Lexplore<cr>|       " Opens Netrw on the left panel (in cwd)
+nnoremap <Leader>ec :Lexplore %:h<cr>|   " Opens in current file directory (% gives path of current file, :h removes the filename leaving only the directory; see :h _% and :h ::h
 
 " Plugins Related Stuff
 "" Netrw Config (built-in so not exactly a plugin but still)
