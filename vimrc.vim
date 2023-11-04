@@ -32,6 +32,14 @@ set formatoptions+=/	" This makes it such that // won't be auto-inserted in cind
 " Mappings
 let mapleader = " "
 
+"" System Clipboard
+nnoremap <Leader>y "+y
+vnoremap <Leader>y "+y
+nnoremap <Leader>Y "+Y
+
+nnoremap <Leader>p "+p
+vnoremap <Leader>p "+p
+
 "" Scrolling
 nnoremap <C-L> zL| " Overrides Redraw Screen but should be fine
 nnoremap <C-H> zH

@@ -19,3 +19,6 @@
 [submodule "treesitter"]
 	path = pack/neovim-only/start/nvim-treesitter
 	url = https://github.com/nvim-treesitter/nvim-treesitter.git
+[submodule "nvim-web-devicons"]
+	path = pack/neovim-only/start/nvim-web-devicons
+	url = https://github.com/nvim-tree/nvim-web-devicons.git
