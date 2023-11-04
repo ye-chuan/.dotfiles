@@ -73,5 +73,10 @@ let g:airline_symbols.maxlinenr = ' ' " '☰ '
 " let g:airline_symbols.dirty='⚡'
 let g:airline_theme = "catppuccin"  " For vim-airline to use Catpuccin Theme (currently using neovim-catpuccin)
 
+
+if !has('nvim') " Vim Specifics
+    colorscheme catppuccin-mocha-vim
+endif
+
 endif
 
