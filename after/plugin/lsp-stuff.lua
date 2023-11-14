@@ -50,7 +50,11 @@ lspconfig.clangd.setup {
     --        Compiler: gcc                   # Change argv[0] of compile flags to `gcc`
     --      ```
 }
-lspconfig.jdtls.setup {}
+lspconfig.jdtls.setup{
+    root_dir = function(filename)
+        return vim.fs.dirname(vim.fs.find({".projectroot", ".git"}, {upward = true})[1])
+    end,
+    }
 lspconfig.pyright.setup{}
 
 ----- COSMETICS -----

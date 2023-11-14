@@ -29,6 +29,8 @@ set autoindent      " autoindent: Always maintain same indentation as previous l
 set nosmartindent   " smartindent: Might add more indentation 
 set nocindent       " cindent: Follow C syntax for indent (will be auto enabled for c files)
 
+set noequalalways   " Prevents vim from auto-resizing all windows to equal size of closing a window (mainly to keep usual terminal window at the bottom from growing when I close a preview window)
+
 set formatoptions+=/	" This makes it such that // won't be auto-inserted in cindent for inline comments (only for line comments)
 
 " Mappings
