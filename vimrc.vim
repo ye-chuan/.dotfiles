@@ -50,7 +50,42 @@ nnoremap <C-H> zH
 
 "" Explorer (Netrw)
 nnoremap <Leader>ee :Lexplore<cr>|       " Opens Netrw on the left panel (in cwd)
-nnoremap <Leader>ec :Lexplore %:h<cr>|   " Opens in current file directory (% gives path of current file, :h removes the filename leaving only the directory; see :h _% and :h ::h
+nnoremap <Leader>ec :Lexplore %:h<cr>|   " Opens in current file directory (% gives path of current file, :h removes the filename leaving only the directory; see :h _% and :h ::h)
+
+"" Terminal (Vim 8+)
+nnoremap <F12> :call ToggleTerminal("default")<CR>|             " Create/Show the Terminal named "default"
+tnoremap <F12> <C-\><C-N>:call ToggleTerminal("default")<CR>|   " Exit Terminal Mode and Hides Terminal Window
+ 
+function! ToggleTerminal(name)                  " Note that VimScript scopes the argument `name` as `a:name`
+    let bufferalias = "terminal_" . a:name      " Alias for this terminal's buffer name (. is the concat operator)
+    let terminalheight = 6                      " Window height of the terminal
+    let winnr = bufwinnr(bufferalias)           " Get Window Number of Terminal (-1 if doesn't exists, means Terminal is not visible)
+    let buf = bufexists(bufferalias)            " Check if Terminal's buffer exists (we will show the same buffer if it exists)
+
+    " Toggle Close
+    if winnr > 0
+        " Window is visible (so we toggle close the window)
+        exe winnr "close"       | " Equivalent to :{winnr}close (Close Window Number {winnr})
+        return
+    endif
+
+    " Toggle Open
+    exe "botright horizontal split"     | " Split the Windows horizontally, flushed to the bottom
+    exe "resize" terminalheight         | " Resize the Window
+    if buf > 0
+        " Terminal Buffer already exists, just show it
+        exe "buffer" bufferalias        | " Show the Terminal's Buffer in this Window
+        echo "Opened Terminal" bufferalias
+    else
+        " Terminal Buffer doesn't exists, will create one now
+        exe "terminal"                  | " Start a new Terminal buffer in this Window (it will have a default name)
+        exe "f" bufferalias             | " Alias for easier reference 
+        echo "Created Terminal" bufferalias
+    endif
+
+    exe "normal" "i"    | " Go directly into Insert mode in the Terminal
+endfunction
+
 
 " Plugins Related Stuff
 "" Netrw Config (built-in so not exactly a plugin but still)

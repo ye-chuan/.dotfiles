@@ -95,7 +95,7 @@ vim.api.nvim_create_autocmd('LspAttach', {      -- Attach this autocmd to the bu
     -- end, opts)
     vim.keymap.set('n', '<Leader>D', vim.lsp.buf.type_definition, opts)
     vim.keymap.set('n', '<Leader>rn', vim.lsp.buf.rename, opts)
-    -- vim.keymap.set({ 'n', 'v' }, '<Leader>ca', vim.lsp.buf.code_action, opts)
+    vim.keymap.set({ 'n', 'v' }, '<Leader>ca', vim.lsp.buf.code_action, opts)
     -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
     -- vim.keymap.set('n', '<Leader>f', function()
     --   vim.lsp.buf.format { async = true }

@@ -10,7 +10,7 @@ git clone --recursive git@github.com:ye-chuan/nvim.git
 
 or alternatively
 ```
-git clone --recursive git@github.com:ye-chuan/nvim.git
+git clone git@github.com:ye-chuan/nvim.git
 git submodule init    # Updates the .git/config with information from .gitmodules, can selectively choose with `git submodule init submodule1 submodule2`
 git submodule update  # Actually pulls the submodules in .git/config into local directory
 ```
