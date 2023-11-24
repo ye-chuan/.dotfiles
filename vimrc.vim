@@ -31,18 +31,33 @@ set nocindent       " cindent: Follow C syntax for indent (will be auto enabled 
 
 set noequalalways   " Prevents vim from auto-resizing all windows to equal size of closing a window (mainly to keep usual terminal window at the bottom from growing when I close a preview window)
 
-set formatoptions+=/	" This makes it such that // won't be auto-inserted in cindent for inline comments (only for line comments)
+set formatoptions=      " Remove all format options first, we will them them one by one (see :help fo)
+set formatoptions+=o    " Auto insert comment leader (eg. //) on `o` or `O` in Normal Mode (CTRL-U is meant to quickly undo this auto-addition)
+set formatoptions+=r    " Auto insert comment leader (eg. //) after <CR> in Insert Mode
+set formatoptions+=/    " This makes it such that // won't be auto-inserted in cindent for inline comments (only for line comments)
+set formatoptions+=j    " Auto remove comment leader when `J` (joining lines) in Normal Mode (where appropriate)
+set formatoptions+=c    " Auto hard-wraps comments once it is longer than `textwidth` (Which isn't currently set; Don't really use it but was default so will keep first)
+set formatoptions+=q    " Enable `gq` for manually triggering the wraps, once again no use unless `textwidth` is set
+set formatoptions+=l	" Long lines not broken / auto-wrapped if it was already long when entering insert mode (once again not used)
 
 " Mappings
 let mapleader = " "
+"" Overriden Defaults (take note that these default mappings don't work anymore)
+" <C-L> - Redraw Screen
 
 "" System Clipboard
 nnoremap <Leader>y "+y
 vnoremap <Leader>y "+y
 nnoremap <Leader>Y "+Y
 
-nnoremap <Leader>p "+p
-vnoremap <Leader>p "+p
+nnoremap <Leader>p "+p| " (Visual Mode remap for this because I'd like that to do something else)
+nnoremap <Leader>P "+P
+
+"" Non-Register-Overriding Operations
+vnoremap <Leader>p "_dP|    " Paste without over selection without overriding register (Different behaviour in Normal Mode)
+nnoremap <Leader>d "_d|     " Deletes to void register
+vnoremap <Leader>d "_d|     " Deletes to void register
+
 
 "" Scrolling
 nnoremap <C-L> zL| " Overrides Redraw Screen but should be fine
@@ -57,6 +72,7 @@ nnoremap <F12> :call ToggleTerminal("default")<CR>|             " Create/Show th
 tnoremap <F12> <C-\><C-N>:call ToggleTerminal("default")<CR>|   " Exit Terminal Mode and Hides Terminal Window
  
 function! ToggleTerminal(name)                  " Note that VimScript scopes the argument `name` as `a:name`
+    " Note that existing Terminal Buffer will only be restored if `:set nohidden`, else a new one is created every time
     let bufferalias = "terminal_" . a:name      " Alias for this terminal's buffer name (. is the concat operator)
     let terminalheight = 6                      " Window height of the terminal
     let winnr = bufwinnr(bufferalias)           " Get Window Number of Terminal (-1 if doesn't exists, means Terminal is not visible)
