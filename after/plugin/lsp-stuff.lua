@@ -72,8 +72,8 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)     -- Goto prev error
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next)     -- Goto next error
 vim.keymap.set('n', '<Leader>q', vim.diagnostic.setloclist)
 
--- Use LspAttach autocommand to only map the following keys
--- after the language server attaches to the current buffer
+-- Use LspAttach autocommand to map the following keys ONLY
+-- AFTER The language server attaches to the current buffer
 vim.api.nvim_create_autocmd('LspAttach', {      -- Attach this autocmd to the built-in event "LspAttach" (see :he LspAttach)
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),     -- Creates a new group for these autocmds called "UserLspConfig
   callback = function(ev)   -- ev is the event, which has an attribute .buf that is the current buffer number
@@ -87,7 +87,7 @@ vim.api.nvim_create_autocmd('LspAttach', {      -- Attach this autocmd to the bu
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
     vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
     vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-    -- vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
     -- vim.keymap.set('n', '<Leader>wa', vim.lsp.buf.add_workspace_folder, opts)
     -- vim.keymap.set('n', '<Leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
     -- vim.keymap.set('n', '<Leader>wl', function()
