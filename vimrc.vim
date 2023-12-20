@@ -11,13 +11,15 @@ else
 set number
 set relativenumber
 
+set backspace=indent,eol,start " Allows backspacing autoindents, /n /r etc, and the start location of the Insert
+
 set hlsearch
 set incsearch       " Search incrementally (highlight as you search)
 
 set termguicolors   " Enables 24-bit RBG, doesn't work on some builds
-syntax on
+syntax on           " Syntax Highlighting
 
-set scrolloff=5     " Padding lines when scrolling
+set scrolloff=3     " Padding lines when scrolling
 set nowrap          " Do not wrap lines
 set sidescroll=1    " Each time we try to move out of screen to the right, we show 1 more character
 
@@ -40,10 +42,21 @@ set formatoptions+=c    " Auto hard-wraps comments once it is longer than `textw
 set formatoptions+=q    " Enable `gq` for manually triggering the wraps, once again no use unless `textwidth` is set
 set formatoptions+=l	" Long lines not broken / auto-wrapped if it was already long when entering insert mode (once again not used)
 
+set path+=**    " Allows :find to search recursively from the cwd (for large projects, undo this can add specifically the sources e.g. +=src/**)
+
 " Mappings
 let mapleader = " "
 "" Overriden Defaults (take note that these default mappings don't work anymore)
 " <C-L> - Redraw Screen
+" Y - yy
+" <C-W> - Delete word in Insert Mode (remapped to maintain function)
+" <C-U> - Delete till start in Insert Mode (remapped to maintain function)
+" Q - Neovim's default is to replay last recorded macro instead of entering Ex mode, this .vimrc has code that mimicks Neovim's implementation
+
+"" Other Remaps (Overriden Defaults)
+nnoremap Y y$|  " To be consistent with D and C (even Vim recommends this remap)
+inoremap <C-W> <C-G>u<C-W>|     " Allows undoing C-W (Delete word in insert mode)
+inoremap <C-U> <C-G>u<C-U>|     " Allows undoing C-U (Delete till start of line in insert mode)
 
 "" System Clipboard
 nnoremap <Leader>y "+y
@@ -64,8 +77,26 @@ nnoremap <C-L> zL| " Overrides Redraw Screen but should be fine
 nnoremap <C-H> zH
 
 "" Explorer (Netrw)
-nnoremap <Leader>ee :Lexplore<cr>|       " Opens Netrw on the left panel (in cwd)
-nnoremap <Leader>ec :Lexplore %:h<cr>|   " Opens in current file directory (% gives path of current file, :h removes the filename leaving only the directory; see :h _% and :h ::h)
+nnoremap <Leader>ee :Lexplore<CR>|              " Opens Netrw on the left panel (in cwd)
+nnoremap <Leader>ec :silent Lexplore %:h<CR>|   " Opens in current file directory (% gives path of current file, :h removes the filename leaving only the directory; see :h _% and :h ::h), the `silent` is to fix an annoying bug that requires us to press enter.
+
+"" Implement Neovim's Q (play last recorded macro)
+nnoremap q <Cmd>call QImplementation()<CR>
+nnoremap Q <Cmd>exe "normal! " . v:count1 . "@" . g:qreg<CR>
+
+let g:qreg = "@"
+function! QImplementation()
+    if reg_recording() == ""
+        " Start Recording
+        let g:qreg = getcharstr()
+        exe "normal! q" . g:qreg
+    else
+        " End Recording
+        exe "normal! q"
+        " Note that the `q` used to activate this function is recorded in the macro which we need to remove
+        call setreg(g:qreg, substitute(getreg(g:qreg), "q$", "", ""))
+    endif
+endfunction
 
 "" Terminal (Vim 8+)
 nnoremap <F12> :call ToggleTerminal("default")<CR>|             " Create/Show the Terminal named "default"
@@ -95,7 +126,8 @@ function! ToggleTerminal(name)                  " Note that VimScript scopes the
     else
         " Terminal Buffer doesn't exists, will create one now
         exe "terminal"                  | " Start a new Terminal buffer in this Window (it will have a default name)
-        exe "f" bufferalias             | " Alias for easier reference 
+        exe "f" bufferalias             | " Alias for easier reference (essentially creates another buffer that links to this)
+        exe "set nobuflisted"           | " Unlist the buffer (so we can :bn & :bp without seeing the terminal)
         echo "Created Terminal" bufferalias
     endif
 
@@ -111,15 +143,24 @@ let g:netrw_banner = 0      " Hide the top banner (press I to show)
 
 "" vim-airline
 set noshowmode                      " Since we are already using airline to show the mode
-let g:airline_extensions = []       " Disable searching for non-existent plugins for integration
+
+let g:airline_extensions = ['tabline']       " Disable searching for non-existent plugins for integration
+""" Tabline extension (to use tabline to show buffers)
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#tabline#formatter = 'default'
+let g:airline#extensions#tabline#buffer_nr_show = 1         " Shows Buffer Number
+let g:airline#extensions#tabline#buffer_nr_format = '%s '   " %s is the buffer number, default is "%s: "
+
 let g:airline_powerline_fonts = 1   " For vim-airline pluging to load Powerline fonts
 if !exists('g:airline_symbols')
      let g:airline_symbols = {}
 endif
-" let g:airline_left_sep = '' " '' ''
-" let g:airline_left_alt_sep = '' " ''
-" let g:airline_right_sep = '' " '' ''
-" let g:airline_right_alt_sep = '' " ''
+let g:airline_left_sep = '' " '' ''
+" let g:airline_left_alt_sep = '' " ''
+let g:airline_right_sep = '' " '' ''
+" let g:airline_right_alt_sep = '' " ''
 " let g:airline_symbols.branch = ''
 let g:airline_symbols.colnr = ' ' " ' ℅:'
 " let g:airline_symbols.readonly = ''
