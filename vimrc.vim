@@ -46,17 +46,12 @@ set path+=**    " Allows :find to search recursively from the cwd (for large pro
 
 " Mappings
 let mapleader = " "
-"" Overriden Defaults (take note that these default mappings don't work anymore)
-" <C-L> - Redraw Screen
-" Y - yy
-" <C-W> - Delete word in Insert Mode (remapped to maintain function)
-" <C-U> - Delete till start in Insert Mode (remapped to maintain function)
-" Q - Neovim's default is to replay last recorded macro instead of entering Ex mode, this .vimrc has code that mimicks Neovim's implementation
 
 "" Other Remaps (Overriden Defaults)
 nnoremap Y y$|  " To be consistent with D and C (even Vim recommends this remap)
 inoremap <C-W> <C-G>u<C-W>|     " Allows undoing C-W (Delete word in insert mode)
 inoremap <C-U> <C-G>u<C-U>|     " Allows undoing C-U (Delete till start of line in insert mode)
+nnoremap <BS> <C-^>
 
 "" System Clipboard
 nnoremap <Leader>y "+y
