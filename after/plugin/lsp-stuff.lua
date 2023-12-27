@@ -1,4 +1,4 @@
----- Must be setup in the order: Mason -> LSP-Config (because Mason temporarily adds to the PATH for LSP-Config?)
+---- Must be setup in the order: Mason -> LSP-Config (because Mason temporarily adds the LSP locations to the PATH for LSP-Config?)
 
 -- Packages / LSPs are installed in /nvim-data/mason
 require("mason").setup({
@@ -21,11 +21,13 @@ require("mason").setup({
 })
 
 
-
 ----- Setup / Configure Each LSP Server
+local nvim_cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()    -- Remember to broacast the extended capabilites that nvim-cmp provided to NeoVim to all the LSP Servers (these includes snippet support, auto-imports etc.)
+
 -- see :h lspconfig-all for recommended configs
 local lspconfig = require('lspconfig')
 lspconfig.clangd.setup {
+    capabilities = nvim_cmp_capabilities,
     -- So for clangd to work with mingw gcc in Windows, a few things need to be done
     cmd = {"clangd", "--query-driver=C:/_Software/msys64/mingw64/bin/gcc.exe"}, -- First is to run clangd with the flag `--query-driver {path-to-gcc}` to **allow it** to query the gcc compiler for standard includes and stuff
     -- Very important to note that we are merely allowing clangd to query, but it will not query unless it know it has to, which is where step 2 comes in: we need to let clangd know how to compile how source,
@@ -50,12 +52,23 @@ lspconfig.clangd.setup {
     --        Compiler: gcc                   # Change argv[0] of compile flags to `gcc`
     --      ```
 }
+
 lspconfig.jdtls.setup{
+    capabilities = nvim_cmp_capabilities,
     root_dir = function(filename)
         return vim.fs.dirname(vim.fs.find({".projectroot", ".git"}, {upward = true})[1])
     end,
     }
-lspconfig.pyright.setup{}
+lspconfig.pyright.setup{
+    capabilities = nvim_cmp_capabilities,
+}
+
+lspconfig.html.setup{
+    capabilities = nvim_cmp_capabilities,
+}
+
+lspconfig.tsserver.setup{
+}
 
 ----- COSMETICS -----
 local signs = { Error = " ", Warn = " ", Hint = "󰌶 ", Info = " " }
@@ -77,8 +90,8 @@ vim.keymap.set('n', '<Leader>q', vim.diagnostic.setloclist)
 vim.api.nvim_create_autocmd('LspAttach', {      -- Attach this autocmd to the built-in event "LspAttach" (see :he LspAttach)
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),     -- Creates a new group for these autocmds called "UserLspConfig
   callback = function(ev)   -- ev is the event, which has an attribute .buf that is the current buffer number
-    -- Enable completion triggered by <c-x><c-o>
-    vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'  -- vim.bo[ev.buf] indexes and returns current buffer, then override/set it's omnifunc (see :he omnifunc) with the one in our lsp
+    -- Enable completion triggered by <C-X><C-O> (currently disabled for auto-completion plugin instead)
+    -- vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'  -- vim.bo[ev.buf] indexes and returns current buffer, then override/set it's omnifunc (see :he omnifunc) with the one in our lsp
 
     -- Buffer local mappings.
     -- See `:help vim.lsp.*` for documentation on any of the below functions

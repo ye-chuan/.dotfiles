@@ -22,3 +22,21 @@
 [submodule "nvim-web-devicons"]
 	path = pack/neovim-only/start/nvim-web-devicons
 	url = https://github.com/nvim-tree/nvim-web-devicons.git
+[submodule "lua-snip"]
+	path = pack/completion/start/lua-snip
+	url = https://github.com/L3MON4D3/LuaSnip.git
+[submodule "friendly-snippets"]
+	path = snippets/friendly-snippets
+	url = https://github.com/rafamadriz/friendly-snippets.git
+[submodule "nvim-cmp"]
+	path = pack/completion/start/nvim-cmp
+	url = https://github.com/hrsh7th/nvim-cmp.git
+[submodule "cmp-luasnip"]
+	path = pack/completion/start/cmp-luasnip
+	url = https://github.com/saadparwaiz1/cmp_luasnip.git
+[submodule "cmp-nvim-lsp"]
+	path = pack/completion/start/cmp-nvim-lsp
+	url = https://github.com/hrsh7th/cmp-nvim-lsp.git
+[submodule "cmp-buffer"]
+	path = pack/completion/start/cmp-buffer
+	url = https://github.com/hrsh7th/cmp-buffer.git
