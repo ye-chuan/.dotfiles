@@ -14,7 +14,6 @@ config.color_scheme = "Catppuccin Mocha"
 config.hide_tab_bar_if_only_one_tab = true
 -- config.use_fancy_tab_bar = false -- Use native tabs instead of ascii tabs
 config.window_background_opacity = 0.85
-config.text_background_opacity = 0.6
 config.scrollback_lines = 3500
 
 config.set_environment_variables = {
