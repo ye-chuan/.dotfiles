@@ -1,42 +1,42 @@
 [submodule "mason"]
-	path = pack/lsp/start/nvim-mason
+	path = .config/nvim/pack/lsp/start/nvim-mason
 	url = https://github.com/williamboman/mason.nvim.git
 [submodule "lsp-config"]
-	path = pack/lsp/start/nvim-lspconfig
+	path = .config/nvim/pack/lsp/start/nvim-lspconfig
 	url = https://github.com/neovim/nvim-lspconfig.git
 [submodule "catppuccin-theme"]
-	path = pack/neovim-only/start/nvim-catppuccin-theme
+	path = .config/nvim/pack/neovim-only/start/nvim-catppuccin-theme
 	url = https://github.com/catppuccin/nvim.git
 [submodule "nvim-lua-plenary"]
-	path = pack/neovim-only/start/nvim-lua-plenary
+	path = .config/nvim/pack/neovim-only/start/nvim-lua-plenary
 	url = https://github.com/nvim-lua/plenary.nvim.git
 [submodule "airline"]
-	path = pack/vim-also/start/vim-airline
+	path = .config/nvim/pack/vim-also/start/vim-airline
 	url = https://github.com/vim-airline/vim-airline.git
 [submodule "telescope"]
-	path = pack/neovim-only/start/nvim-telescope
+	path = .config/nvim/pack/neovim-only/start/nvim-telescope
 	url = https://github.com/nvim-telescope/telescope.nvim.git
 [submodule "treesitter"]
-	path = pack/neovim-only/start/nvim-treesitter
+	path = .config/nvim/pack/neovim-only/start/nvim-treesitter
 	url = https://github.com/nvim-treesitter/nvim-treesitter.git
 [submodule "nvim-web-devicons"]
-	path = pack/neovim-only/start/nvim-web-devicons
+	path = .config/nvim/pack/neovim-only/start/nvim-web-devicons
 	url = https://github.com/nvim-tree/nvim-web-devicons.git
 [submodule "lua-snip"]
-	path = pack/completion/start/lua-snip
+	path = .config/nvim/pack/completion/start/lua-snip
 	url = https://github.com/L3MON4D3/LuaSnip.git
 [submodule "friendly-snippets"]
-	path = snippets/friendly-snippets
+	path = .config/nvim/snippets/friendly-snippets
 	url = https://github.com/rafamadriz/friendly-snippets.git
 [submodule "nvim-cmp"]
-	path = pack/completion/start/nvim-cmp
+	path = .config/nvim/pack/completion/start/nvim-cmp
 	url = https://github.com/hrsh7th/nvim-cmp.git
 [submodule "cmp-luasnip"]
-	path = pack/completion/start/cmp-luasnip
+	path = .config/nvim/pack/completion/start/cmp-luasnip
 	url = https://github.com/saadparwaiz1/cmp_luasnip.git
 [submodule "cmp-nvim-lsp"]
-	path = pack/completion/start/cmp-nvim-lsp
+	path = .config/nvim/pack/completion/start/cmp-nvim-lsp
 	url = https://github.com/hrsh7th/cmp-nvim-lsp.git
 [submodule "cmp-buffer"]
-	path = pack/completion/start/cmp-buffer
+	path = .config/nvim/pack/completion/start/cmp-buffer
 	url = https://github.com/hrsh7th/cmp-buffer.git
