@@ -17,15 +17,16 @@ git init --bare $HOME/.dotfiles
 ## Cloning
 Git doesn't allow cloning into a non-empty directory (which $HOME usually is), we will need to clone into a temporary directory first
 ```sh
-git clone --separate-git-dir=$HOME/.dotfiles git@github.com:ye-chuan/.dotfiles.git .dotfiles.temp
+git clone --recursive --separate-git-dir=$HOME/.dotfiles git@github.com:ye-chuan/.dotfiles.git .dotfiles.temp
 ```
-Using `--separate-git-dir` means Git will put all the files originally in `.git` into `.dotfiles`, then have a **file** (not directory) named `.git` within the worktree (`.dotfiles.temp` in this case) which contains a link to the separate Git-Directory.
+`--recursive` will also clone all the submodules
+
+`--separate-git-dir` means Git will put all the files originally in `.git` into `.dotfiles`, then have a **file** (not directory) named `.git` within the worktree (`.dotfiles.temp` in this case) which contains a link to the separate Git-Directory.
 
 So we now move the temporary worktree over to our home directory, excluding the `.git` file (we do not need it since we will be running git with the alias mentioned above)
 
 ```sh
-rm $HOME/.dotfiles.temp/.git
-mv $HOME/.dotfiles.temp/* $HOME/.dotfiles.temp/.[^.]* $HOME
+rsync --recursive --verbose --exclude .git $HOME/.dotfiles.temp $HOME
 ```
 The `mv` command might echo an warning if either of the globs fail (say if we have no hidden files, then `$HOME/.dotfiles.temp/.[^.]*` which matches all hidden files apart from `..` and `.` will fail)
 This doesn't stop the command from still moving all non-hidden files over but if it is annoying we can turn the warning off with `shopt -s nullglob`
