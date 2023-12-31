@@ -16,6 +16,9 @@ certain plugin is going to help improve my workflow, I will be installing it.
 - lua-snip
     - Snippets engine (i.e. LuaSnip), supports VSCode Snippets and LuaSnippets (very powerful)
 
+> Remember to have the **latest version** of `npm` and `nodejs` which some stable linux distros do not provide in their repo
+> e.g. `pyright` uses `nodejs` to run
+
 #### Completion
 - nvim-cmp
     - Completion engine (no sources)
@@ -29,6 +32,8 @@ certain plugin is going to help improve my workflow, I will be installing it.
       that can should be broadcasted to the LSP server (the capabilities are listed in `require("cmp_nvim_lsp").default_capabilities()`)
 - cmp-buffer
     - nvim-cmp source for words within a buffer (like the built-in i_CTRL-N, but integrated into nvim-cmp)
+- copilot-vim (opt)
+    - Just to test out GitHub's Copilot, might remove in the future
 
 ### Project Navigation
 - nvim-telescope
@@ -53,17 +58,19 @@ This configuration makes use of the package system that was introduced since Vim
 To manage the plugins, I will be using Git's submodule feature.
 
 To install plugins:
-```
+```sh
 git submodule add --name {abitrary-name} {https://github.com/.../plugin.git} {pack/{abitrary-pkg-name}/{start|opt}/{repo-root-directory}}
 ```
 
+> Plugins instead with in the `opt` directory will not be auto-loaded in NeoVim and will have to be manually loaded with `:packadd {abitrary-pkg-name}
+
 To clone to another machine (including all submodules)
-```
+```sh
 git clone --recursive git@github.com:ye-chuan/nvim.git
 ```
 
 or alternatively
-```
+```sh
 git clone git@github.com:ye-chuan/nvim.git
 git submodule init    # Updates the .git/config with information from .gitmodules, can selectively choose with `git submodule init submodule1 submodule2`
 git submodule update  # Actually pulls the submodules in .git/config into local directory
@@ -76,7 +83,7 @@ Remember to generate helptags in nvim with
 
 To Update All Plugins
 Make sure to be in root nvim\ (config directory)
-```
+```sh
 git submodule foreach git pull
 ```
 

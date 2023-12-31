@@ -62,3 +62,15 @@ or for the more detailed view,
 ```sh
 mydotfiles status -uall
 ```
+
+## New Machine Notes
+### Programs to Install
+- WezTerm
+    - For a nice terminal of course
+- NeoVim
+    - Duh!
+    - Latest version required (check plugins for supported versions)
+    - Stable distros might not have the latest, AppPackage is the simplest way to install the latest
+- NodeJS
+    - For `npm` and the **latest** NodeJS so that the LSP's used in NeoVim can work
+    - Stable distros might not have the latest, installing and using `nvm` to install and manage NodeJS version is recommended
