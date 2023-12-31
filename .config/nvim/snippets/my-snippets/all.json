@@ -22,26 +22,5 @@
             "Perhaps ${1|dog,cat,human,guy|}"
         ],
         "description": "To test snippet field choices"
-    },
-    "yq1": {
-        "prefix": "Yan Qi Sucks",
-        "body": [
-            "Perhaps ${1|dog,cat,human,guy|}"
-        ],
-        "description": "To test snippet field choices"
-    },
-    "yq2": {
-        "prefix": "Yan Qi Should Use Vim",
-        "body": [
-            "Perhaps ${1|dog,cat,human,guy|}"
-        ],
-        "description": "To test snippet field choices"
-    },
-    "yq3": {
-        "prefix": "Yan Qi Doesn't Like Elaine",
-        "body": [
-            "Perhaps ${1|dog,cat,human,guy|}"
-        ],
-        "description": "To test snippet field choices"
     }
 }
