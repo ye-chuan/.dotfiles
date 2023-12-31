@@ -40,3 +40,6 @@
 [submodule "cmp-buffer"]
 	path = .config/nvim/pack/completion/start/cmp-buffer
 	url = https://github.com/hrsh7th/cmp-buffer.git
+[submodule "copilot-vim"]
+	path = .config/nvim/pack/completion/opt/copilot-vim
+	url = https://github.com/github/copilot.vim.git
