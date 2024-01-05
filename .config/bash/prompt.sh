@@ -56,6 +56,9 @@ _git_num_stash () {
 # Picks which prompt to use (do not echo in here, all prompt echos should go into PS1 so that Bash knows how to position the cursor)
 _prompt_mux () {
     local prompt=''
+    ## Emit OSC 7 (to advice terminals like WezTerm on changes to the cwd if any)
+    prompt+='\e]7;file://localhost/${PWD}\e\\'  # Uses $PWD instead of PS1's \w because \w abbreviates $HOME to ~ which is not re-expanded by e.g. WezTerm
+
     ## Git Prompt
     if $has_git_cmd && is_in_git_tree; then
         prompt+="${BLUE}\u"  # Username
