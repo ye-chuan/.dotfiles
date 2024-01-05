@@ -1,0 +1,40 @@
+# See readline(3readline) and `man readline` for more information.
+# Global inputrc for libreadline is at /etc/inputrc
+
+# Do not clear the 8th bit (e.g. for displaying Chinese characters)
+set input-meta on
+set output-meta on
+
+# To allow the use of 8bit-characters like the german umlauts, uncomment
+# the line below. However this makes the meta key not work as a meta key,
+# which is annoying to those which don't need to type in 8-bit characters.
+
+# set convert-meta off
+
+# Disable Bell (e.g. on tab-completion, backspace etc.)
+set bell-style none
+
+## Completion
+# Ignore case when auto-completing
+set completion-ignore-case on
+# Show all possible completions with just 1 tab key (instead of 2)
+set show-all-if-ambiguous on
+# Colour completions depending on filetype (like ls)
+set colored-stats on
+# Colour completions matched prefix
+set colored-completion-prefix on
+
+
+## Vi Mode
+# Sets default keymap to be vi-insert
+set editing-mode vi
+
+# Vi Insert Mode Keymaps
+set keymap vi-insert
+"\e[A": history-search-backward
+"\e[B": history-search-forward
+
+# Vi Normal Mode Keymaps
+set keymap vi-command
+"k": history-search-backward
+"j": history-search-forward
