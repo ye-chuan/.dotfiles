@@ -43,3 +43,6 @@
 [submodule "copilot-vim"]
 	path = .config/nvim/pack/completion/opt/copilot-vim
 	url = https://github.com/github/copilot.vim.git
+[submodule "mason-lspconfig"]
+	path = .config/nvim/pack/lsp/start/mason-lspconfig
+	url = https://github.com/williamboman/mason-lspconfig.nvim.git
