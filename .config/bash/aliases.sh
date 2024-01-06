@@ -8,6 +8,3 @@ alias grep="grep --color=auto"      # Colors pattern matches for grep
 #alias egrep="egrep --color=auto"   # Use `grep -E` instead
 
 alias la="ls -a"
-
-# Trynna be funny
-alias please="sudo !!"
