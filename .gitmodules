@@ -16,6 +16,7 @@
 [submodule "telescope"]
 	path = .config/nvim/pack/neovim-only/start/nvim-telescope
 	url = https://github.com/nvim-telescope/telescope.nvim.git
+    branch = 0.1.x
 [submodule "treesitter"]
 	path = .config/nvim/pack/neovim-only/start/nvim-treesitter
 	url = https://github.com/nvim-treesitter/nvim-treesitter.git
