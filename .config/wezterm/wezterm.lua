@@ -147,7 +147,7 @@ config.keys = {
         action = wezterm.action.ActivatePaneDirection("Up"),
     },
     {
-        key = "l",
+        key = "Backspace",
         mods = "LEADER",
         action = wezterm.action.ActivateLastTab,
     },
