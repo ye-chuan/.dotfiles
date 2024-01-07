@@ -24,14 +24,14 @@ is_in_git_tree () {
 
 ### START OF GIT FUNCTIONS (Functions here assumes we are in Git Repo)
 _get_git_branch () {
-    echo $(git branch 2>/dev/null | sed -e '/^*/!d' -e 's/* \(.*\)/\1/')
+    git branch 2>/dev/null | sed -e '/^*/!d' -e 's/* \(.*\)/\1/'
 }
 # Returns a "path/in/repo/" without the repo's root
 _git_rel_path_wo_root () {
-    echo "$(git rev-parse --show-prefix 2> /dev/null)"
+    git rev-parse --show-prefix 2> /dev/null
 }
 _git_local_repo_name () {
-    echo "$(basename $(git rev-parse --show-toplevel) 2> /dev/null)"
+    basename "$(git rev-parse --show-toplevel)" 2> /dev/null
 }
 # ret status 0 - Merging
 # ret status !0 - Not Mergin
@@ -85,7 +85,7 @@ _prompt_mux () {
 
         # Stashes
         local num_stashes="$(_git_num_stash)"
-        if [ ${num_stashes} -gt 0 ]; then
+        if [ "${num_stashes}" -gt 0 ]; then
             prompt+="${RED}  $(_git_num_stash)"
         fi
         prompt+="\n${GREEN} "   # Command start at the next line

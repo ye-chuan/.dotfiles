@@ -1,4 +1,4 @@
-BASH_CONFIG="$HOME/.config/bash"    # Where I save everything else bash related that doesn't have to be directly in $HOME (i.e. we try to follow XDG base dir)
+SHELL_CONFIG="$HOME/.config/shell"  # For files that are meant to be shared between shells (POSIX Compliant)
 
 # Bash History
 shopt -s histappend # Append to .bash_history instead of overriding
@@ -11,8 +11,12 @@ export VISUAL=nvim  # Set default visual editor to be NeoVim
 # Glob
 shopt -s globstar   # Allow ** to mean recursive glob (>= bash 4.0)
 
-# Source Other Bash Stuff
-source $BASH_CONFIG/aliases.sh
+# Source Other Stuff
+source "$SHELL_CONFIG/aliases.sh"
+## Dir Colors (for commands like `ls`)
+[ -f "$SHELL_CONFIG/.dircolors" ] && eval "$(dircolors "$SHELL_CONFIG/.dircolors")"     # POSIX allows for new quotes to start within the context of a command sub $()
+## Prompt
+source "$SHELL_CONFIG/prompt.sh"
 
 # External Programs (execute if they exist)
 ## nvm
@@ -20,5 +24,3 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"    # Auto-load / source nvm for use
 [ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"  # Loads nvm completions for bash
 
-# Prompt
-source $BASH_CONFIG/prompt.sh
