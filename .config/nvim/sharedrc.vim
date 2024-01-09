@@ -1,13 +1,13 @@
-" This should work with original Vim, some plugins might need to be swapped for Vim versions
-" NeoVim specifics are in `init.lua`
+" This config is meant to be sharable between Vim and NeoVim
 
 if exists('g:vscode')
     " VSCode Neovim Config (using the Neovim Extension)
     " line numbering are handled by VSCode: Settings>Editor>Line Numbers
-
 else
 
-" Normal Neovim Config
+" Sane Defaults
+set encoding=utf-8  " Even though Vim might set to UTF-8 based on locale, but we will put this here just in case
+
 set number
 set relativenumber
 
@@ -16,22 +16,45 @@ set backspace=indent,eol,start " Allows backspacing autoindents, /n /r etc, and 
 set hlsearch
 set incsearch       " Search incrementally (highlight as you search)
 
-set termguicolors   " Enables 24-bit RBG, doesn't work on some builds
-syntax on           " Syntax Highlighting
+set nrformats=bin,hex   " Number formats supported by CTRL-A and CTRL-X
 
-set scrolloff=3     " Padding lines when scrolling
-set nowrap          " Do not wrap lines
-set sidescroll=1    " Each time we try to move out of screen to the right, we show 1 more character
+syntax on           " Syntax Highlighting
+set termguicolors   " Enables 24-bit RBG, doesn't work on some builds
+set laststatus=2    " Always show status line (even when there's only 1 window open)
+set ruler           " Show Col & Lines No. in bottom right of the status line
+set showcmd         " Show the little pending normal mode commands at bottom right of status line
+
+set scrolloff=3         " Padding lines when scrolling
+set sidescroll=1        " Each time we try to move out of screen to the right, we show 1 more character
+set nowrap              " Do not wrap lines
+set display=lastline    " Try to show as much of the last line as possible, but with "@@@" at the last col to denote that the line continues on below (doesn't affect when `set nowrap`)
+set nostartofline       " Do not move cursor back to the start of the line when scrolling, deleting lines, etc.
 
 set tabstop=4       " Width of `\t` character
 set softtabstop=4   " Width of a "Tab" key (and Backspace)
 set shiftwidth=4    " Width of a level of indent (e.g. >>)
 set expandtab       " Expands `\t` to spaces whenever editing
 set autoindent      " autoindent: Always maintain same indentation as previous line
-set nosmartindent   " smartindent: Might add more indentation 
-set nocindent       " cindent: Follow C syntax for indent (will be auto enabled for c files)
+set nosmartindent   " smartindent: Might add more indentation (we will be using the better `filetype indent on`
+set nocindent       " cindent: Follow C syntax for indent (will be auto enabled for c files if we use `filetype indent on`)
+
+" Built-in Filetype Plugin (use `:filetype` to view which features are enabled, `:h filetype` for help)
+filetype on         " Enables filetype detection (a bit redundant since it is on by default and when setting `filetype indent on` etc)
+filetype indent on  " Enables indentation based on filetype by setting `indentexpr` using built-in scripts for each filetype (see `$VIMRUNTIME/indent/<filetype>.vim` which might redirect to a function in `$VIMRUNTIME/autoload/<filetype>.vim`)
+filetype plugin on  " Enables filetype plugins (located in `$VIMRUNTIME/ftplugin/<filetype>.vim`); we can write our own additions best saved to `~/.vim/after/ftplugin` (reason in `:h ftplugin-overrule)
+" Of course external plugins would override these. e.g. treesitter for indentation, LSP for omnifunc (which ftplugin might have set)
 
 set noequalalways   " Prevents vim from auto-resizing all windows to equal size of closing a window (mainly to keep usual terminal window at the bottom from growing when I close a preview window)
+
+set complete=       " Options for what is included in Vim's built-in completion i_<CTRL-N> (see :h cpt)
+set complete+=.     " Scan current buffer
+set complete+=w     " Scan buffers from other windows
+set complete+=b     " Scan other loaded buffers in the buffer list
+set complete+=u     " Scan unloaded buffers in buffer list
+set complete+=t     " Scan tags (tag completion)
+set complete+=i     " Scan also included files (best effort basis)
+set wildmenu        " Enable completion menu in the command line
+set wildoptions=pum,tagfile     " Uses pop-up menu for `wildmenu`, also include completions from tagfiles
 
 set formatoptions=      " Remove all format options first, we will them them one by one (see :help fo)
 set formatoptions+=o    " Auto insert comment leader (eg. //) on `o` or `O` in Normal Mode (CTRL-U is meant to quickly undo this auto-addition)
@@ -42,7 +65,30 @@ set formatoptions+=c    " Auto hard-wraps comments once it is longer than `textw
 set formatoptions+=q    " Enable `gq` for manually triggering the wraps, once again no use unless `textwidth` is set
 set formatoptions+=l	" Long lines not broken / auto-wrapped if it was already long when entering insert mode (once again not used)
 
+set listchars=tab:>\ ,trail:·,nbsp:+    " For rendering in the `:list` command
+
+set nojoinspaces    " People used to like to put 2 spaces after e.g. '.', we don't do that shit no more
+set belloff=all
+
+set hidden      " Allows for buffers to be kept in the background without being saved to disk (multitasking)
+set history=10000   " Maximum undo history
+
 set path+=**    " Allows :find to search recursively from the cwd (for large projects, undo this can add specifically the sources e.g. +=src/**)
+
+" Just to be consistent with NeoVim
+set commentstring=
+set autoread                    " (Only works for GUI Vim so...) Automatically read files that have been changed outside of Vim
+set fillchars=vert:│,fold:·     " See `:h fillchars`
+set nofsync                     " fsync attemps to flush to disk every `:write`, NeoVim have this off by default probably to speed up editing large files
+set nolangremap
+set mouse=nvi                   " Enable mouse support for Normal, Visual, and Insert Modes
+set mousemodel=popup_setpos     " Right-Click will move cursor to position and trigger popup
+set smarttab                    " Redundant in this config, only affects when `shiftwidth` is different from `tabstop` or `softtabstop`
+set tabpagemax=50
+set switchbuf=uselast           " Use last used window when jumping from quickfix list
+set ttyfast                     " Terminals do have fast connection now don't they
+set ttimeoutlen=50
+set viminfo+=!                  " Stores also any GLOBAL_VARIABLES in .viminfo for persistence
 
 " Mappings
 let mapleader = " "
@@ -65,7 +111,6 @@ nnoremap <Leader>P "+P
 vnoremap <Leader>p "_dP|    " Paste without over selection without overriding register (Different behaviour in Normal Mode)
 nnoremap <Leader>d "_d|     " Deletes to void register
 vnoremap <Leader>d "_d|     " Deletes to void register
-
 
 "" Scrolling
 nnoremap <C-L> zL| " Overrides Redraw Screen but should be fine
@@ -94,6 +139,7 @@ function! QImplementation()
 endfunction
 
 "" Terminal (Vim 8+)
+tnoremap <C-]> <C-\>|                                           " Prevent class with tmux leader <C-\>
 nnoremap <F12> :call ToggleTerminal("default")<CR>|             " Create/Show the Terminal named "default"
 tnoremap <F12> <C-\><C-N>:call ToggleTerminal("default")<CR>|   " Exit Terminal Mode and Hides Terminal Window
  
@@ -120,54 +166,25 @@ function! ToggleTerminal(name)                  " Note that VimScript scopes the
         echo "Opened Terminal" bufferalias
     else
         " Terminal Buffer doesn't exists, will create one now
-        exe "terminal"                  | " Start a new Terminal buffer in this Window (it will have a default name)
+        if has("nvim")
+            exe "terminal"              | " Start a new Terminal buffer in this Window (it will have a default name)
+        else
+            exe "terminal ++curwin"     | " Vanilla vim auto split panes which we do not want
+        endif
         exe "f" bufferalias             | " Alias for easier reference (essentially creates another buffer that links to this)
         exe "set nobuflisted"           | " Unlist the buffer (so we can :bn & :bp without seeing the terminal)
         echo "Created Terminal" bufferalias
     endif
 
-    exe "normal" "i"    | " Go directly into Insert mode in the Terminal
+    if has("nvim")
+        exe "normal" "i"    | " Go directly into Insert mode in the Terminal (Vanilla Vim auto puts us in Insert Mode)
+    endif
 endfunction
-
 
 " Plugins Related Stuff
 "" Netrw Config (built-in so not exactly a plugin but still)
 let g:netrw_winsize = 20
 let g:netrw_banner = 0      " Hide the top banner (press I to show)
-
-
-"" vim-airline
-set noshowmode                      " Since we are already using airline to show the mode
-
-let g:airline_extensions = ['tabline']       " Disable searching for non-existent plugins for integration
-""" Tabline extension (to use tabline to show buffers)
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
-let g:airline#extensions#tabline#formatter = 'default'
-let g:airline#extensions#tabline#buffer_nr_show = 1         " Shows Buffer Number
-let g:airline#extensions#tabline#buffer_nr_format = '%s '   " %s is the buffer number, default is "%s: "
-
-let g:airline_powerline_fonts = 1   " For vim-airline pluging to load Powerline fonts
-if !exists('g:airline_symbols')
-     let g:airline_symbols = {}
-endif
-let g:airline_left_sep = '' " '' ''
-" let g:airline_left_alt_sep = '' " ''
-let g:airline_right_sep = '' " '' ''
-" let g:airline_right_alt_sep = '' " ''
-" let g:airline_symbols.branch = ''
-let g:airline_symbols.colnr = ' ' " ' ℅:'
-" let g:airline_symbols.readonly = ''
-let g:airline_symbols.linenr = ' ' " ' :'
-let g:airline_symbols.maxlinenr = ' ' " '☰ '
-" let g:airline_symbols.dirty='⚡'
-let g:airline_theme = "catppuccin"  " For vim-airline to use Catpuccin Theme (currently using neovim-catpuccin)
-
-
-if !has('nvim') " Vim Specifics
-    colorscheme catppuccin-mocha-vim
-endif
 
 endif
 

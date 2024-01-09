@@ -1,7 +1,8 @@
--- NeoVim-Only Configurations --
+-- Import shared config file (shared with vanilla Vim)
+local sharedrc = vim.fn.stdpath("config") .. "/sharedrc.vim"
+vim.cmd.source(sharedrc)
 
--- Import Vim Compatible Config File
-local vimrc = vim.fn.stdpath("config") .. "/vimrc.vim"
-vim.cmd.source(vimrc)
+-- Plugins that needs to be configured early
+vim.cmd.source(vim.fn.stdpath("config") .. "/airlinerc.vim")
 
 require "mainmodule"
