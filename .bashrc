@@ -14,7 +14,7 @@ shopt -s globstar   # Allow ** to mean recursive glob (>= bash 4.0)
 # Source Other Stuff
 source "$SHELL_CONFIG/aliases.sh"
 ## Dir Colors (for commands like `ls`)
-[ -f "$SHELL_CONFIG/.dircolors" ] && eval "$(dircolors "$SHELL_CONFIG/.dircolors")"     # POSIX allows for new quotes to start within the context of a command sub $()
+[ -f "$SHELL_CONFIG/.dircolors" ] && eval "$(dircolors -b "$SHELL_CONFIG/.dircolors")"     # POSIX allows for new quotes to start within the context of a command sub $()
 ## Prompt
 source "$SHELL_CONFIG/prompt.sh"
 
