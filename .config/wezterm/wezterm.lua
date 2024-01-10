@@ -177,22 +177,22 @@ config.keys = {
     },
     {
         key = "LeftArrow",
-        mods = "LEADER",
+        mods = "CTRL|SHIFT",
         action = wezterm.action.AdjustPaneSize({"Left", 1}),
     },
     {
         key = "RightArrow",
-        mods = "LEADER",
+        mods = "CTRL|SHIFT",
         action = wezterm.action.AdjustPaneSize({"Right", 1}),
     },
     {
         key = "UpArrow",
-        mods = "LEADER",
+        mods = "CTRL|SHIFT",
         action = wezterm.action.AdjustPaneSize({"Up", 1}),
     },
     {
         key = "DownArrow",
-        mods = "LEADER",
+        mods = "CTRL|SHIFT",
         action = wezterm.action.AdjustPaneSize({"Down", 1}),
     },
     --- Tabs (tmux windows)
