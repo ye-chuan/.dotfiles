@@ -55,7 +55,7 @@ LINK 01;36 # symbolic link. (If you set this to 'target' instead of a
  # numerical value, the color is as for the file pointed to.)
 MULTIHARDLINK 04;38;5;115 # regular file with more than one link
 FIFO 48;5;137 # pipe
-SOCK 48;5;137 # socket
+SOCK 01;04;35 # socket (also used for ReadLine's `colored-completion-prefix`)
 DOOR 48;5;137 # door
 BLK 38;5;222;04 # block device driver
 CHR 38;5;222;01 # character device driver
