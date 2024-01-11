@@ -144,3 +144,22 @@ vim.api.nvim_create_autocmd("LspAttach", {      -- Attach this autocmd to the bu
     -- end, opts)
   end,
 })
+
+----- Override LSP Handlers -----
+-- LSP Handlers are functions that are called when certain LSP event is triggered (e.g. pressing SHIFT-K for hover will call vim.lsp.handlers["textDocument/hover"] (see `:h lsp-method`) which is by default mapped to vim.lsp.handler.hover())
+-- Configuring handlers is explained in `:h lsp-handler-configuration`
+
+-- Add borders around LSP popups
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+    vim.lsp.handlers.hover,
+    {
+        border = "rounded", -- Values taken from `:h nvim_open_win()` as mentioned in `:h vim.lsp.handlers.hover()`
+    }
+)
+
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+    vim.lsp.handlers.signature_help,
+    {
+        border = "rounded",
+    }
+)
