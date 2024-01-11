@@ -66,7 +66,7 @@ cmp.setup({
         { name = "nvim_lsp" },
         { name = "luasnip" }, -- For luasnip users.
     }, {                    -- The order of the sources {{A, B}, {C}} means source C will only show when there is nothing from A or B
-        { name = "buffer", keyword_length = 5 },  -- keyword_length determines the text length before auto-complete kicks in
+        { name = "buffer", keyword_length = 3 },  -- keyword_length determines the text length before auto-complete kicks in
     }),
     formatting = {
         format = function(entry, vim_item)  -- A `vim_item` will be given to us to modify and return, `entry` stored information of the completion
