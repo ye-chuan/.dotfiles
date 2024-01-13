@@ -32,6 +32,7 @@ require("mason-lspconfig").setup({
         "jdtls",
         "tsserver",
         "html",
+        "cssls",
     },
 
     -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
@@ -95,8 +96,13 @@ lspconfig.tsserver.setup({
     capabilities = nvim_cmp_capabilities,
 })
 
+-- Web Dev
 lspconfig.html.setup({
     capabilities = nvim_cmp_capabilities,
+})
+
+lspconfig.cssls.setup({
+    capabilities = nvim_cmp_capabilities,   -- Requires snippet support capabilities else a little useless
 })
 
 ----- COSMETICS -----

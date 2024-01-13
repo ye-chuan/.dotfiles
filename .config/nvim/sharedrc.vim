@@ -186,5 +186,10 @@ endfunction
 let g:netrw_winsize = 20
 let g:netrw_banner = 0      " Hide the top banner (press I to show)
 
+"" Filetype Config (also built-in plugin)
+""" indentexpr which is set by the filetype plugin (see `:h indent-expression`)
+let g:html_indent_script1 = "inc"   " So <script> tag also increases indent of it's 1st line (see `:h html-indenting`)
+let g:html_indent_style1 = "inc"    " Same but for <style> tag (honestly weird that these aren't default!)
+
 endif
 
