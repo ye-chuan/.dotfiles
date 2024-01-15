@@ -1,10 +1,5 @@
 " This config is meant to be sharable between Vim and NeoVim
 
-if exists('g:vscode')
-    " VSCode Neovim Config (using the Neovim Extension)
-    " line numbering are handled by VSCode: Settings>Editor>Line Numbers
-else
-
 " Sane Defaults
 set encoding=utf-8  " Even though Vim might set to UTF-8 based on locale, but we will put this here just in case
 
@@ -190,6 +185,3 @@ let g:netrw_banner = 0      " Hide the top banner (press I to show)
 """ indentexpr which is set by the filetype plugin (see `:h indent-expression`)
 let g:html_indent_script1 = "inc"   " So <script> tag also increases indent of it's 1st line (see `:h html-indenting`)
 let g:html_indent_style1 = "inc"    " Same but for <style> tag (honestly weird that these aren't default!)
-
-endif
-
