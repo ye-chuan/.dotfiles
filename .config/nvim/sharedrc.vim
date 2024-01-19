@@ -94,6 +94,10 @@ inoremap <C-W> <C-G>u<C-W>|     " Allows undoing C-W (Delete word in insert mode
 inoremap <C-U> <C-G>u<C-U>|     " Allows undoing C-U (Delete till start of line in insert mode)
 nnoremap <BS> <C-^>
 
+"" Navigation
+nnoremap ]t vat<Esc>%|      " HTML End Tag Navigation
+nnoremap [t vato<Esc>|      " HTML Start Tag Navigation
+
 "" System Clipboard
 nnoremap <Leader>y "+y
 vnoremap <Leader>y "+y
