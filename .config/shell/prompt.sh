@@ -16,9 +16,15 @@ UNITALICS="\[$(tput ritm)\]"
 
 has_git_cmd="$(command -v git > /dev/null 2>&1 && echo true || echo false)"     # Sets to either "true"/"false" which can be used directly later to invoke i.e. /usr/bin/true for a 0 exit code
 
-# ret status 0 - In Git Repo Worktree (echos current branch)
+# ret status 0 - In Git Repo Worktree
 is_in_git_tree () {
     git rev-parse --is-inside-work-tree > /dev/null 2>&1
+    return $?
+}
+
+# ret status 0 - In Python Virtual Environment (created with `python -m venv`)
+is_in_py_venv () {
+    [ -n "$VIRTUAL_ENV" ]
     return $?
 }
 
@@ -53,11 +59,22 @@ _git_num_stash () {
 }
 ### END OF GIT FUNCTIONS
 
+### START OF PYTHON VENV FUNCTIONS
+_pyvenv_name () {
+    echo ${VIRTUAL_ENV##*/}     # Removes largest prefix that fits the pattern `*/` (see "Parameter Expansion" in `man bash`)
+}
+### END OF PYTHON VENV FUNCTIONS
+
 # Picks which prompt to use (do not echo in here, all prompt echos should go into PS1 so that Bash knows how to position the cursor)
 _prompt_mux () {
     local prompt=''
     ## Emit OSC 7 (to advice terminals like WezTerm on changes to the cwd if any)
     prompt+='\e]7;file://localhost/${PWD}\e\\'  # Uses $PWD instead of PS1's \w because \w abbreviates $HOME to ~ which is not re-expanded by e.g. WezTerm
+
+    ## Python Venv
+    if is_in_py_venv; then
+        prompt+="${YELLOW} $(_pyvenv_name) ${RESET}"
+    fi
 
     ## Git Prompt
     if $has_git_cmd && is_in_git_tree; then
