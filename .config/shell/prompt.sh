@@ -60,6 +60,7 @@ _git_num_stash () {
 ### END OF GIT FUNCTIONS
 
 ### START OF PYTHON VENV FUNCTIONS
+export VIRTUAL_ENV_DISABLE_PROMPT=1     # Disable the default prompt that venv uses
 _pyvenv_name () {
     echo ${VIRTUAL_ENV##*/}     # Removes largest prefix that fits the pattern `*/` (see "Parameter Expansion" in `man bash`)
 }
