@@ -9,3 +9,7 @@ alias grep='grep --color=auto'      # Colors pattern matches for grep
 
 alias la='ls -a'
 alias ll='ls -l'
+
+# Safety
+alias mv='mv -i'
+alias cp='cp -i'
