@@ -49,12 +49,12 @@ config.leader = { key = "\\", mods = "CTRL", timeout_milliseconds = 1000 }  -- W
 config.keys = {
     -- Clipboard
     {
-        key = "y",
+        key = "c",
         mods = "CTRL|SHIFT",
         action = wezterm.action.CopyTo("Clipboard"),
     },
     {
-        key = "p",
+        key = "v",
         mods = "CTRL|SHIFT",
         action = wezterm.action.PasteFrom("Clipboard"),
     },
@@ -87,18 +87,28 @@ config.keys = {
         action = wezterm.action.ScrollByPage(0.5),
     },
     {
+        key = "y",
+        mods = "CTRL|SHIFT",
+        action = wezterm.action.ScrollByLine(-1),
+    },
+    {
+        key = "e",
+        mods = "CTRL|SHIFT",
+        action = wezterm.action.ScrollByLine(1),
+    },
+    {
         key = "g",
         mods = "CTRL|SHIFT",
         action = wezterm.action.ScrollToTop,
     },
     -- Text
     {
-        key = "v",
+        key = "p",
         mods = "CTRL|SHIFT",
         action = wezterm.action.ActivateCopyMode,
     },
     {
-        key = "c",
+        key = "Space",
         mods = "CTRL|SHIFT",
         action = wezterm.action.QuickSelect,
     },
