@@ -1,8 +1,8 @@
 #!/bin/bash
-# A list of apps to install on a new machine (this script might not be portable to non-bash shells)
+# Script to ease installation of packages in new systems (this script might not be portable to non-bash shells)
 
-apt update
-apt upgrade
+apt-get update
+apt-get upgrade
 echo ""
 
 interactive_install_frm_arr() {
@@ -21,7 +21,7 @@ interactive_install_frm_arr() {
         if [[ "${choice}" =~ ^([yY][eE][sS]|[yY])$ ]]; then     # Non-POSIX compliant
             for package in ${package_list[@]}; do
                 echo "[[Installing ${package}]]"
-                apt -y install "${package}"
+                apt-get -y install "${package}"
                 echo ""
             done
             break
@@ -40,12 +40,12 @@ echo "[COMPILERS / INTERPRETERS]"
 interactive_install_frm_arr "${compilers_packages[@]}"
 
 # Common Utilities
-utilities_packages=("unzip" "pv")
+utilities_packages=("unzip" "pv" "ffmpeg")
 echo "[COMMON UTILITIES]"
 interactive_install_frm_arr "${utilities_packages[@]}"
 
 # Stupid Stuff
-stupid_packages=("neofetch" "lolcat" "cowsay" "fortune" "espeak" "pv" "cbonsai")
+stupid_packages=("neofetch" "lolcat" "cowsay" "fortune" "espeak" "jp2a" "cbonsai" "hollywood")
 echo "[STUPID PACKAGES]"
 interactive_install_frm_arr "${stupid_packages[@]}"
 
