@@ -10,6 +10,7 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
+config.check_for_updates_interval_seconds = 86400   -- Check for update only once a day
 config.color_scheme = "Catppuccin Mocha"
 config.enable_tab_bar = false
 -- config.hide_tab_bar_if_only_one_tab = true
