@@ -45,7 +45,7 @@ echo "[COMMON UTILITIES]"
 interactive_install_frm_arr "${utilities_packages[@]}"
 
 # Stupid Stuff
-stupid_packages=("neofetch" "lolcat" "cowsay" "fortune" "espeak" "jp2a" "cbonsai" "hollywood")
+stupid_packages=("neofetch" "lolcat" "cowsay" "fortune" "espeak" "jp2a" "cbonsai" "hollywood" "cmatrix")
 echo "[STUPID PACKAGES]"
 interactive_install_frm_arr "${stupid_packages[@]}"
 
