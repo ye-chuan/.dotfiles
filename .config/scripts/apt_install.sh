@@ -28,6 +28,7 @@ interactive_install_frm_arr() {
         elif [[ "${choice}" =~ ^([0-9]+)$ ]]; then
             unset package_list["${choice}"]    # We simply unset this element (it becomes null and is ignored when iterating)
         elif [[ "${choice}" = "" ]] || [[ "${choice}" =~ ^([nN][oO]|[nN])$ ]]; then
+            echo ""
             break
         fi
         echo ""
@@ -49,3 +50,9 @@ stupid_packages=("neofetch" "lolcat" "cowsay" "fortune" "espeak" "jp2a" "cbonsai
 echo "[STUPID PACKAGES]"
 interactive_install_frm_arr "${stupid_packages[@]}"
 
+# Manual Installation
+echo "The following programs might have to be manually installed"
+echo "  nvim (Latest ver. not in Ubuntu's repo)"
+echo "  nvm (Install from GitHub; For installing NodeJS)"
+echo "  node (Latest ver. not in Ubuntu's repo; Install via nvm; For NeoVim LSP Support)"
+echo "  openjdk-{VERSION}-jdk-headless (Latest ver. number needs to be manually specified in package name)"
