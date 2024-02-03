@@ -12,8 +12,8 @@ or simply by going to **Settings > General** in the program itself, which should
 
 Simply create a link on a new system to import this configuration,
 ```sh
-mklink "%LOCALAPPDATA%\Packages\2203VeselinKaraganev.FancyWM_9x2ndwrcmyd2c\LocalCache\Roaming\FancyWM\settings.json" settings.json
+mklink "%LOCALAPPDATA%\Packages\2203VeselinKaraganev.FancyWM_9x2ndwrcmyd2c\LocalCache\Roaming\FancyWM\settings.json" "%USERPROFILE%\.config\fancywm\settings.json"
 ```
 
-> Be sure that you are in `~/.config/fancywm/` and running `mklink` with elevated permissions as %LOCALAPPDATA% is a privileged directory.
+> Be sure that you are running `mklink` with elevated permissions as %LOCALAPPDATA% is a privileged directory.
 
