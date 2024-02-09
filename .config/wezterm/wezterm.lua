@@ -10,11 +10,14 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
+config.default_prog = { "powershell" }
+
 config.check_for_updates_interval_seconds = 86400   -- Check for update only once a day
 config.color_scheme = "Catppuccin Mocha"
 config.enable_tab_bar = false
 -- config.hide_tab_bar_if_only_one_tab = true
 config.use_fancy_tab_bar = false -- Use native tabs instead of ascii tabs
+config.window_decorations = "RESIZE"    -- Remove title bar
 config.window_background_opacity = 0.9
 config.scrollback_lines = 3500
 
@@ -62,7 +65,7 @@ config.keys = {
     -- Window
     {
         key = "Enter",
-        mods = "ALT",
+        mods = "CTRL|SHIFT",
         action = wezterm.action.ToggleFullScreen,
     },
     -- Visuals
