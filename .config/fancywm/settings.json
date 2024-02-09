@@ -89,7 +89,7 @@
     "ToggleFloatingMode": {
       "IsDirectMode": false,
       "Keys": [
-        "F"
+        "Space"
       ]
     },
     "MoveLeft": {
@@ -151,21 +151,18 @@
     "IncreaseWidth": {
       "IsDirectMode": false,
       "Keys": [
-        "LeftShift",
         "OemPeriod"
       ]
     },
     "IncreaseHeight": {
       "IsDirectMode": false,
       "Keys": [
-        "LeftShift",
         "OemPlus"
       ]
     },
     "DecreaseWidth": {
       "IsDirectMode": false,
       "Keys": [
-        "LeftShift",
         "OemComma"
       ]
     },
