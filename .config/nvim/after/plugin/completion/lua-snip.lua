@@ -17,13 +17,13 @@ require("luasnip.loaders.from_vscode").lazy_load({paths = {
 --     end
 -- end
 
-vim.keymap.set({"i", "s"}, "<C-K>", function()  -- Move to next field
+vim.keymap.set({"i", "s"}, "<C-J>", function()  -- Move to next field
     if ls.jumpable(1) then
         ls.jump(1)
     end
 end)
 
-vim.keymap.set({"i", "s"}, "<C-J>", function()  -- Move back to previous field
+vim.keymap.set({"i", "s"}, "<C-K>", function()  -- Move back to previous field
     if ls.jumpable(-1) then
         ls.jump(-1)
     end
