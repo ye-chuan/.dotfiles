@@ -215,7 +215,7 @@ keybindings:
 
   # Change the focused window to be maximized / unmaximized.
   - command: "toggle maximized"
-    binding: "Alt+F"
+    binding: "Alt+Z"
 
   # Minimize focused window.
   - command: "set minimized"
