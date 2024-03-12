@@ -243,10 +243,10 @@ keybindings:
     binding: "Alt+Back"
 
   # Focus the next/previous workspace defined in `workspaces` config.
-  - command: "focus workspace next"
-    binding: "Alt+T"
-  - command: "focus workspace prev"
-    binding: "Alt+Shift+T"
+  #- command: "focus workspace next"
+  #  binding: "Alt+T"
+  #- command: "focus workspace prev"
+  #  binding: "Alt+Shift+T"
 
   # Change focus to a workspace defined in `workspaces` config.
   - command: "focus workspace 1"
@@ -272,13 +272,13 @@ keybindings:
 
   # Move focused workspace to a monitor in a given direction.
   - command: "move workspace left"
-    binding: "Alt+U"
+    binding: "Alt+Shift+U"
   - command: "move workspace right"
-    binding: "Alt+P"
+    binding: "Alt+Shift+P"
   - command: "move workspace up"
-    binding: "Alt+I"
+    binding: "Alt+Shift+I"
   - command: "move workspace down"
-    binding: "Alt+U"
+    binding: "Alt+Shift+O"
 
   # Move focused window to a workspace defined in `workspaces` config.
   - commands: ["move to workspace 1", "focus workspace 1"]
