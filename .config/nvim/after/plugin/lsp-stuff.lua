@@ -20,6 +20,8 @@ require("mason").setup({
     }
 })
 
+mason_registry = require("mason-registry")  -- For querying installed packages' location e.g. mason_registry.get_package('vue-language-server'):get_install_path()
+
 -- Mason-LSPConfig is an optional bridge between the 2, currently mainly using it to ensure_installed
 -- Note that it uses LSPConfig server names instead of the package names in Mason (see `:h mason-lspconfig-server-map`)
 require("mason-lspconfig").setup({
@@ -30,9 +32,11 @@ require("mason-lspconfig").setup({
         "clangd",
         "pyright",
         "jdtls",
-        "tsserver",
+
         "html",
         "cssls",
+        "tsserver",
+        "volar",    -- Vue.js
     },
 
     -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
@@ -92,10 +96,6 @@ lspconfig.jdtls.setup({
     end,
 })
 
-lspconfig.tsserver.setup({
-    capabilities = nvim_cmp_capabilities,
-})
-
 -- Web Dev
 lspconfig.html.setup({
     capabilities = nvim_cmp_capabilities,
@@ -103,6 +103,28 @@ lspconfig.html.setup({
 
 lspconfig.cssls.setup({
     capabilities = nvim_cmp_capabilities,   -- Requires snippet support capabilities else a little useless
+})
+
+volar_path = mason_registry.get_package("vue-language-server"):get_install_path() .. "/node_modules/@vue/language-server"
+lspconfig.tsserver.setup({
+    capabilities = nvim_cmp_capabilities,
+    init_options = {
+        plugins = {
+            {
+                -- Vue Support
+                name = "@vue/typescript-plugin",
+                location = volar_path,  -- tsserver will run `require("@vue/typescript-plugin")` in this location
+                languages = { "vue" },
+            },
+        },
+    },
+    filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+})
+
+lspconfig.volar.setup({
+    -- Volar by itself only manages HTML & CSS sections now, for Vue support of JS we need a "@vue/typescript-plugin" plugin for tsserver.
+    -- Volar's location will contain a "@vue/typescript-plugin" that has to be imported/used by tsserver (see config for tsserver above)
+    capabilities = nvim_cmp_capabilities,
 })
 
 ----- COSMETICS -----
