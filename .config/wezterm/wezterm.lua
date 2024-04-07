@@ -12,6 +12,8 @@ end
 
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then   -- If running on Windows
     config.default_prog = { "powershell" }
+else
+    config.default_prog = { "bash" }
 end
 
 config.check_for_updates_interval_seconds = 86400   -- Check for update only once a day
