@@ -18,11 +18,21 @@ source "$SHELL_CONFIG/aliases.sh"
 ## Prompt
 source "$SHELL_CONFIG/prompt.sh"
 
-# External Programs (execute if they exist)
-## nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"    # Auto-load / source nvm for use
-[ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"  # Loads nvm completions for bash
+# External Programs (execute setup)
+## Run scripts that are included in the setup_dir (should contain names of scripts to run)
+if [[ -f "$SHELL_CONFIG/.prgm_setup_list" ]]; then
+    setup_dir=""
+    while read -r line; do
+        if [ "${line#?}" = "${line#\#}" ]; then   # If the line starts with a # (Parameter Expansion Pattern Matching)
+            continue
+        fi
 
-## NeoVim (Installed in /opt/)
-[ -f "/opt/nvim/bin/nvim" ] && PATH="/opt/nvim/bin:$PATH"
+        if [ -z "${setup_dir}" ]; then      # First valid line should be the path where setup scripts are stored
+            setup_dir="${line}"
+            continue
+        fi
+
+        source "${setup_dir}${line}"   # Run the setup script
+
+    done < "$SHELL_CONFIG/.prgm_setup_list"
+fi
