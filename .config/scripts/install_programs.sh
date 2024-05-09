@@ -59,14 +59,26 @@ echo "[STUPID PACKAGES]"
 interactive_apt_install_frm_arr "${stupid_packages[@]}"
 
 # Non-Apt Installations
-setup_list_file="${USER_HOME}/.config/shell/.prgm_setup_list"
-if [[ ! -f "${setup_list_file}" ]]; then    # Create the list of programs to setup in .bashrc
-    echo "${USER_HOME}/.config/scripts/program_setups/" > "${setup_list_file}"  # First line of this list just denote where to find the setup scripts
-fi
-
 tempdir="${USER_HOME}/.temp-installation"
 rm -rf "${tempdir}"
 mkdir "${tempdir}"  # To be deleted at the end of the script
+
+setup_list_file_add() {
+    # Adds setup filename $1 into the .bashrc prgm setup list (should be at ~/.config/shell/.prgm_setup_list)
+    setup_filename="$1"
+
+    setup_list_file="${USER_HOME}/.config/shell/.prgm_setup_list"
+    if [[ ! -f "${setup_list_file}" ]]; then    # Create the list of programs to setup in .bashrc
+        echo "${USER_HOME}/.config/scripts/program_setups/" > "${setup_list_file}"  # First line of this list just denote where to find the setup scripts
+    fi
+
+    if grep "^${setup_filename}\$" "${setup_list_file}" > /dev/null; then
+        echo ">>> ${setup_filename} already exists in ${setup_list_file}"
+    else
+        echo ">>> Adding ${setup_filename} to ${setup_list_file} for .bashrc to source"
+        echo "${setup_filename}" >> "${setup_list_file}"
+    fi
+}
 
 install_neovim() {
     if [ -d "/opt/nvim-linux64" ]; then
@@ -85,33 +97,71 @@ install_neovim() {
     echo ">>> Extracting into /opt/nvim-linux64"
     tar -C /opt -xzf "${tempdir}"/nvim-linux64.tar.gz
 
-    # Append setup to run in .bashrc
-    if grep "^neovim_setup.sh$" "${setup_list_file}" > /dev/null; then
-        echo ">>> neovim_setup.sh already exists in ${setup_list_file}"
+    setup_list_file_add "neovim_setup.sh"
+    echo ">>> NeoVim installed"
+    echo ""
+}
+
+install_nvm() {
+    NVM_DIR="${USER_HOME}/.nvm"
+    if [[ -d "${NVM_DIR}" ]]; then
+        read -r -p ">>> ${USER_HOME}/.nvm already exists, press to proceed with updating..."
+        echo ">>> Fetching new updates from GitHub"
+        git -C "${NVM_DIR}" fetch
     else
-        echo ">>> Adding neovim_setup.sh to ${setup_list_file} for .bashrc to source"
-        echo "neovim_setup.sh" >> "${setup_list_file}"
+        echo ">>> Cloning from https://github.com/nvm-sh/nvm.git to ${NVM_DIR}"
+        git clone https://github.com/nvm-sh/nvm.git "${NVM_DIR}"
     fi
+
+    latest_ver_commit=$(git -C "${NVM_DIR}" rev-list --tags --max-count=1)   # Commit hash of the latest tag
+    latest_tag=$(git -C "${NVM_DIR}" describe "${latest_ver_commit}")
+    echo ">>> Latest Git Tag: ${latest_tag}"
+    read -r -p ">>> Please confirm that the tag holds the latest version (press to proceed...)"
+    echo ">>> Checkout out tag ${latest_tag}"
+    git -C "${NVM_DIR}" checkout "${latest_tag}"
+
+    source "${NVM_DIR}/nvm.sh"
+
+    setup_list_file_add "nvm_setup.sh"
+    echo ">>> nvm installed"
+    echo ""
+}
+
+install_node() {
+    echo ">>> Installing latest NodeJS will be done through NVM"
+    if ! command -v nvm > /dev/null 2>&1; then
+        read -r -p ">>> nvm not installed, press to proceed with installation..."
+        install_nvm
+    fi
+
+    echo ">>> Installing latest release of NodeJS via nvm"
+    nvm install node
+
+    echo ">>> NodeJS installed"
+    echo ""
 }
 
 # List of Program: Installation Function Mappings
 declare -A non_apt
-non_apt["Neovim"]="install_neovim"
+non_apt["Neovim (be sure to also install npm for plugin dependencies)"]="install_neovim"
+non_apt["NodeJS (using nvm; comes with npm)"]="install_node"
 
 echo "[[NON APT-GET INSTALLATIONS]]"
 for program in "${!non_apt[@]}"; do
     read -r -p "Install ${program}[y/N]? " choice
-    if [[ "${choice}" =~ ^([yY][eE][sS]|[yY])$ ]]; then     # Non-POSIX compliant
+    if [[ "${choice}" =~ ^([yY][eE][sS]|[yY])$ ]]; then
         "${non_apt["${program}"]}"
     fi
 done
 
 
 # Manual Installation
+echo "Installation Process Completed!"
 echo ""
 echo "You might also want to manually install the following"
-echo "  nvm (Install from GitHub; For installing NodeJS)"
-echo "  node (Latest ver. not in Ubuntu's repo; Install via nvm; For NeoVim LSP Support)"
 echo "  openjdk-{VERSION}-jdk-headless (Latest ver. number needs to be manually specified in package name)"
+
+echo ""
+echo "Remember to source .bashrc again to run any necessary setup scripts!"
 
 rm -rf "${tempdir}"
