@@ -1,5 +1,9 @@
 " This config is meant to be sharable between Vim and NeoVim
 
+" if has("nvim") here doesn't mean that the option is only available for
+" NeoVim, but rather that Debian stable (and hence Ubuntu) hasn't caught up
+" with a version of Vim that supports that feature
+
 " Sane Defaults
 set encoding=utf-8  " Even though Vim might set to UTF-8 based on locale, but we will put this here just in case
 
@@ -49,12 +53,16 @@ set complete+=u     " Scan unloaded buffers in buffer list
 set complete+=t     " Scan tags (tag completion)
 set complete+=i     " Scan also included files (best effort basis)
 set wildmenu        " Enable completion menu in the command line
-set wildoptions=pum,tagfile     " Uses pop-up menu for `wildmenu`, also include completions from tagfiles
+if has("nvim")
+    set wildoptions=pum,tagfile     " Uses pop-up menu for `wildmenu`, also include completions from tagfiles
+endif
 
 set formatoptions=      " Remove all format options first, we will them them one by one (see :help fo)
 set formatoptions+=o    " Auto insert comment leader (eg. //) on `o` or `O` in Normal Mode (CTRL-U is meant to quickly undo this auto-addition)
 set formatoptions+=r    " Auto insert comment leader (eg. //) after <CR> in Insert Mode
-set formatoptions+=/    " This makes it such that // won't be auto-inserted in cindent for inline comments (only for line comments)
+if has("nvim")
+    set formatoptions+=/    " This makes it such that // won't be auto-inserted in cindent for inline comments (only for line comments)
+endif
 set formatoptions+=j    " Auto remove comment leader when `J` (joining lines) in Normal Mode (where appropriate)
 set formatoptions+=c    " Auto hard-wraps comments once it is longer than `textwidth` (Which isn't currently set; Don't really use it but was default so will keep first)
 set formatoptions+=q    " Enable `gq` for manually triggering the wraps, once again no use unless `textwidth` is set
