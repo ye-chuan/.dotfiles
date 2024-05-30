@@ -16,7 +16,7 @@ git init --bare $HOME/.dotfiles
 
 Interaction with this bare repo can be simplified with an alias
 ```sh
-alias mydotfiles="git -C $HOME --git-dit=.dotfiles --work-tree=."
+alias mydotfiles="git -C $HOME --git-dir=.dotfiles --work-tree=."
 ```
 So typing `mydotfiles` should give the same action as typing `git` in a normal repository
 
