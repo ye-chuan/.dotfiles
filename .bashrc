@@ -7,6 +7,7 @@ HISTFILESIZE=10000  # Max lines in .bash_history (truncated after saving history
 
 set -o vi   # Should've already been set in .inputrc, this is extra
 export VISUAL=nvim  # Set default visual editor to be NeoVim
+export SUDO_EDITOR=vim  # Set default editor for sudoedit (safer way to edit privileged files)
 
 # Glob
 shopt -s globstar   # Allow ** to mean recursive glob (>= bash 4.0)
