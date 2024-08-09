@@ -37,6 +37,8 @@ require("mason-lspconfig").setup({
         "cssls",
         "tsserver",
         "volar",    -- Vue.js
+
+        -- "hls",      -- Haskell (requires ghcup)
     },
 
     -- Whether servers that are set up (via lspconfig) should be automatically installed if they're not already installed.
