@@ -7,7 +7,7 @@ require("catppuccin").setup({
     
     custom_highlights = function(colors)
         return {
-            CmpItemMenu = { fg = C.overlay1 },  -- The source label for completion (this gives more of a subtle colour)
+            CmpItemMenu = { fg = colors.overlay1 },  -- The source label (e.g. [lsp], [buf]) for completion (this gives more of a subtle colour)
         }
     end,
 })
