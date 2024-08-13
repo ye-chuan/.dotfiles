@@ -82,7 +82,7 @@ setup_list_file_add() {
 
 install_neovim() {
     if [ -d "/opt/nvim-linux64" ]; then
-        read -r -p "NeoVim already installed at /opt/nvim-linux64! Override [y/N]? " choice
+        read -r -p "$(/opt/nvim-linux64/bin/nvim --version | head -n 1) already installed at /opt/nvim-linux64! Override [y/N]? " choice
         if ! [[ "${choice}" =~ ^([yY][eE][sS]|[yY])$ ]]; then
             echo "Terminating..."
             return 0
@@ -91,7 +91,19 @@ install_neovim() {
 
     echo ">>> Installing Latest Stable Neovim from GitHub"
     echo ">>> Getting .tar from https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
-    curl -L -o "${tempdir}"/nvim-linux64.tar.gz https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz
+    curl -L -o "${tempdir}/nvim-linux64.tar.gz" "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
+
+    # Checksum Verification
+    echo ">>> Getting SHA256 checksum from https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz.sha256sum"
+    curl -L -o "${tempdir}/nvim-linux64.tar.gz.sha256sum" "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz.sha256sum"
+    if ! (cd "${tempdir}" && sha256sum "nvim-linux64.tar.gz") | diff "${tempdir}/nvim-linux64.tar.gz.sha256sum" -; then     # cd-ed in a subshell to get same output format for sha256sum
+        echo ">>> WARNING: Checksum verification failed!" >&2
+        echo ">>> Terminating..."
+        return 0
+    fi
+    echo -n ">>> SHA256 Checksum Verified: "
+    sha256sum "${tempdir}/nvim-linux64.tar.gz"
+
     echo ">>> Removing old version at /opt/nvim-linux64 (if exists)"
     rm -rf /opt/nvim-linux64
     echo ">>> Extracting into /opt/nvim-linux64"
@@ -156,7 +168,7 @@ done
 
 
 # Manual Installation
-echo "Installation Process Completed!"
+echo "Installation Process Ended!"
 echo ""
 echo "You might also want to manually install the following"
 echo "  openjdk-{VERSION}-jdk-headless (Latest ver. number needs to be manually specified in package name)"
