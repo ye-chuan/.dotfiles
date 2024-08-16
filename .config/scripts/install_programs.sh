@@ -87,8 +87,9 @@ setup_list_file_add() {
 }
 
 install_neovim() {
-    if [ -d "/opt/nvim-linux64" ]; then
-        read -r -p "$(/opt/nvim-linux64/bin/nvim --version | head -n 1) already installed at /opt/nvim-linux64! Override [y/N]? " choice
+    install_path="/opt/nvim"
+    if [ -d "${install_path}" ]; then
+        read -r -p "$("${install_path}/bin/nvim" --version | head -n 1) already installed at ${install_path}/! Override [y/N]? " choice
         if ! [[ "${choice}" =~ ^([yY][eE][sS]|[yY])$ ]]; then
             echo "Terminating..."
             return 0
@@ -102,7 +103,7 @@ install_neovim() {
     # Checksum Verification
     echo ">>> Getting SHA256 checksum from https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz.sha256sum"
     curl -L -o "${tempdir}/nvim-linux64.tar.gz.sha256sum" "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz.sha256sum"
-    if ! (cd "${tempdir}" && sha256sum "nvim-linux64.tar.gz") | diff "${tempdir}/nvim-linux64.tar.gz.sha256sum" -; then     # cd-ed in a subshell to get same output format for sha256sum
+    if ! (cd "${tempdir}" && sha256sum --check "nvim-linux64.tar.gz.sha256sum"); then     # cd-ed in a subshell to get same output format for sha256sum
         echo ">>> WARNING: Checksum verification failed!" >&2
         echo ">>> Terminating..."
         return 1
@@ -111,9 +112,11 @@ install_neovim() {
     sha256sum "${tempdir}/nvim-linux64.tar.gz"
 
     echo ">>> Removing old version at /opt/nvim-linux64 (if exists)"
-    rm -rf /opt/nvim-linux64
-    echo ">>> Extracting into /opt/nvim-linux64"
-    tar -C /opt -xzf "${tempdir}"/nvim-linux64.tar.gz
+    rm -rf "${install_path}"
+    echo ">>> Extracting..."
+    tar --directory="${tempdir}" -xzf "${tempdir}/nvim-linux64.tar.gz"
+    echo ">>> Moving to ${install_path}"
+    mv "${tempdir}/nvim-linux64" "${install_path}"
 
     setup_list_file_add "neovim_setup.sh"
     echo ">>> NeoVim installed"
