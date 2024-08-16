@@ -6,6 +6,12 @@ if [ $EUID -ne 0 ]; then
     exit 1
 fi
 
+# TODO: Add support for other architecture / OS in the future?
+if ! [[ "$(uname --kernel-name)" = "Linux" && "$(uname --processor)" = "x86_64" ]]; then
+    echo ">>> ERROR: This installer is only written for x86_64 Linux"
+    exit 1
+fi
+
 USER_HOME="/home/${SUDO_USER}"
 
 echo ">>> apt update & upgrade"
@@ -61,7 +67,7 @@ interactive_apt_install_frm_arr "${stupid_packages[@]}"
 # Non-Apt Installations
 tempdir="${USER_HOME}/.temp-installation"
 rm -rf "${tempdir}"
-mkdir "${tempdir}"  # To be deleted at the end of the script
+mkdir --mode=700 "${tempdir}"  # To be deleted at the end of the script
 
 setup_list_file_add() {
     # Adds setup filename $1 into the .bashrc prgm setup list (should be at ~/.config/shell/.prgm_setup_list)
@@ -99,7 +105,7 @@ install_neovim() {
     if ! (cd "${tempdir}" && sha256sum "nvim-linux64.tar.gz") | diff "${tempdir}/nvim-linux64.tar.gz.sha256sum" -; then     # cd-ed in a subshell to get same output format for sha256sum
         echo ">>> WARNING: Checksum verification failed!" >&2
         echo ">>> Terminating..."
-        return 0
+        return 1
     fi
     echo -n ">>> SHA256 Checksum Verified: "
     sha256sum "${tempdir}/nvim-linux64.tar.gz"
@@ -153,14 +159,94 @@ install_node() {
     echo ""
 }
 
+install_ghcup() {
+    install_path="/opt/ghcup"
+    if [ -d "/opt/ghcup" ]; then
+        read -r -p ">>> $("${install_path}/bin/ghcup" --version) already installed at ${install_path}. Override [y/N]? " choice
+        if ! [[ "${choice}" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+            echo "Terminating..."
+            return 0
+        fi
+    fi
+    echo ">>> Installing latest GHCup"
+    echo ""
+    echo ">>> The following PGP Keys will be fetched from keyserver.ubuntu.com"
+    echo ">>> 7D1E8AFD1D4A16D71FADA2F2CCC85C0E40C06A8C"
+    echo ">>> FE5AB6C91FEA597C3B31180B73EDE9E8CFBAEF01"
+    echo ">>> 88B57FCF7DB53B4DB3BFA4B1588764FBE22D19C4"
+    echo ">>> EAF2A9A722C0C96F2B431CA511AAD8CEDEE0CAEF"
+    read -r -p ">>> Are these 4 keys correct? (consider referring to https://www.haskell.org/ghcup/install/#manual-installation) [y/N]? " choice
+    if [[ ! "${choice}" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+        echo ">>> ERROR: Revise PGP Keys Manually. Aborting..." >&2
+    fi
+
+    gpg --no-default-keyring --keyring "${tempdir}/keyring.pgp" --keyserver keyserver.ubuntu.com --recv-keys 7D1E8AFD1D4A16D71FADA2F2CCC85C0E40C06A8C
+    gpg --no-default-keyring --keyring "${tempdir}/keyring.pgp" --keyserver keyserver.ubuntu.com --recv-keys FE5AB6C91FEA597C3B31180B73EDE9E8CFBAEF01
+    gpg --no-default-keyring --keyring "${tempdir}/keyring.pgp" --keyserver keyserver.ubuntu.com --recv-keys 88B57FCF7DB53B4DB3BFA4B1588764FBE22D19C4
+    gpg --no-default-keyring --keyring "${tempdir}/keyring.pgp" --keyserver keyserver.ubuntu.com --recv-keys EAF2A9A722C0C96F2B431CA511AAD8CEDEE0CAEF
+
+    # Fetching of the latest will be done by the latest stable binary that is given at the root index of /ghcup/
+    echo ">>> Fetching latest x86_64-linux-ghcup from https://downloads.haskell.org/~ghcup/"
+    curl -o "${tempdir}/x86_64-linux-ghcup" "https://downloads.haskell.org/~ghcup/x86_64-linux-ghcup"
+
+    # Fetching of checksum will be done by inferring the latest version from the download server and curling from within that directory
+    # This will also check if our inference of the latest version corresponse with the actual latest version given at the root
+    echo ">>> Inferring latest stable version through curl & awk"
+    version_list="$(curl -s https://downloads.haskell.org/~ghcup/ | awk 'match($0, /href="(([0-9]+\.)+[0-9])\/"/, groups){print groups[1]}')"
+    latest_ver="$(echo "${version_list}" | sort --version-sort | tail -n 1)"
+    read -r -p ">>> Latest Stable Version Inferred to be ${latest_ver} (check and press to continue...)"
+
+    echo ">>> Fetching Checksum for version ${latest_ver}"
+    curl -o "${tempdir}/ghcup-${latest_ver}-sha256sums" "https://downloads.haskell.org/~ghcup/${latest_ver}/SHA256SUMS"
+    curl -o "${tempdir}/ghcup-${latest_ver}-sha256sums.sig" "https://downloads.haskell.org/~ghcup/${latest_ver}/SHA256SUMS.sig"
+
+    echo ">>> Verifying Authenticity and Integrity of Checksums via GPG"
+    if ! gpg --no-default-keyring --keyring "${tempdir}/keyring.pgp" --verify "${tempdir}/ghcup-${latest_ver}-sha256sums.sig" "${tempdir}/ghcup-${latest_ver}-sha256sums"; then
+        echo ">>> ERROR: CHECKSUM FILE NOT VERIFIED WITH THE PROPER SIGNATURES! Aborting..." >&2
+        return 1
+    fi
+    echo ">>> Verifying Integrity of the ghcup binary"
+    mv "${tempdir}/x86_64-linux-ghcup" "${tempdir}/x86_64-linux-ghcup-${latest_ver}"    # Temporarily rename to get the same output format on sha256sum
+    if ! (cd "${tempdir}" && grep -e "./x86_64-linux-ghcup-${latest_ver}" "${tempdir}/ghcup-${latest_ver}-sha256sums" | sha256sum --check); then
+        mv "${tempdir}/x86_64-linux-ghcup-${latest_ver}" "${tempdir}/x86_64-linux-ghcup"    # Revert name
+        echo ">>> ERROR: BINARY INTEGRITY COMPROMISED! (Check if the version is correct) Aborting..." >&2
+        return 1
+    fi
+    mv "${tempdir}/x86_64-linux-ghcup-${latest_ver}" "${tempdir}/x86_64-linux-ghcup"    # Revert name
+    echo ">>> Binary Integrity and Authenticity Verified!"
+
+    echo ">>> Removing old version at ${install_path}/ (if exists)"
+    rm -rf "${install_path}"
+    mkdir --parents "${install_path}/bin/"
+    echo ">>> Moving binary to ${install_path}/bin/ghcup"
+    mv "${tempdir}/x86_64-linux-ghcup" "${install_path}/bin/ghcup"
+    echo ">>> Setting executable permissions to the binary"
+    chmod +x "${install_path}/bin/ghcup"
+
+    setup_list_file_add "ghcup_setup.sh"
+}
+
+install_ghc() {
+    echo ">>> Installation of GHC will be done through GHCup"
+    ghcup="/opt/ghcup/bin/ghcup"
+    if ! command -v "${ghcup}" > /dev/null 2>&1; then
+        read -r -p ">>> GHCup doesn't exist! (press to proceed with installing...)"
+        install_ghcup
+    fi
+
+    echo ">>> Installing recommended GHC via GHCup (installing for user [${SUDO_USER}] only)"
+    sudo --user="${SUDO_USER}" "${ghcup}" install ghc --set
+}
+
 # List of Program: Installation Function Mappings
 declare -A non_apt
 non_apt["Neovim (be sure to also install npm for plugin dependencies)"]="install_neovim"
 non_apt["NodeJS (using nvm; comes with npm)"]="install_node"
+non_apt["GHC (Haskell Compiler; installed using GHCup)"]="install_ghc"
 
 echo "[[NON APT-GET INSTALLATIONS]]"
 for program in "${!non_apt[@]}"; do
-    read -r -p "Install ${program}[y/N]? " choice
+    read -r -p "Install ${program} [y/N]? " choice
     if [[ "${choice}" =~ ^([yY][eE][sS]|[yY])$ ]]; then
         "${non_apt["${program}"]}"
     fi
