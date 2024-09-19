@@ -17,7 +17,8 @@ USERNAME="$(whoami)"
 if (( is_root )); then
     USERNAME="${SUDO_USER}"
 fi
-USER_HOME="/home/${USERNAME}"
+# Get user's home directory from querying passwd file
+USER_HOME=$(getent passwd "${USERNAME}" | cut --delimiter=: --fields=6)
 
 if (( is_root )); then
     echo ">>> apt update & upgrade"
