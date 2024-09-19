@@ -1,9 +1,9 @@
 #!/bin/bash
 # Script to ease installation of packages in new systems (this script might not be portable to non-bash shells)
 
-if [ $EUID -ne 0 ]; then
-    echo "Please run as root."
-    exit 1
+(( is_root = EUID == 0 ))   # Bash allows for c-style assignments in it's (( ))
+if (( !is_root )); then
+    read -r -p "Not running as root, installation will be done locally (press to continue)"
 fi
 
 # TODO: Add support for other architecture / OS in the future?
@@ -12,14 +12,25 @@ if ! [[ "$(uname --kernel-name)" = "Linux" && "$(uname --processor)" = "x86_64" 
     exit 1
 fi
 
-USER_HOME="/home/${SUDO_USER}"
 
-echo ">>> apt update & upgrade"
-apt-get update
-apt-get upgrade
-echo ""
+USERNAME="$(whoami)"
+if (( is_root )); then
+    USERNAME="${SUDO_USER}"
+fi
+USER_HOME="/home/${USERNAME}"
+
+if (( is_root )); then
+    echo ">>> apt update & upgrade"
+    apt-get update
+    apt-get upgrade
+    echo ""
+fi
 
 interactive_apt_install_frm_arr() {
+    if (( !is_root )); then
+        echo ">>> installation via apt requires root"
+        return 1
+    fi
     # $@ - array of packages
     package_list=("$@")
 
@@ -65,6 +76,7 @@ echo "[STUPID PACKAGES]"
 interactive_apt_install_frm_arr "${stupid_packages[@]}"
 
 # Non-Apt Installations
+mkdir -p "${USER_HOME}/opt" # For local installation of standalone applications
 tempdir="${USER_HOME}/.temp-installation"
 rm -rf "${tempdir}"
 mkdir --mode=700 "${tempdir}"  # To be deleted at the end of the script
@@ -86,8 +98,16 @@ setup_list_file_add() {
     fi
 }
 
+# Support local installation
 install_neovim() {
-    install_path="/opt/nvim"
+    if (( is_root )); then
+        install_path="/opt/nvim"
+        echo ">>> Proceeding with global installation of nvim"
+    else
+        install_path="${USER_HOME}/opt/nvim"
+        echo ">>> Proceeding with local installation of nvim"
+    fi
+
     if [ -d "${install_path}" ]; then
         read -r -p "$("${install_path}/bin/nvim" --version | head -n 1) already installed at ${install_path}/! Override [y/N]? " choice
         if ! [[ "${choice}" =~ ^([yY][eE][sS]|[yY])$ ]]; then
@@ -111,19 +131,27 @@ install_neovim() {
     echo -n ">>> SHA256 Checksum Verified: "
     sha256sum "${tempdir}/nvim-linux64.tar.gz"
 
-    echo ">>> Removing old version at /opt/nvim-linux64 (if exists)"
+    echo ">>> Removing old version at ${install_path} (if exists)"
     rm -rf "${install_path}"
     echo ">>> Extracting..."
     tar --directory="${tempdir}" -xzf "${tempdir}/nvim-linux64.tar.gz"
     echo ">>> Moving to ${install_path}"
     mv "${tempdir}/nvim-linux64" "${install_path}"
 
-    setup_list_file_add "neovim_setup.sh"
+    if (( is_root )); then
+        setup_list_file_add "neovim_setup.sh"
+    else
+        setup_list_file_add "neovim_setup_local.sh"
+    fi
     echo ">>> NeoVim installed"
     echo ""
 }
 
 install_nvm() {
+    if (( is_root )); then
+        read -r -p ">>> Note: nvm only has local installation (press to continue)"
+        return 1
+    fi
     NVM_DIR="${USER_HOME}/.nvm"
     if [[ -d "${NVM_DIR}" ]]; then
         read -r -p ">>> ${USER_HOME}/.nvm already exists, press to proceed with updating..."
@@ -150,9 +178,12 @@ install_nvm() {
 
 install_node() {
     echo ">>> Installing latest NodeJS will be done through NVM"
-    if ! command -v nvm > /dev/null 2>&1; then
+    if ! command -v nvm > /dev/null 2>&1; then  #FIXME: Not working due to sudo
         read -r -p ">>> nvm not installed, press to proceed with installation..."
-        install_nvm
+        if ! install_nvm; then  # Return if nvm installation fails
+            echo ">>> NVM installation failed? Aborting NodeJS installation."
+            return 1
+        fi
     fi
 
     echo ">>> Installing latest release of NodeJS via nvm"
@@ -163,6 +194,11 @@ install_node() {
 }
 
 install_ghcup() {
+    if (( !is_root )); then
+        read -r -p ">>> Note: Local installation of ghcup not supported yet (press to continue)"
+        return 1
+    fi
+
     install_path="/opt/ghcup"
     if [ -d "/opt/ghcup" ]; then
         read -r -p ">>> $("${install_path}/bin/ghcup" --version) already installed at ${install_path}. Override [y/N]? " choice
@@ -183,10 +219,10 @@ install_ghcup() {
         echo ">>> ERROR: Revise PGP Keys Manually. Aborting..." >&2
     fi
 
-    gpg --no-default-keyring --keyring "${tempdir}/keyring.pgp" --keyserver keyserver.ubuntu.com --recv-keys 7D1E8AFD1D4A16D71FADA2F2CCC85C0E40C06A8C
-    gpg --no-default-keyring --keyring "${tempdir}/keyring.pgp" --keyserver keyserver.ubuntu.com --recv-keys FE5AB6C91FEA597C3B31180B73EDE9E8CFBAEF01
-    gpg --no-default-keyring --keyring "${tempdir}/keyring.pgp" --keyserver keyserver.ubuntu.com --recv-keys 88B57FCF7DB53B4DB3BFA4B1588764FBE22D19C4
-    gpg --no-default-keyring --keyring "${tempdir}/keyring.pgp" --keyserver keyserver.ubuntu.com --recv-keys EAF2A9A722C0C96F2B431CA511AAD8CEDEE0CAEF
+    gpg --homedir "${USER_HOME}" --no-default-keyring --keyring "${tempdir}/keyring.pgp" --keyserver keyserver.ubuntu.com --recv-keys 7D1E8AFD1D4A16D71FADA2F2CCC85C0E40C06A8C
+    gpg --homedir "${USER_HOME}" --no-default-keyring --keyring "${tempdir}/keyring.pgp" --keyserver keyserver.ubuntu.com --recv-keys FE5AB6C91FEA597C3B31180B73EDE9E8CFBAEF01
+    gpg --homedir "${USER_HOME}" --no-default-keyring --keyring "${tempdir}/keyring.pgp" --keyserver keyserver.ubuntu.com --recv-keys 88B57FCF7DB53B4DB3BFA4B1588764FBE22D19C4
+    gpg --homedir "${USER_HOME}" --no-default-keyring --keyring "${tempdir}/keyring.pgp" --keyserver keyserver.ubuntu.com --recv-keys EAF2A9A722C0C96F2B431CA511AAD8CEDEE0CAEF
 
     # Fetching of the latest will be done by the latest stable binary that is given at the root index of /ghcup/
     echo ">>> Fetching latest x86_64-linux-ghcup from https://downloads.haskell.org/~ghcup/"
@@ -231,14 +267,21 @@ install_ghcup() {
 
 install_ghc() {
     echo ">>> Installation of GHC will be done through GHCup"
+    if (( is_root )); then
+        read -r -p ">>> Installtion is done on a local level (press to continue)"
+    fi
+
     ghcup="/opt/ghcup/bin/ghcup"
     if ! command -v "${ghcup}" > /dev/null 2>&1; then
         read -r -p ">>> GHCup doesn't exist! (press to proceed with installing...)"
-        install_ghcup
+        if ! install_ghcup; then    # Return if GHCup installation fail
+            echo ">>> GHCup installation failed? Aborting ghc installation."
+            return 1
+        fi
     fi
 
-    echo ">>> Installing recommended GHC via GHCup (installing for user [${SUDO_USER}] only)"
-    sudo --user="${SUDO_USER}" "${ghcup}" install ghc --set
+    echo ">>> Installing recommended GHC via GHCup (installing for user [${USERNAME}] only)"
+    sudo --user="${USERNAME}" "${ghcup}" install ghc --set
 }
 
 # List of Program: Installation Function Mappings
