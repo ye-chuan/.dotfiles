@@ -55,6 +55,12 @@ config.set_environment_variables = {
 config.disable_default_key_bindings = true
 config.leader = { key = "\\", mods = "CTRL", timeout_milliseconds = 1000 }  -- Will be used for multiplexing like tmux
 config.keys = {
+    -- Forward the leader if pressed twice (like in tmux)
+    {
+        key = "\\",
+        mods = "LEADER|CTRL",
+        action = wezterm.action.SendKey {key = "\\", mods = "CTRL" }
+    },
     -- Clipboard
     {
         key = "c",
