@@ -150,7 +150,7 @@ install_neovim() {
 
 install_nvm() {
     if (( is_root )); then
-        read -r -p ">>> Note: nvm only has local installation (press to continue)"
+        read -r -p ">>> Note: script currently only does local installation (press to continue)"
         return 1
     fi
     NVM_DIR="${USER_HOME}/.nvm"
@@ -179,6 +179,10 @@ install_nvm() {
 
 install_node() {
     echo ">>> Installing latest NodeJS will be done through NVM"
+    if (( is_root )); then
+        read -r -p ">>> Note: script currently only does local installation (press to continue)"
+        return 1
+    fi
     if ! command -v nvm > /dev/null 2>&1; then  #FIXME: Not working due to sudo
         read -r -p ">>> nvm not installed, press to proceed with installation..."
         if ! install_nvm; then  # Return if nvm installation fails
