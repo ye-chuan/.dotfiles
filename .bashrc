@@ -11,6 +11,7 @@ export SUDO_EDITOR=vim  # Set default editor for sudoedit (safer way to edit pri
 
 # Glob
 shopt -s globstar   # Allow ** to mean recursive glob (>= bash 4.0)
+shopt -s extglob    # Extended glob (nice for exclusions in glob patterns)
 
 # Source Other Stuff
 source "$SHELL_CONFIG/aliases.sh"
