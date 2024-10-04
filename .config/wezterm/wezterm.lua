@@ -117,8 +117,8 @@ config.keys = {
     },
     -- Text
     {
-        key = "p",
-        mods = "CTRL|SHIFT",
+        key = "[",
+        mods = "LEADER|CTRL",
         action = wezterm.action.ActivateCopyMode,
     },
     {
