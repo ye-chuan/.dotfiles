@@ -62,7 +62,7 @@ interactive_apt_install_frm_arr() {
 }
 
 # Compilers / Interpreteres
-compilers_packages=("gcc" "python3")
+compilers_packages=("gcc" "g++" "python3" "make")
 echo "[COMPILERS / INTERPRETERS]"
 interactive_apt_install_frm_arr "${compilers_packages[@]}"
 
@@ -151,7 +151,6 @@ install_neovim() {
 install_nvm() {
     if (( is_root )); then
         read -r -p ">>> Note: script currently only does local installation (press to continue)"
-        return 1
     fi
     NVM_DIR="${USER_HOME}/.nvm"
     if [[ -d "${NVM_DIR}" ]]; then
@@ -181,7 +180,6 @@ install_node() {
     echo ">>> Installing latest NodeJS will be done through NVM"
     if (( is_root )); then
         read -r -p ">>> Note: script currently only does local installation (press to continue)"
-        return 1
     fi
     if ! command -v nvm > /dev/null 2>&1; then  #FIXME: Not working due to sudo
         read -r -p ">>> nvm not installed, press to proceed with installation..."
@@ -272,8 +270,9 @@ install_ghcup() {
 
 install_ghc() {
     echo ">>> Installation of GHC will be done through GHCup"
+    echo ">>> Some dependencies include: make"
     if (( is_root )); then
-        read -r -p ">>> Installtion is done on a local level (press to continue)"
+        read -r -p ">>> Installation is done on a local level (press to continue)"
     fi
 
     ghcup="/opt/ghcup/bin/ghcup"
@@ -284,6 +283,8 @@ install_ghc() {
             return 1
         fi
     fi
+
+    source ~/.bashrc
 
     echo ">>> Installing recommended GHC via GHCup (installing for user [${USERNAME}] only)"
     sudo --user="${USERNAME}" "${ghcup}" install ghc --set
