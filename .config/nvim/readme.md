@@ -104,3 +104,9 @@ git submodule foreach git pull
 - i_<C-K> - Expand / jump to next field in snippet (originally for inserting digraphs)
 - i_<C-J> - Jump to previous field in snippet (originally to begin newline, like <CR>)
 - i_<C-L> - Cycle through choices in snippet (originally not mapped)
+
+## Dependencies
+The current configuration would require the following dependencies
+- gcc
+- npm
+- g++
