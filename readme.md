@@ -85,3 +85,7 @@ mydotfiles status -uall
 - NodeJS
     - For `npm` and the **latest** NodeJS so that the LSP's used in NeoVim can work
     - Stable distros might not have the latest, installing and using `nvm` to install and manage NodeJS version is recommended
+
+### Environmental Variables
+This is especially for Windows to share locations (e.g. config locations) with Linux.
+- `XDG_CONFIG_HOME` = `%userprofile%\.config` (For Windows, Linux already follows the convention of storing configs in `~/.config`)
