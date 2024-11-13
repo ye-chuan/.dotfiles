@@ -129,6 +129,15 @@ lspconfig.volar.setup({
     capabilities = nvim_cmp_capabilities,
 })
 
+-- Others
+lspconfig.hls.setup{
+    capabilities = nvim_cmp_capabilities,
+    filetypes = { 'haskell', 'lhaskell', 'cabal' },
+    -- Default Root Pattern: "hie.yaml", "stack.yaml", "cabal.project", "*.cabal", "package.yaml"
+    -- More defaults listed in :h lspconfig-all
+}
+
+
 ----- COSMETICS -----
 local signs = { Error = " ", Warn = " ", Hint = "󰌶 ", Info = " " }
 for name, sign in pairs(signs) do
