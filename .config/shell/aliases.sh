@@ -1,3 +1,5 @@
+## General Aliases and Functions
+
 # DotFiles Management
 alias mydotfiles='git -C $HOME --git-dir=.dotfiles --work-tree=.'
 
@@ -13,3 +15,9 @@ alias ll='ls -l'
 # Safety
 alias mv='mv -i'
 alias cp='cp -i'
+
+# Python Virtual Environment
+# Virtual environements should be stored in ~/.venv/
+pyvenv(){
+    source "${HOME}/.venv/${1}/bin/activate"
+}
