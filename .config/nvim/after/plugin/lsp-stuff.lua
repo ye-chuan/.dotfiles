@@ -35,7 +35,7 @@ require("mason-lspconfig").setup({
 
         "html",
         "cssls",
-        "tsserver",
+        "ts_ls",
         "volar",    -- Vue.js
 
         -- "hls",      -- Haskell (requires ghcup)
