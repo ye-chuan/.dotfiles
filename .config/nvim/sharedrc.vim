@@ -117,6 +117,10 @@ nnoremap <BS> <C-^>
 nnoremap ]t vat<Esc>%|      " HTML End Tag Navigation
 nnoremap [t vato<Esc>|      " HTML Start Tag Navigation
 
+"" QuickFix
+nnoremap [q <Cmd>cprevious<CR>
+nnoremap ]q <Cmd>cnext<CR>
+
 "" System Clipboard
 nnoremap <Leader>y "+y
 vnoremap <Leader>y "+y
