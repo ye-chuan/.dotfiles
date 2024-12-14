@@ -75,6 +75,17 @@ set belloff=all
 
 set hidden      " Allows for buffers to be kept in the background without being saved to disk (multitasking)
 set history=10000   " Maximum undo history
+set undofile    " Persistent undo history
+if has("nvim")
+    set undodir=$XDG_STATE_HOME/nvim/undo// " Where undo files are stored
+else
+    if !isdirectory($HOME."/.vim/undo-dir")
+        call mkdir($HOME."/.vim/undo-dir", "", 0700) " Create with 0700 permissions
+    endif
+    set undodir=~/.vim/undo-dir
+endif
+" PRIVACY WARNING: Vim/NeoVim doesn't clear undofiles, we need to manually clear them
+" `setlocal noundofile` before writing to prevent the writing of undo file
 
 set path+=**    " Allows :find to search recursively from the cwd (for large projects, undo this can add specifically the sources e.g. +=src/**)
 
@@ -102,7 +113,7 @@ inoremap <C-W> <C-G>u<C-W>|     " Allows undoing C-W (Delete word in insert mode
 inoremap <C-U> <C-G>u<C-U>|     " Allows undoing C-U (Delete till start of line in insert mode)
 nnoremap <BS> <C-^>
 
-"" Navigation
+"" Text Navigation
 nnoremap ]t vat<Esc>%|      " HTML End Tag Navigation
 nnoremap [t vato<Esc>|      " HTML Start Tag Navigation
 
@@ -124,8 +135,8 @@ nnoremap <C-L> zL| " Overrides Redraw Screen but should be fine
 nnoremap <C-H> zH
 
 "" Explorer (Netrw)
-nnoremap <Leader>ee :Lexplore<CR>|              " Opens Netrw on the left panel (in cwd)
-nnoremap <Leader>ec :silent Lexplore %:h<CR>|   " Opens in current file directory (% gives path of current file, :h removes the filename leaving only the directory; see :h _% and :h ::h), the `silent` is to fix an annoying bug that requires us to press enter.
+nnoremap <Leader>ee <Cmd>Lexplore<CR>|              " Opens Netrw on the left panel (in cwd)
+nnoremap <Leader>ec <Cmd>silent Lexplore %:h<CR>|   " Opens in current file directory (% gives path of current file, :h removes the filename leaving only the directory; see :h _% and :h ::h), the `silent` is to fix an annoying bug that requires us to press enter.
 
 "" Implement Neovim's Q (play last recorded macro)
 nnoremap q <Cmd>call QImplementation()<CR>
@@ -147,7 +158,7 @@ endfunction
 
 "" Terminal (Vim 8+)
 tnoremap <C-]> <C-\>|                                           " Prevent class with tmux leader <C-\>
-nnoremap <F12> :call ToggleTerminal("default")<CR>|             " Create/Show the Terminal named "default"
+nnoremap <F12> <Cmd>call ToggleTerminal("default")<CR>|             " Create/Show the Terminal named "default"
 tnoremap <F12> <C-\><C-N>:call ToggleTerminal("default")<CR>|   " Exit Terminal Mode and Hides Terminal Window
  
 function! ToggleTerminal(name)                  " Note that VimScript scopes the argument `name` as `a:name`
