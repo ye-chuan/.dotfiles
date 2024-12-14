@@ -138,13 +138,6 @@ lspconfig.hls.setup{
 }
 
 
------ COSMETICS -----
-local signs = { Error = " ", Warn = " ", Hint = "󰌶 ", Info = " " }
-for name, sign in pairs(signs) do
-    local hlname = "DiagnosticSign" .. name     -- Concat to get the actual highlight group name
-    vim.fn.sign_define(hlname, {text = sign, texthl = hlname, numhl = hlname})    -- See :h sign-define
-end
-
 ----- KEY MAPPINGS -----
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -203,3 +196,25 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
         border = "rounded",
     }
 )
+
+----- Diagnostics Configurations -----
+-- Change how the diagnostic signs look in the gutter
+local signs = { Error = " ", Warn = " ", Hint = "󰌶 ", Info = " " }
+for name, sign in pairs(signs) do
+    local hlname = "DiagnosticSign" .. name     -- Concat to get the actual highlight group name
+    vim.fn.sign_define(hlname, {text = sign, texthl = hlname, numhl = hlname})    -- See :h sign-define
+end
+
+-- See :h vim.diagnostic.config(); Options are given in :h vim.diagnostic.Opts
+vim.diagnostic.config({
+    float = { border = "rounded" },                             -- Add borders to diagnostic popups
+    virtual_text = {
+        severity = { min = vim.diagnostic.severity.WARN }      -- Only show inline diagnostics for WARNs and above
+    },
+    underline = {
+        severity = { min = vim.diagnostic.severity.WARN }      -- Only underline only for WARNs and above
+    },
+    signs = true,
+    update_in_insert = false,                                   -- Do not show diagnostics while typings
+})
+
