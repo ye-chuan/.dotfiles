@@ -114,7 +114,7 @@ inoremap <C-U> <C-G>u<C-U>|     " Allows undoing C-U (Delete till start of line 
 nnoremap <BS> <C-^>
 
 "" Text Navigation
-nnoremap ]t vat<Esc>%|      " HTML End Tag Navigation
+nnoremap ]t vat<Esc>|       " HTML End Tag Navigation
 nnoremap [t vato<Esc>|      " HTML Start Tag Navigation
 
 "" QuickFix
@@ -162,7 +162,7 @@ endfunction
 
 "" Terminal (Vim 8+)
 tnoremap <C-]> <C-\>|                                           " Prevent class with tmux leader <C-\>
-nnoremap <F12> <Cmd>call ToggleTerminal("default")<CR>|             " Create/Show the Terminal named "default"
+nnoremap <F12> <Cmd>call ToggleTerminal("default")<CR>|         " Create/Show the Terminal named "default"
 tnoremap <F12> <C-\><C-N>:call ToggleTerminal("default")<CR>|   " Exit Terminal Mode and Hides Terminal Window
  
 function! ToggleTerminal(name)                  " Note that VimScript scopes the argument `name` as `a:name`
@@ -212,3 +212,7 @@ let g:netrw_banner = 0      " Hide the top banner (press I to show)
 """ indentexpr which is set by the filetype plugin (see `:h indent-expression`)
 let g:html_indent_script1 = "inc"   " So <script> tag also increases indent of it's 1st line (see `:h html-indenting`)
 let g:html_indent_style1 = "inc"    " Same but for <style> tag (honestly weird that these aren't default!)
+
+"" Undotree
+nnoremap <F9> <Cmd>UndotreeToggle<CR>
+
