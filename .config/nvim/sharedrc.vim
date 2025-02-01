@@ -4,6 +4,35 @@
 " NeoVim, but rather that Debian stable (and hence Ubuntu) hasn't caught up
 " with a version of Vim that supports that feature
 
+" Paths (should detect Windows/Linux, Vim/NeoVim)
+"" CONFIG_DIR for storing Vim/NeoVim Configurations
+"" Usually ~/.config/nvim for NeoVim, ~/.vim for Vim,
+"" for both Windows and Linux
+let CONFIG_HOME=$HOME."/.config"
+if exists("$XDG_CONFIG_HOME")
+    let CONFIG_HOME=$XDG_CONFIG_HOME
+endif
+let CONFIG_DIR=$HOME."/.vim"
+if has("nvim")
+    let CONFIG_DIR=CONFIG_HOME."/nvim"
+endif
+
+"" STATE_DIR for storing state data (e.g. swap, undos)
+"" Usually ~/.local/state/nvim on Linux, ~/AppData/Local/nvim-data on Windows; 
+"" Vim doesn't have such a dedicated directory by default, it shares the same
+"" location has the Configuration Directory
+if has("win32")
+    let STATE_DIR=$LOCALAPPDATA."/nvim-data"
+else
+    let STATE_DIR=$HOME."/.local/state/nvim"
+endif
+if exists("$XDG_STATE_HOME")
+    let STATE_DIR=$XDG_STATE_HOME."/nvim"
+endif
+if !has("nvim")
+    let STATE_DIR=CONFIG_DIR
+endif
+
 " Sane Defaults
 set encoding=utf-8  " Even though Vim might set to UTF-8 based on locale, but we will put this here just in case
 
@@ -76,16 +105,12 @@ set belloff=all
 set hidden      " Allows for buffers to be kept in the background without being saved to disk (multitasking)
 set history=10000   " Maximum undo history
 set undofile    " Persistent undo history
-if has("nvim")
-    set undodir=$XDG_STATE_HOME/nvim/undo// " Where undo files are stored
-else
-    if !isdirectory($HOME."/.vim/undo-dir")
-        call mkdir($HOME."/.vim/undo-dir", "", 0700) " Create with 0700 permissions
-    endif
-    set undodir=~/.vim/undo-dir
+if !isdirectory(STATE_DIR."/undo")
+    call mkdir(STATE_DIR."/undo", "", 0700) " Create with 0700 permissions
 endif
+let &undodir=STATE_DIR."/undo//" " This is equivalent to `set undodir=...` but with variables
 " PRIVACY WARNING: Vim/NeoVim doesn't clear undofiles, we need to manually clear them
-" `setlocal noundofile` before writing to prevent the writing of undo file
+" `setlocal noundofile` before writing (:w) to prevent the writing of undo file
 
 set path+=**    " Allows :find to search recursively from the cwd (for large projects, undo this can add specifically the sources e.g. +=src/**)
 
@@ -93,7 +118,7 @@ set path+=**    " Allows :find to search recursively from the cwd (for large pro
 set commentstring=
 set autoread                    " (Only works for GUI Vim so...) Automatically read files that have been changed outside of Vim
 set fillchars=vert:│,fold:·     " See `:h fillchars`
-set nofsync                     " fsync attemps to flush to disk every `:write`, NeoVim have this off by default probably to speed up editing large files
+set nofsync                     " fsync attempts to flush to disk every `:write`, NeoVim have this off by default probably to speed up editing large files
 set nolangremap
 set mouse=nvi                   " Enable mouse support for Normal, Visual, and Insert Modes
 set mousemodel=popup_setpos     " Right-Click will move cursor to position and trigger popup
