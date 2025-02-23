@@ -122,26 +122,26 @@ install_neovim() {
     fi
 
     echo ">>> Installing Latest Stable Neovim from GitHub"
-    echo ">>> Getting .tar from https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
-    curl -L -o "${tempdir}/nvim-linux64.tar.gz" "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz"
+    echo ">>> Getting .tar from https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz"
+    curl -L -o "${tempdir}/nvim-linux-x86_64.tar.gz" "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz"
 
     # Checksum Verification
-    echo ">>> Getting SHA256 checksum from https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz.sha256sum"
-    curl -L -o "${tempdir}/nvim-linux64.tar.gz.sha256sum" "https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.tar.gz.sha256sum"
-    if ! (cd "${tempdir}" && sha256sum --check "nvim-linux64.tar.gz.sha256sum"); then     # cd-ed in a subshell to get same output format for sha256sum
+    echo ">>> Getting SHA256 checksum from https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz.sha256sum"
+    curl -L -o "${tempdir}/nvim-linux-x86_64.tar.gz.sha256sum" "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz.sha256sum"
+    if ! (cd "${tempdir}" && sha256sum --check "nvim-linux-x86_64.tar.gz.sha256sum"); then     # cd-ed in a subshell to get same output format for sha256sum
         echo ">>> WARNING: Checksum verification failed!" >&2
         echo ">>> Terminating..."
         return 1
     fi
     echo -n ">>> SHA256 Checksum Verified: "
-    sha256sum "${tempdir}/nvim-linux64.tar.gz"
+    sha256sum "${tempdir}/nvim-linux-x86_64.tar.gz"
 
     echo ">>> Removing old version at ${install_path} (if exists)"
     rm -rf "${install_path}"
     echo ">>> Extracting..."
-    tar --directory="${tempdir}" -xzf "${tempdir}/nvim-linux64.tar.gz"
+    tar --directory="${tempdir}" -xzf "${tempdir}/nvim-linux-x86_64.tar.gz"
     echo ">>> Moving to ${install_path}"
-    mv "${tempdir}/nvim-linux64" "${install_path}"
+    mv "${tempdir}/nvim-linux-x86_64" "${install_path}"
 
     if (( is_root )); then
         setup_list_file_add "neovim_setup.sh"
