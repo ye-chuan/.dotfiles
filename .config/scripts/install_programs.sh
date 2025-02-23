@@ -1,7 +1,7 @@
 #!/bin/bash
 # Script to ease installation of packages in new systems (this script might not be portable to non-bash shells)
 
-(( is_root = EUID == 0 ))   # Bash allows for c-style assignments in it's (( ))
+(( is_root = EUID == 0 ))   # Bash allows for c-style assignments in its (( ))
 if (( !is_root )); then
     read -r -p "Not running as root, installation will be done locally (press to continue)"
 fi
@@ -65,6 +65,10 @@ interactive_apt_install_frm_arr() {
 compilers_packages=("gcc" "g++" "python3" "make")
 echo "[COMPILERS / INTERPRETERS]"
 interactive_apt_install_frm_arr "${compilers_packages[@]}"
+
+development_packages=("vim" "nvim" "git")
+echo "[DEVELOPMENT TOOLS]"
+interactive_apt_install_frm_arr "${development_packages[@]}"
 
 # Common Utilities
 utilities_packages=("unzip" "pv" "ffmpeg")
