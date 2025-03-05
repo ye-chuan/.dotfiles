@@ -21,3 +21,6 @@ alias cp='cp -i'
 pyvenv(){
     source "${HOME}/.venv/${1}/bin/activate"
 }
+
+# Local Aliases
+source "${HOME}/.local-config/aliases.sh"
