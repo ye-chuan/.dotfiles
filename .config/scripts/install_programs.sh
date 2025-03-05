@@ -66,7 +66,7 @@ compilers_packages=("gcc" "g++" "python3" "make")
 echo "[COMPILERS / INTERPRETERS]"
 interactive_apt_install_frm_arr "${compilers_packages[@]}"
 
-development_packages=("vim" "nvim" "git")
+development_packages=("vim" "git")
 echo "[DEVELOPMENT TOOLS]"
 interactive_apt_install_frm_arr "${development_packages[@]}"
 
@@ -160,10 +160,11 @@ install_nvm() {
     if [[ -d "${NVM_DIR}" ]]; then
         read -r -p ">>> ${USER_HOME}/.nvm already exists, press to proceed with updating..."
         echo ">>> Fetching new updates from GitHub"
-        git -C "${NVM_DIR}" fetch
+        sudo -u "${SUDO_USER}" git -C "${NVM_DIR}" fetch
     else
         echo ">>> Cloning from https://github.com/nvm-sh/nvm.git to ${NVM_DIR}"
-        git clone https://github.com/nvm-sh/nvm.git "${NVM_DIR}"
+        # Important to sudo if not root will own the local .nvm directory
+        sudo -u "${SUDO_USER}" git clone https://github.com/nvm-sh/nvm.git "${NVM_DIR}"
     fi
 
     latest_ver_commit=$(git -C "${NVM_DIR}" rev-list --tags --max-count=1)   # Commit hash of the latest tag
@@ -171,7 +172,7 @@ install_nvm() {
     echo ">>> Latest Git Tag: ${latest_tag}"
     read -r -p ">>> Please confirm that the tag holds the latest version (press to proceed...)"
     echo ">>> Checkout out tag ${latest_tag}"
-    git -C "${NVM_DIR}" checkout "${latest_tag}"
+    sudo -u "${SUDO_USER}" git -C "${NVM_DIR}" checkout "${latest_tag}"
 
     source "${NVM_DIR}/nvm.sh"
 
@@ -185,7 +186,7 @@ install_node() {
     if (( is_root )); then
         read -r -p ">>> Note: script currently only does local installation (press to continue)"
     fi
-    if ! command -v nvm > /dev/null 2>&1; then  #FIXME: Not working due to sudo
+    if ! sudo -u "${SUDO_USER}" -i command -v nvm > /dev/null 2>&1; then
         read -r -p ">>> nvm not installed, press to proceed with installation..."
         if ! install_nvm; then  # Return if nvm installation fails
             echo ">>> NVM installation failed? Aborting NodeJS installation."
@@ -193,8 +194,10 @@ install_node() {
         fi
     fi
 
+    echo ">>> The current way of installing is to simply login to your shell to use your local nvm"
+    echo ">>> Any artifacts from running a login shell will also be present (e.g. neofetch)"
     echo ">>> Installing latest release of NodeJS via nvm"
-    nvm install node
+    sudo -u "${SUDO_USER}" -i nvm install node
 
     echo ">>> NodeJS installed"
     echo ""
