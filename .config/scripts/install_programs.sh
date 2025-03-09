@@ -61,7 +61,7 @@ interactive_apt_install_frm_arr() {
     done
 }
 
-# Compilers / Interpreteres
+# Compilers / Interpreters
 compilers_packages=("gcc" "g++" "python3" "make")
 echo "[COMPILERS / INTERPRETERS]"
 interactive_apt_install_frm_arr "${compilers_packages[@]}"
