@@ -48,5 +48,5 @@
 	path = .config/nvim/pack/lsp/start/mason-lspconfig
 	url = https://github.com/williamboman/mason-lspconfig.nvim.git
 [submodule "undotree"]
-	path = /home/leafboat/.config/nvim/pack/vim-also/start/undotree
+	path = .config/nvim/pack/vim-also/start/undotree
 	url = https://github.com/mbbill/undotree.git
