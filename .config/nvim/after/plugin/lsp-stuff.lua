@@ -9,8 +9,8 @@ require("mason").setup({
         check_outdated_packages_on_open = true,
 
         ---@since 1.0.0
-        -- The border to use for the UI window. Accepts same border values as |nvim_open_win()|.
-        border = "none",
+        -- The border to use for the UI window. Accepts same format as `:h nvim_open_win` or simply values from `:h winborder`.
+        border = "double",
 
         icons = {
             package_installed = "󰪥", -- "✓",
@@ -178,25 +178,6 @@ vim.api.nvim_create_autocmd("LspAttach", {      -- Attach this autocmd to the bu
   end,
 })
 
------ Override LSP Handlers -----
--- LSP Handlers are functions that are called when certain LSP event is triggered (e.g. pressing SHIFT-K for hover will call vim.lsp.handlers["textDocument/hover"] (see `:h lsp-method`) which is by default mapped to vim.lsp.handler.hover())
--- Configuring handlers is explained in `:h lsp-handler-configuration`
-
--- Add borders around LSP popups
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
-    vim.lsp.handlers.hover,
-    {
-        border = "rounded", -- Values taken from `:h nvim_open_win()` as mentioned in `:h vim.lsp.handlers.hover()`
-    }
-)
-
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
-    vim.lsp.handlers.signature_help,
-    {
-        border = "rounded",
-    }
-)
-
 ----- Diagnostics Configurations -----
 -- Change how the diagnostic signs look in the gutter
 local signs = { Error = " ", Warn = " ", Hint = "󰌶 ", Info = " " }
@@ -207,7 +188,6 @@ end
 
 -- See :h vim.diagnostic.config(); Options are given in :h vim.diagnostic.Opts
 vim.diagnostic.config({
-    float = { border = "rounded" },                             -- Add borders to diagnostic popups
     virtual_text = {
         severity = { min = vim.diagnostic.severity.WARN }      -- Only show inline diagnostics for WARNs and above
     },

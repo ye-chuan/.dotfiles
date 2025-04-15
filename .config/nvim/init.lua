@@ -10,6 +10,7 @@ vim.cmd.source(sharedrc)
 -- Plugins that needs to be configured early
 vim.cmd.source(vim.fn.stdpath("config") .. "/airlinerc.vim")
 
+require "nvimrc"
 require "mainmodule"
 
 end
