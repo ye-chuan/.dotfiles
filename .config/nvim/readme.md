@@ -11,18 +11,28 @@ certain plugin is going to help improve my workflow, I will be installing it.
 ### LSP + Developer Experience
 - nvim-lspconfig
     - Allows for easier linking and configuration of LSP with Neovim's built-in LSP client
+    - Comes with sane default configuration for many LSP servers
 - nvim-mason
     - Allows for easier installation and management of LSPs, Linters, etc.
-- lua-snip
-    - Snippets engine (i.e. LuaSnip), supports VSCode Snippets and LuaSnippets (very powerful)
+- mason-lspconfig
+    - Bridges `nvim-mason` with `nvim-lspconfig`
+    - Allows for predefined list of LSP servers to be automatically installed
+- undotree
+    - Browse undo history paths which is impractical (not possible?) without a plugin like this
+- nvim-todo-comments
+    - Highlight & navigate special comments (e.g. `#TODO`)
+    - Deps: `nvim-plenary`
 
 > Remember to have the **latest version** of `npm` and `nodejs` which some stable linux distros do not provide in their repo
 > e.g. `pyright` uses `nodejs` to run
 
 #### Completion
 - nvim-cmp
-    - Completion engine (no sources)
+    - Completion engine (sources separately installed)
     - Responsible for the auto-completion popup
+- lua-snip
+    - Snippets engine (i.e. LuaSnip), supports VSCode Snippets and LuaSnippets (very powerful)
+    - To be used with a completion engine (like `nvim-cmp` via `cmp-luasnip`)
 - cmp-luasnip
     - nvim-cmp source for LuaSnip's snippets
     - Note that snippet expansion is done by LuaSnip, nvim-cmp just does the completion of the snippet triggers
@@ -37,14 +47,15 @@ certain plugin is going to help improve my workflow, I will be installing it.
 
 ### Project Navigation
 - nvim-telescope
+    - Deps: `nvim-plenary`
 
 ### Aesthetics
-- catpuccin-theme
+- nvim-catpuccin-theme
 - vim-airline
 - nvim-web-devicons
-    - File Icons support for other plugins
+    - File icons support for other plugins
 - nvim-treesitter
-    - Mainly for improved syntax highlighting
+    - Mainly for improved syntax highlighting (replaces `:syntax`)
 
 ### Others
 - nvim-plenary
@@ -59,33 +70,22 @@ To manage the plugins, I will be using Git's submodule feature.
 
 To install plugins:
 ```sh
-git submodule add --name {abitrary-name} {https://github.com/.../plugin.git} {pack/{abitrary-pkg-name}/{start|opt}/{repo-root-directory}}
+mydotfiles submodule add --name {abitrary-name} {https://github.com/.../plugin.git} {.config/pack/{abitrary-pkg-name}/{start|opt}/{repo-root-directory}}
 ```
+
+> Note to **not** use a full path in the destination path, but rather start relative to the git directory (start with `.config/` for my case of whereby `mydotfiles` git repo is the home directory)
+> This is because the destination path is saved in `.gitmodules`, saving the full path will break the path when changing users
 
 > Plugins instead with in the `opt` directory will not be auto-loaded in NeoVim and will have to be manually loaded with `:packadd {abitrary-pkg-name}
 
-To clone to another machine (including all submodules)
-```sh
-git clone --recursive git@github.com:ye-chuan/nvim.git
-```
-
-or alternatively
-```sh
-git clone git@github.com:ye-chuan/nvim.git
-git submodule init    # Updates the .git/config with information from .gitmodules, can selectively choose with `git submodule init submodule1 submodule2`
-git submodule update  # Actually pulls the submodules in .git/config into local directory
-```
+To clone to another machine (including all submodules), see how to clone recursively from the main `.dotfiles` repo documentation.
 
 Remember to generate helptags in nvim with
 ```
 :helptags ALL
 ```
 
-To Update All Plugins
-Make sure to be in root nvim\ (config directory)
-```sh
-git submodule foreach git pull
-```
+To update all plugins, update all submodules, as per documentation in the main `.dotfiles` repo.
 
 ## Overriden Mappings
 - <C-L> - Originally Redraw Screen
@@ -108,5 +108,16 @@ git submodule foreach git pull
 ## Dependencies
 The current configuration would require the following dependencies
 - gcc
+    - For Mason to download & install various LSPs
 - npm
+    - For Mason to download & install various LSPs
 - g++
+    - For Mason to download & install various LSPs
+
+## To Do
+- Remove `nvim-lspconfig` plugin as NeoVim v0.11 introduces better LSP configuration system (see NeoVim Pull Request #31031)
+- Perhaps separate NeoVim Plugin Management with my main dotfiles management, so that NeoVim plugins more conveniently with a "for each submodule pull".
+  The current set up means that all other submodules as part of my dotfiles configuration will also be updated.
+  Suggestion:
+    - NeoVim in a separate submodule? But nested submodules are probably not the best idea
+    - Using a third-party NeoVim plugin manager?

@@ -50,3 +50,6 @@
 [submodule "undotree"]
 	path = .config/nvim/pack/vim-also/start/undotree
 	url = https://github.com/mbbill/undotree.git
+[submodule "nvim-todo-comments"]
+	path = .config/nvim/pack/neovim-only/start/nvim-todo-comments
+	url = https://github.com/folke/todo-comments.nvim.git
