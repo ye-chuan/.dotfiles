@@ -108,14 +108,14 @@ lspconfig.cssls.setup({
 })
 
 volar_path = mason_registry.get_package("vue-language-server"):get_install_path() .. "/node_modules/@vue/language-server"
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
     capabilities = nvim_cmp_capabilities,
     init_options = {
         plugins = {
             {
-                -- Vue Support
+                -- Vue Support (make sure volar is SAME VERSION as @vue/typescript-plugin)
                 name = "@vue/typescript-plugin",
-                location = volar_path,  -- tsserver will run `require("@vue/typescript-plugin")` in this location
+                location = volar_path,  -- tsserver (now ts_ls) will run `require("@vue/typescript-plugin")` in this location
                 languages = { "vue" },
             },
         },
@@ -178,14 +178,6 @@ vim.api.nvim_create_autocmd("LspAttach", {      -- Attach this autocmd to the bu
   end,
 })
 
------ Diagnostics Configurations -----
--- Change how the diagnostic signs look in the gutter
-local signs = { Error = " ", Warn = " ", Hint = "󰌶 ", Info = " " }
-for name, sign in pairs(signs) do
-    local hlname = "DiagnosticSign" .. name     -- Concat to get the actual highlight group name
-    vim.fn.sign_define(hlname, {text = sign, texthl = hlname, numhl = hlname})    -- See :h sign-define
-end
-
 -- See :h vim.diagnostic.config(); Options are given in :h vim.diagnostic.Opts
 vim.diagnostic.config({
     virtual_text = {
@@ -194,7 +186,23 @@ vim.diagnostic.config({
     underline = {
         severity = { min = vim.diagnostic.severity.WARN }      -- Only underline only for WARNs and above
     },
-    signs = true,
-    update_in_insert = false,                                   -- Do not show diagnostics while typings
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = " ",
+            [vim.diagnostic.severity.WARN] = " ",
+            [vim.diagnostic.severity.HINT] = "󰌶 ",
+            [vim.diagnostic.severity.INFO] = " ",
+        },
+        -- The colour of the line of code (color according to highlight groups, see `:highlight`)
+        linehl = {
+            --[vim.diagnostic.severity.ERROR] = "ErrorMsg",
+        },
+        -- The colour of the line number
+        numhl = {
+            --[vim.diagnostic.severity.WARN] = "WarningMsg",
+        },
+    },
+    update_in_insert = false,   -- Do not show diagnostics while typings
+    severity_sort = true,       -- Priority of sign is sorted according tot he severity of the diagnostic
 })
 
