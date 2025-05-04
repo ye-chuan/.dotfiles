@@ -82,9 +82,8 @@ install_node() {
             return 1
         fi
     fi
-
-    echo ">>> Sourcing .bashrc after installing nvm"
-    source ~/.bashrc
+    echo ">>> Sourcing nvm setup script"
+    setup_file_source "nvm_setup.sh"
 
     echo ">>> Installing latest release of NodeJS via nvm"
     nvm install node
