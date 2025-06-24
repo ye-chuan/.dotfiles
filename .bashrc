@@ -4,6 +4,7 @@ SHELL_CONFIG="$HOME/.config/shell"  # For files that are meant to be shared betw
 shopt -s histappend # Append to .bash_history instead of overriding
 HISTSIZE=10000      # Size of internal memory history of commands during a session (blank means inf)
 HISTFILESIZE=10000  # Max lines in .bash_history (truncated after saving history of a session) (blank means inf)
+HISTTIMEFORMAT='%Y-%m-%d %H:%M:%S  '    # 1. Instructs bash history to be written with timestamp info; 2. Specify format to print when using `history`
 
 set -o vi   # Should've already been set in .inputrc, this is extra
 export VISUAL=nvim  # Set default visual editor to be NeoVim
