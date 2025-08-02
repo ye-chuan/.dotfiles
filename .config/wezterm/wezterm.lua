@@ -51,15 +51,21 @@ config.set_environment_variables = {
   prompt = '$E]7;file://localhost/$P$E\\$E[32m$T$E[0m $E[35m$P$E[36m$_$G$E[0m ',
 }
 
--- Keymaps
+---- Keymaps
 config.disable_default_key_bindings = true
 config.leader = { key = "\\", mods = "CTRL", timeout_milliseconds = 1000 }  -- Will be used for multiplexing like tmux
 config.keys = {
-    -- Forward the leader if pressed twice (like in tmux)
+    -- Toggle the leader (e.g. for convenience when using tmux)
     {
-        key = "\\",
-        mods = "LEADER|CTRL",
-        action = wezterm.action.SendKey {key = "\\", mods = "CTRL" }
+        key = "b",
+        mods = "CTRL|SHIFT",
+        action = wezterm.action.EmitEvent("toggle-leader")
+    },
+    -- Forward the leader if pressed twice (doesn't work when leader is toggled away in our custom toggle event)
+    {
+        key = config.leader.key,
+        mods = "LEADER|" .. config.leader.mods,
+        action = wezterm.action.SendKey { key = config.leader.key, mods = config.leader.mods }
     },
     -- Clipboard
     {
@@ -270,5 +276,24 @@ config.keys = {
     { key = "0", mods = "LEADER", action = wezterm.action.ActivateTab(9) },
 }
 
--- and finally, return the configuration to wezterm
+
+---- Events
+-- Toggles Leader between CTRL-B (tmux default) and CTRL-\ (my preference)
+wezterm.on("toggle-leader", function (window, pane)
+    -- WezTerm has an `overrides` table that overrides config per-window during runtime
+    local overrides = window:get_config_overrides() or {}
+
+    if not overrides.leader then    -- Unset the config override
+        overrides.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
+        wezterm.log_info("Toggled Leader to: " .. overrides.leader.mods .. "-" .. overrides.leader.key)
+    else                        -- Set the config override
+        overrides.leader = nil
+        wezterm.log_info("Untoggled Leader back to: " .. config.leader.mods .. "-" .. config.leader.key)
+    end
+
+    window:set_config_overrides(overrides)
+end)
+
+
+---- and finally, return the configuration to wezterm
 return config
