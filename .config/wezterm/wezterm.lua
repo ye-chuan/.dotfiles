@@ -152,10 +152,43 @@ config.keys = {
         action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }),
     },
     {
+        key = "s",
+        mods = "LEADER|SHIFT",
+        action = wezterm.action.SplitPane {
+            top_level = true,
+            direction = "Down",
+            command = { domain = "CurrentPaneDomain" },
+        },
+    },
+    {
         key = "v",
         mods = "LEADER",
         action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }),
     },
+    {
+        key = "v",
+        mods = "LEADER|SHIFT",
+        action = wezterm.action.SplitPane {
+            top_level = true,
+            direction = "Right",
+            command = { domain = "CurrentPaneDomain" },
+        },
+    },
+    {
+        key = "!",
+        mods = "LEADER|SHIFT",
+        action = wezterm.action_callback(function(win, pane)    -- action_callback helps create an event and hook it to this a callback with `wezterm.on(event_name, callback)`
+            local tab, window = pane:move_to_new_tab()
+            tab:activate()
+        end),
+    },
+    -- Pane Movement
+    {
+        key = "q",
+        mods = "LEADER|CTRL",
+        action = wezterm.action.PaneSelect({ mode = "SwapWithActive" }),
+    },
+    -- Pane Navigation
     {
         key = "h",
         mods = "LEADER",
@@ -177,11 +210,6 @@ config.keys = {
         action = wezterm.action.ActivatePaneDirection("Up"),
     },
     {
-        key = "Backspace",
-        mods = "LEADER",
-        action = wezterm.action.ActivateLastTab,
-    },
-    {
         key = "q",
         mods = "LEADER",
         action = wezterm.action.PaneSelect({ mode = "Activate" }),
@@ -192,19 +220,7 @@ config.keys = {
         action = wezterm.action.CloseCurrentPane({ confirm = true }),
         -- No confirmation for what WezTerm deems stateless (see `config.skip_close_confirmation_for_processes_named`)
     },
-    {
-        key = "!",
-        mods = "LEADER|SHIFT",
-        action = wezterm.action_callback(function(win, pane)    -- action_callback helps create an event and hook it to this a callback with `wezterm.on(event_name, callback)`
-            local tab, window = pane:move_to_new_tab()
-            tab:activate()
-        end),
-    },
-    {
-        key = "z",
-        mods = "LEADER",
-        action = wezterm.action.TogglePaneZoomState,
-    },
+    -- Pane Resize
     {
         key = "LeftArrow",
         mods = "CTRL|SHIFT",
@@ -224,6 +240,11 @@ config.keys = {
         key = "DownArrow",
         mods = "CTRL|SHIFT",
         action = wezterm.action.AdjustPaneSize({"Down", 1}),
+    },
+    {
+        key = "z",
+        mods = "LEADER",
+        action = wezterm.action.TogglePaneZoomState,
     },
     --- Tabs (tmux windows)
     {
@@ -248,7 +269,12 @@ config.keys = {
             end),
         }),
     },
-    -- Navigation
+    -- Tabs Navigation
+    {
+        key = "Backspace",
+        mods = "LEADER",
+        action = wezterm.action.ActivateLastTab,
+    },
     {
         key = "w",
         mods = "LEADER",
