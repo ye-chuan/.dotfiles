@@ -27,8 +27,9 @@ export XDG_DATA_HOME="$HOME/.local/share"   # Persistent application data
 export XDG_CONFIG_HOME="$HOME/.config"      # Application configuration
 export XDG_STATE_HOME="$HOME/.local/state"  # For persistent data that is not as important/portable as those in XDG_DATA_HOME
 
-## neofetch
-! command -v neofetch > /dev/null 2>&1 || neofetch
+## fastfetch (neofetch replacement)
+! command -v fastfetch > /dev/null 2>&1 || fastfetch
 
 ###
 export TERMINAL=wezterm
+
