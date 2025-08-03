@@ -38,6 +38,7 @@ require("mason-lspconfig").setup({
         "ts_ls",
         "volar",    -- Vue.js
 
+        "jsonls",
         -- "hls",      -- Haskell (requires ghcup)
     },
 
@@ -126,6 +127,11 @@ lspconfig.ts_ls.setup({
 lspconfig.volar.setup({
     -- Volar by itself only manages HTML & CSS sections now, for Vue support of JS we need a "@vue/typescript-plugin" plugin for tsserver.
     -- Volar's location will contain a "@vue/typescript-plugin" that has to be imported/used by tsserver (see config for tsserver above)
+    capabilities = nvim_cmp_capabilities,
+})
+
+-- Markup
+lspconfig.jsonls.setup({
     capabilities = nvim_cmp_capabilities,
 })
 
