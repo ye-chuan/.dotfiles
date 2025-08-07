@@ -1,1 +1,4 @@
-.local-config
+/.local-config
+
+# Shell Configurations
+.config/shell/.prgm_setup_list
