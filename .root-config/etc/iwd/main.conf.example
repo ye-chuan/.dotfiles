@@ -1,0 +1,2 @@
+[General]
+EnableNetworkConfiguration=true     # Use Built-In DHCP Client
