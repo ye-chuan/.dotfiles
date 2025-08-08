@@ -311,15 +311,60 @@ wezterm.on("toggle-leader", function (window, pane)
 
     if not overrides.leader then    -- Unset the config override
         overrides.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
-        wezterm.log_info("Toggled Leader to: " .. overrides.leader.mods .. "-" .. overrides.leader.key)
+        wezterm.log_info("LeafBoat> Toggled Leader to: " .. overrides.leader.mods .. "-" .. overrides.leader.key)
     else                        -- Set the config override
         overrides.leader = nil
-        wezterm.log_info("Untoggled Leader back to: " .. config.leader.mods .. "-" .. config.leader.key)
+        wezterm.log_info("LeafBoat> Untoggled Leader back to: " .. config.leader.mods .. "-" .. config.leader.key)
     end
 
     window:set_config_overrides(overrides)
 end)
 
+-- Centers The Tab (i.e. group of panes) within the WezTerm Window
+function center_tab(window, pane)
+    -- Minimum padding on one horizontal/vertical side
+    -- In cells (e.g. 1cell, 0.5cell)
+    local MIN_HORIZONTAL_PADDING = 0.6
+    local MIN_VERTICAL_PADDING = 0.29
+
+    local override = window:get_config_overrides() or {}
+    local new_padding = {}
+
+    local win_dim = window:get_dimensions()
+    local tab_dim = window:active_tab():get_size()
+
+    -- A tab consists of just cells with no padding
+    local cell_height = tab_dim.pixel_height / tab_dim.rows
+    local cell_width = tab_dim.pixel_width / tab_dim.cols
+
+    local gap_h = win_dim.pixel_width - tab_dim.pixel_width
+    local gap_v = win_dim.pixel_height - tab_dim.pixel_height
+
+    -- We fit as many cells as possible into the gaps,
+    local remaining_h = gap_h % cell_width
+    local remaining_v = gap_v % cell_height
+
+    -- Satisfy the minimum padding by removing cell rows & cols
+    local min_h_padding_px = MIN_HORIZONTAL_PADDING * cell_width
+    local min_v_padding_px = MIN_VERTICAL_PADDING * cell_height
+    remaining_h = remaining_h + cell_width*(
+        math.ceil((min_h_padding_px*2-remaining_h)/cell_width)
+    )
+    remaining_v = remaining_v + cell_height*(
+        math.ceil((min_v_padding_px*2-remaining_v)/cell_height)
+    )
+
+    -- Evenly distribute the gaps
+    new_padding.left = remaining_h // 2
+    new_padding.right = remaining_h - new_padding.left
+    new_padding.top = remaining_v // 2
+    new_padding.bottom = remaining_v - new_padding.top
+
+    wezterm.log_info("LeafBoat> Centered Tab with:", new_padding)
+    override.window_padding = new_padding
+    window:set_config_overrides(override)
+end
+wezterm.on("window-resized", center_tab)
 
 ---- and finally, return the configuration to wezterm
 return config
