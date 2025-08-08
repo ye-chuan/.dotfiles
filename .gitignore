@@ -1,4 +1,6 @@
 /.local-config
 
-# Shell Configurations
-.config/shell/.prgm_setup_list
+.config/sway/scripts/local/*
+!.config/sway/scripts/local/readme.md
+.config/sway/config.d/local-*
+!.config/sway/config.d/local-*.example

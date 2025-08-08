@@ -1,0 +1,42 @@
+# Desktop Environment / Window Manager invoked autostarts
+
+# Note: The main config should've imported drop-ins including
+# /etc/sway/config.d/50-systemd-user.sh (from the sway package)
+# which:
+#
+# Import environment variables into user instance of systemd
+# exec systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
+#
+# Update dbus environments
+# exec hash dbus-update-activation-environment 2>/dev/null && \
+#     dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
+#
+# Allow xdg-desktop-portal-wlr to provide screensharing capabilities
+# (See https://github.com/emersion/xdg-desktop-portal-wlr)
+# exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+
+
+# Auth with polkit-gnome:
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
+# Idle Configuration
+exec swayidle idlehint 1
+exec_always swayidle -w before-sleep "swaylock"
+
+# Desktop Notifications
+#exec mako  # mako can start automatically upon D-Bus activation (https://github.com/emersion/mako)
+
+# Battery Notifier
+exec batsignal -w 30 -c 10 -d 5
+
+# Autotiling
+exec autotiling
+
+# cliphist
+exec wl-paste --type text --watch cliphist store
+exec wl-paste --type image --watch cliphist store
+     
+# Network Applet
+
+# Firewall Applet
+

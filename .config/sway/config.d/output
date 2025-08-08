@@ -1,0 +1,10 @@
+### Output Configuration
+#
+# For output devices (e.g. monitors)
+# See `man 5 sway-output`
+#
+# See `./local-output.example` for per-machine local output configuration
+
+# Wallpaper
+output "*" bg "~/.config/wallpapers/flying-comets-clouds.jpg" fill
+

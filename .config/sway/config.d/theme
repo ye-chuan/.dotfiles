@@ -1,0 +1,66 @@
+
+# Set inner/outer gaps
+# Note: gaps outer is an offset from gaps inner, hence should be negative for smaller outer gaps
+gaps inner 10px
+gaps outer -3px
+
+# default_border [style] [size optional], style can be `pixel` - removes title bar, `normal` adjust border but keeps title bar, or `none`
+default_border pixel 2
+default_floating_border pixel 2
+
+# Don't show border if only 1 window in workspace
+#smart_borders on
+
+# Default Font
+font pango:Jetbrains Mono Regular 10
+
+# Set wallpaper: (done in `config.d/output` now)
+#exec ~/.azotebg
+
+# Title format for windows
+for_window [shell="xdg_shell"] title_format "%title (%app_id)"
+for_window [shell="x_wayland"] title_format "%class - %title"
+
+# Catpuccin Mocha
+set $rosewater #f5e0dc
+set $flamingo #f2cdcd
+set $pink #f5c2e7
+set $mauve #cba6f7
+set $red #f38ba8
+set $maroon #eba0ac
+set $peach #fab387
+set $yellow #f9e2af
+set $green #a6e3a1
+set $teal #94e2d5
+set $sky #89dceb
+set $sapphire #74c7ec
+set $blue #89b4fa
+set $lavender #b4befe
+set $text #cdd6f4
+set $subtext1 #bac2de
+set $subtext0 #a6adc8
+set $overlay2 #9399b2
+set $overlay1 #7f849c
+set $overlay0 #6c7086
+set $surface2 #585b70
+set $surface1 #45475a
+set $surface0 #313244
+set $base #1e1e2e
+set $mantle #181825
+set $crust #11111b
+
+# target                 title     bg    text   indicator  border
+client.focused           $lavender $base $text  $lavender $lavender
+client.focused_inactive  $overlay0 $base $text  $overlay0 $overlay0
+client.unfocused         $overlay0 $base $text  $overlay0 $overlay0
+client.urgent            $peach    $base $peach $peach    $peach
+client.placeholder       $overlay0 $base $text  $overlay0  $overlay0
+client.background        $base
+
+#
+# Status Bar:
+#
+# Read `man 5 sway-bar` for more information about this section.
+bar {
+    swaybar_command waybar
+}

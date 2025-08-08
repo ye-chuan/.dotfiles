@@ -1,0 +1,9 @@
+# Config for sway
+#
+# Read `man 5 sway` for a complete reference.
+
+# System-Wide Drop-Ins (mainly for 50-systemd-user.conf)
+include /etc/sway/config.d/*
+
+# User Configs
+include $HOME/.config/sway/config.d/*
