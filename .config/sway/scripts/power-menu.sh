@@ -2,9 +2,9 @@
 
 # Power Menu implemented via Fuzzel
 
-ANCHOR="top-right"
-X_MARGIN="9"
-Y_MARGIN="7"
+ANCHOR="center"
+X_MARGIN="0"
+Y_MARGIN="0"
 
 SELECTION="$(printf "󰌾 Lock\n󰤄 Suspend\n󰍃 Log out\n Reboot\n Reboot to UEFI\n󰐥 Shutdown" |
     fuzzel --dmenu -a "$ANCHOR" --x-margin="$X_MARGIN" --y-margin="$Y_MARGIN" -l 6 -w 18 -p "Select an option: ")"

@@ -1,0 +1,301 @@
+/* =============================================================================
+ * Configuration reference: https://github.com/Alexays/Waybar/wiki/Configuration
+ *
+ * For this file:
+ * - Prefer top & right margin/padding over bottom & left
+ *   (except left-most / bottom-most elements of course)
+ * - `border-radius` is used to create the rounded boxes that "groups" modules
+ *   - In waybar's config, `spacing` should be set to 0
+ * =========================================================================== */
+
+@import "mocha.css";
+
+/* -----------------------------------------------------------------------------
+ * Keyframes (animations)
+ * -------------------------------------------------------------------------- */
+
+@keyframes blink-warning {
+  to {
+    color: @base;
+    background-color: @yellow;
+  }
+}
+
+@keyframes blink-critical {
+  to {
+    color: @base;
+    background-color: @red;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * Base styles
+ * -------------------------------------------------------------------------- */
+
+/* Reset all styles */
+* {
+  border: none;
+  border-radius: 0;
+  min-height: 0;
+  padding: 0;
+  margin: 0;
+}
+
+* {
+  font-family: JetBrainsMono;
+  /* font-size: 13px; */
+}
+
+/* The bar itself */
+#waybar {
+  color: @lavender; /* Color of the texts/elements */
+  background: transparent;
+}
+
+/* General Positioning (all modules should be here) */
+#backlight,
+#battery,
+#clock,
+#cpu,
+#custom-cheatsheet,
+#custom-keyboard-layout,
+#custom-launcher,
+#custom-lock,
+#custom-music,
+#custom-power,
+#idle_inhibitor,
+#memory,
+#mode,
+#network,
+#pulseaudio,
+#scratchpad,
+#tray,
+#window,
+#workspaces {
+  padding: 0 1.4rem;
+  margin: 6px 0 0;  /* No bottom margin, the WM (sway) will use a top margin instead */
+}
+
+/* Modules with background */
+#backlight,
+#custom-keyboard-layout,
+#custom-lock,
+#idle_inhibitor,
+#mode,
+#custom-power,
+#scratchpad,
+#tray,
+#window,
+#workspaces {
+  background-color: @surface0;
+}
+
+/* The tooltip (hover) */
+tooltip {
+    color: @text;
+    background-color: @base;
+    border: solid 1px @lavender;
+    border-radius: 0.3rem;
+}
+
+/* -----------------------------------------------------------------------------
+ * Individual Module Styles (in rough order of appearance)
+ * -------------------------------------------------------------------------- */
+
+/* Custom Cheatsheet */
+#custom-cheatsheet {
+  color: @blue;
+  margin-left: 0;
+}
+
+/* Sway Workspaces */
+#workspaces {
+  border-radius: 1rem;
+  padding: 0 0.6rem; /* Extra horizontal padding */
+}
+
+#workspaces button {
+  color: @lavender;   /* The icon/text */
+  border-radius: 1rem;
+  padding: 0 0.7rem;
+}
+
+#workspaces button.focused {
+  color: @green;
+  /* border: 1px solid @lavender; */
+}
+
+#workspaces button.urgent {
+  color: @red;
+  /* border-color: @red; */
+}
+
+#workspaces button:hover {
+  border-radius: 1rem;
+}
+
+#workspaces button:active {
+  color: @base;
+  background-color: @lavender;
+  border-radius: 1rem;
+}
+
+/* Sway Scratchpad */
+#scratchpad {
+  color: @flamingo;
+  border-radius: 1rem;
+  padding: 0 1rem;
+  margin-left: 1rem;
+}
+
+/* Tray (for background apps) */
+#tray {
+  border-radius: 1rem;
+  padding: 0 1.1rem;
+  margin-left: 1rem;
+}
+
+/* Custom Music */
+#custom-music {
+  color: @mauve;
+  border-radius: 1rem;
+}
+
+/* Window (name of active window) */
+#window {
+  color: @mauve;
+  font-weight: bold;
+  border-radius: 1rem;
+}
+
+/* Network */
+/* Center Network Bar Config
+#network {
+  color: @mauve;
+  border-radius: 1rem;
+}
+*/
+#network {
+  color: @pink;
+  border-radius: 1rem 0 0 1rem;
+  padding-right: 0;
+}
+
+#network.disconnected {
+  color: @peach;
+}
+
+#network.disabled {
+  color: @subtext0;
+}
+
+/* PulseAudio */
+#pulseaudio {
+  color: @pink;
+  border-radius: 0;
+  padding-right: 0;
+}
+
+#pulseaudio.muted {
+  color: @text;
+}
+
+/* CPU */
+#cpu {
+  color: @flamingo;
+  border-radius: 0;
+  padding-right: 0;
+}
+
+#cpu.warning {
+  color: @peach;
+}
+
+#cpu.critical {
+  color: @red;
+}
+
+/* Memory */
+#memory {
+  color: @flamingo;
+  border-radius: 0;
+  padding-right: 0;
+}
+
+#memory.warning {
+  color: @peach;
+}
+
+#memory.critical {
+  color: @red;
+}
+
+/* Battery */
+#battery {
+  color: @rosewater;
+  border-radius: 0;
+  padding-right: 0;
+
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#battery.charging {
+  color: @green;
+}
+
+#battery.warning {
+  color: @peach;
+}
+
+#battery.critical {
+  color: @red;
+}
+
+#battery.warning.discharging {
+  animation-name: blink-warning;
+  animation-duration: 3s;
+}
+
+#battery.critical.discharging {
+  animation-name: blink-critical;
+  animation-duration: 2s;
+}
+
+/* Clock */
+#clock {
+  color: @rosewater;
+  border-radius: 0 1rem 1rem 0;
+  margin-right: 0;
+  padding-left: 1.2rem;
+}
+
+/* Custom Power */
+#custom-power {
+  color: @red;
+  border-radius: 1rem;
+  padding-left: 0.9rem;
+  padding-right: 0.91rem;
+  margin-right: 1rem;
+}
+
+/* Custom Launcher */
+#custom-launcher {
+  margin-left: 0;
+}
+
+/* Custom Lock */
+#custom-lock {
+  color: @lavender;
+  border-radius: 1rem 0 0 1rem;
+}
+
+/* Backlight (brightness) */
+#backlight.icon {
+}
+
+/* Sway Mode */
+#mode {
+}
+

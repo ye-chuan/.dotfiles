@@ -1,0 +1,232 @@
+// For each module, we can usually find out more with `man waybar-{module}`
+// e.g. man waybar-sway-workspaces, man waybar-custom
+//
+// See `man waybar` for more configuration options
+
+{
+// General
+
+    "layer": "top",     // Waybar at top layer
+    "position": "top",  // (top|bottom|left|right)
+    //"height": 30,     // Auto-height is used when commented
+    //"width": 1280,    // Full screen width when commented
+    //"spacing": 16,    // Gaps between modules (in px)
+
+
+// Modules In Use
+
+    "modules-left": [
+        "custom/cheatsheet",
+        "sway/workspaces",
+        "sway/scratchpad",
+    ],
+
+    "modules-center": [
+        "custom/music",
+    ],
+
+    "modules-right": [
+        "tray",
+        "network",
+        "pulseaudio",
+        "cpu",
+        "memory",
+        "battery",
+        "clock",
+    ],
+
+
+// Module Configs (including unused modules)
+
+    "network": {
+        /* Icons from NerdFont Material Design (md) */
+        "format-disabled": "󰖪 ",
+        "format-wifi": "󰖩 {bandwidthDownBits:>}",
+        "tooltip-format-wifi": "{essid:^25}\n{ipaddr:>18}/{cidr:<7}\n{bandwidthDownBits:>} 󰶡 {bandwidthUpBits:>} 󰶣   ",
+        "format-ethernet": "󰈀 {bandwidthDownBits:>}",
+        "tooltip-format-ethernet": "{ifname:^25}\n{ipaddr:>18}/{cidr:<7}\n{bandwidthDownBits:>} 󰶡 {bandwidthUpBits:>} 󰶣   ",
+        "format-disconnected": "󱚼 ",
+        "on-click": "",
+        "interval": 2,
+    },
+
+    //"network": {  // Center Network Bar Config
+    //    "format-disabled": " Disabled",
+    //    "format-wifi": " {bandwidthDownBits:>} 󰶡 {bandwidthUpBits:>} 󰶣",
+    //    "tooltip-format-wifi": "{essid}",
+    //    "format-ethernet": "󰈀 {bandwidthDownBits:>} 󰶡 {bandwidthUpBits:>} 󰶣",
+    //    "tooltip-format-ethernet": "{ifname}: {ipaddr}/{cidr}",
+    //    "format-disconnected": " Disconnected",
+    //    "on-click": "",
+    //    "interval": 2,
+    //},
+
+    "cpu": {
+        "interval": 5,
+        "format": " {usage}%", //  
+        "states": {
+            "warning": 70,
+            "critical": 90,
+        },
+        "on-click": "wezterm -e htop",
+    },
+
+    "memory": {
+        "interval": 5,
+        "format": "  {}%", // Thin Space (U+2009) for alignment
+        "on-click": "wezterm -e htop", 
+        "states": {
+            "warning": 70,
+            "critical": 90,
+        }
+    },
+
+    "pulseaudio": {
+        "scroll-step": 2,
+        "format": "{icon} {volume}%",
+        "format-muted":"󰝟 muted",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["󰕿", "󰖀", "󰕾"],
+        },
+        "on-click": "pavucontrol",
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15,
+        },
+        "format": "{icon}  {capacity}%",    // Thin Space (U+2009) for alignment
+        "format-icons": ["", "", "", "", ""],
+    },
+
+    "clock": {
+        "format": "  {:%H:%M}",    // Thin Space (U+2009) for alignment
+        "format-alt": "  {:%d/%m}",     // On click
+        "tooltip-format": "<big>{:%d-%m-%Y}</big>\n<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "on-scroll": 1,
+            "format": {
+                "months":     "<span color='#b4befe'><b>{}</b></span>",
+                "weekdays":   "<span color='#b4befe'><b>{}</b></span>",
+                "days":       "<span color='#b4befe'><b>{}</b></span>",
+                "today":      "<span color='#f38ba8'><b>{}</b></span>",
+                "weeks":      "<span color='#89b4fa'><b>W{}</b></span>",
+            },
+        },
+        "actions": {
+            "on-scroll-up": "shift_down",
+            "on-scroll-down": "shift_up",
+        },
+    },
+
+    "tray": {
+        "icon-size": 16,
+        "spacing":10,
+     },
+
+    "backlight": {
+        "format": "{icon} {percent}%",
+        "format-icons": ["󰄰", "󰪞", "󰪟", "󰪠", "󰪡", "󰪢", "󰪣", "󰪤", "󰪥"],
+        "tooltip-format": "Backlight (Scroll): {percent:}%",
+        "on-scroll-down": "brightnessctl -c backlight set 5%-",
+        "on-scroll-up": "brightnessctl -c backlight set +5%",
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "",
+            "deactivated": "",
+        },
+        "tooltip-format-activated": "Idle Inhibitor Activated",
+        "tooltip-format-deactivated": "Idle Inhibitor Deactivated",
+    },
+
+// Sway Modules
+
+    "sway/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "󰬺",
+            "2": " ",
+            "3": " ",
+            "4": " ",  // 
+            "5": " ",  // 
+            "6": " ",  // 
+            "7": " ",  // 
+            "8": " ",  // 
+            "9": " ",  //  
+            "10": " ",
+        }
+    },
+
+    "sway/scratchpad": {
+        "format": "{icon} {count}",
+        "show-empty": false,
+        "format-icons": ["", ""],
+        "tooltip": true,
+        "tooltip-format": "{app}: {title}",
+    },
+
+    "sway/mode": {
+        "format": "<span style=\"italic\">{}</span>",
+        "tooltip": false,
+    },
+
+    "sway/window": {
+        "icon": true,
+        "max-length": 50,
+        "all-outputs": true, // Shows on all displays
+    },
+
+// Custom Modules
+
+    "custom/cheatsheet": {
+        "format":"<span size='x-large'>󰣇</span>",
+        "on-click": "~/.config/sway/scripts/cheatsheet.sh",
+        "tooltip-format": "arch btw",
+    },
+
+    "custom/music": {
+        "format": "  {}",
+        "escape": true,
+        "interval": 5,
+        "tooltip": false,
+        "exec": "playerctl metadata --format='{{ title }}'",
+        "on-click": "playerctl play-pause",
+        "max-length": 50,
+    },
+
+    "custom/power": {
+        "format":"󰐥",
+        "on-click": "exec ~/.config/sway/scripts/power-menu.sh",
+        "tooltip": false,
+    },
+
+    "custom/launcher": {
+        "format":"<span size='x-large'>󰣇</span>",
+        "on-click": "exec fuzzel",
+        "tooltip-format": "arch btw",
+    },
+
+    "custom/keyboard-layout": {
+        "exec": "i=$(swaymsg -t get_inputs); echo \"\"; echo \"$i\" | grep -m1 'xkb_active_layout_name' | cut -d '\"' -f4",
+        "format": "",
+        // Interval set only as a fallback; use signal to update the module more immediately
+        "interval": 30,
+        // See example config for sending signal to Waybar in ~/.config/sway/config.d/input
+        "signal": 1,
+        "on-click": "~/.config/sway/scripts/keyhint.sh",
+    },
+
+}
+
