@@ -1,4 +1,7 @@
-SHELL_CONFIG="$HOME/.config/shell"  # For files that are meant to be shared between shells (POSIX Compliant)
+# Keep in mind that this is sourced only in INTERACTIVE bash sessions
+# e.g. bash -c {command} will not source this
+
+SHELL_CONFIG="$HOME/.config/shell"
 
 # Bash History
 shopt -s histappend # Append to .bash_history instead of overriding
@@ -15,11 +18,11 @@ shopt -s globstar   # Allow ** to mean recursive glob (>= bash 4.0)
 shopt -s extglob    # Extended glob (nice for exclusions in glob patterns)
 
 # Source Other Stuff
-source "$SHELL_CONFIG/aliases.sh"
+source "$SHELL_CONFIG/bash-aliases.sh"
 ## Dir Colors (for commands like `ls`)
 [ -f "$SHELL_CONFIG/.dircolors" ] && eval "$(dircolors -b "$SHELL_CONFIG/.dircolors")"     # POSIX allows for new quotes to start within the context of a command sub $()
 ## Prompt
-source "$SHELL_CONFIG/prompt.sh"
+source "$SHELL_CONFIG/bash-prompt.sh"
 
 # External Programs (execute setup)
 ## Run scripts that are included in the setup_dir (should contain names of scripts to run)

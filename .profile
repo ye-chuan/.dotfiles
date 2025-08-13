@@ -3,18 +3,15 @@
 # exists.
 # see /usr/share/doc/bash/examples/startup-files for examples.
 # the files are located in the bash-doc package.
+#
+# Hence this file should be used as a universal config for
+# login shells, the individual shell's login config
+# (e.g. .bash_profile) are expected to sources this
 
 # the default umask is set in /etc/profile; for setting the umask
 # for ssh logins, install and configure the libpam-umask package.
-#umask 022
 
-# If running bash
-if [ -n "$BASH_VERSION" ]; then
-    # include .bashrc if it exists
-    if [ -f "$HOME/.bashrc" ]; then
-	. "$HOME/.bashrc"
-    fi
-fi
+SHELL_CONFIG="$HOME/.config/shell"
 
 ## PATH
 # set PATH so it includes user's local bin
@@ -27,9 +24,9 @@ export XDG_DATA_HOME="$HOME/.local/share"   # Persistent application data
 export XDG_CONFIG_HOME="$HOME/.config"      # Application configuration
 export XDG_STATE_HOME="$HOME/.local/state"  # For persistent data that is not as important/portable as those in XDG_DATA_HOME
 
+# Newt Colors (for TUI apps that uses Newt)
+source "$SHELL_CONFIG/newt-colors.sh"
+
 ## fastfetch (neofetch replacement)
 ! command -v fastfetch > /dev/null 2>&1 || fastfetch
-
-###
-export TERMINAL=wezterm
 
