@@ -107,11 +107,13 @@ To update all plugins, update all submodules, as per documentation in the main `
 
 ## Dependencies
 The current configuration would require the following dependencies
-- gcc
+- git
     - For Mason to download & install various LSPs
-- npm
+- unzip
     - For Mason to download & install various LSPs
-- g++
+- gcc & g++ (same package)
+    - For Mason to download & install various LSPs
+- npm (usually installed together with node)
     - For Mason to download & install various LSPs
 
 ## To Do

@@ -61,7 +61,7 @@ local lspconfig = require("lspconfig")
 local clangd_setup_table = {
     capabilities = nvim_cmp_capabilities,
 }
-if vim.fn.has("win32") then
+if vim.fn.has("win32") == 1 then
     -- So for clangd to work with mingw gcc in Windows, a few things need to be done
     clangd_setup_table["cmd"] = {"clangd", "--query-driver=C:/_Software/msys64/mingw64/bin/gcc.exe"}    -- First is to run clangd with the flag `--query-driver {path-to-gcc}` to **allow it** to query the gcc compiler for standard includes and stuff
     -- Very important to note that we are merely allowing clangd to query, but it will not query unless it know it has to, which is where step 2 comes in: we need to let clangd know how to compile how source,
