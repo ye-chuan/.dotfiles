@@ -25,7 +25,6 @@ set -e  # Exits if any command fails
 script_dir=$(dirname -- "$(readlink --canonicalize -- "${BASH_SOURCE[0]}")")
 
 source "${script_dir}/installer-utilities.sh"
-source "${script_dir}/check-x86_64.sh"
 
 #######################################
 # Install NVM (Node Version Manager)
@@ -72,7 +71,7 @@ install_nvm() {
         echo ">>> ERROR: Do not run as root to install for user (add --root-ok flag to allow install for root user)" >&2
         return 1
     fi
-    install_path="${HOME}/.local/opt/ghcup"
+    install_path="${HOME}/.local/opt/nvm"
     echo ">>> Proceeding with USER installation of nvm for: ${USER}"
 
     NVM_DIR="${HOME}/.nvm"
@@ -95,7 +94,7 @@ install_nvm() {
 
     source "${NVM_DIR}/nvm.sh"
 
-    setup_list_file_add "nvm_setup.sh"
+    setup_source_and_add_to_login "nvm_setup.sh"
 
     echo ">>> nvm installed"
     echo ""

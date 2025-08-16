@@ -24,7 +24,35 @@ set -e  # Exits if any command fails
 script_dir=$(dirname -- "$(readlink --canonicalize -- "${BASH_SOURCE[0]}")")
 
 source "${script_dir}/installer-utilities.sh"
-source "${script_dir}/check-x86_64.sh"
+
+
+#######################################
+# System Check & Installation Variables
+#
+# Detect and set the appropriate variables to
+# be used for installation depending on the system
+#######################################
+# Installation Variables declared here for clarity
+tar_basename=""
+check_system_and_init_install_vars() {
+    if [[ "$(uname --kernel-name)" != "Linux" ]]; then
+        echo ">>> ERROR: This installer is only written for Linux"
+        exit 1
+    fi
+
+    case "$(uname --machine)" in
+        "x86_64")
+            tar_basename="nvim-linux-x86_64"
+            ;;
+        "aarch64")
+            tar_basename="nvim-linux-arm64"
+            ;;
+        *)
+            echo ">>> ERROR: This installer is not written for the architecture: $(uname --machine)"
+            exit 1
+            ;;
+    esac
+}
 
 #######################################
 # Install NeoVim
@@ -35,6 +63,8 @@ source "${script_dir}/check-x86_64.sh"
 #   0 if installed, non-zero on error.
 #######################################
 install_neovim() {
+    check_system_and_init_install_vars
+
     is_system_install=false
     is_root_ok=false
     while [ $# -gt 0 ]; do
@@ -91,26 +121,30 @@ install_neovim() {
     fi
 
     echo ">>> Installing Latest Stable Neovim from GitHub"
-    echo ">>> Getting .tar from https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz"
-    curl -L -o "${tempdir}/nvim-linux-x86_64.tar.gz" "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz"
+    echo ">>> Getting .tar from https://github.com/neovim/neovim/releases/latest/download/${tar_basename}.tar.gz"
+    curl -L -o "${tempdir}/${tar_basename}.tar.gz" "https://github.com/neovim/neovim/releases/latest/download/${tar_basename}.tar.gz"
 
-    # Checksum Verification
-    echo ">>> Getting SHA256 checksum from https://github.com/neovim/neovim/releases/latest/download/shasum.txt"
-    curl -L -o "${tempdir}/shasum.txt" "https://github.com/neovim/neovim/releases/latest/download/shasum.txt"
-    if ! (cd "${tempdir}" && grep "nvim-linux-x86_64.tar.gz" shasum.txt | sha256sum --check); then     # cd-ed in a subshell to get same output format for sha256sum
-        echo ">>> WARNING: Checksum verification failed!" >&2
+    # Checksum as been phased-out for GitHub Attestations: https://github.com/neovim/neovim/issues/34956#issuecomment-3078302409
+    echo ">>> Attesting Integrity via GitHub"
+    read -r -p ">>> WARNING: GitHub Attestation not yet implemented. Skip Attestation? [y/N] " choice
+    if ! [[ "${choice}" =~ ^([yY][eE][sS]|[yY])$ ]]; then
         echo ">>> Terminating..."
-        return 1
+        return 0
     fi
-    echo -n ">>> SHA256 Checksum Verified: "
-    sha256sum "${tempdir}/nvim-linux-x86_64.tar.gz"
+    #if ! command -v gh >/dev/null 2>&1; then
+    #    read -r -p ">>> GitHub CLI not installed. Skip attestation? [y/N] " choice
+    #    if ! [[ "${choice}" =~ ^([yY][eE][sS]|[yY])$ ]]; then
+    #        echo ">>> Terminating..."
+    #        return 0
+    #    fi
+    #fi
 
     echo ">>> Removing old version at ${install_path} (if exists)"
     rm -rf "${install_path}"
     echo ">>> Extracting..."
-    tar --directory="${tempdir}" -xzf "${tempdir}/nvim-linux-x86_64.tar.gz"
+    tar --directory="${tempdir}" -xzf "${tempdir}/${tar_basename}.tar.gz"
     echo ">>> Moving to ${install_path}"
-    mv "${tempdir}/nvim-linux-x86_64" "${install_path}"
+    mv "${tempdir}/${tar_basename}" "${install_path}"
 
     # Adding binaries to PATH (via symlink)
     if [ "${is_system_install}" = true ]; then

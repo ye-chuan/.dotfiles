@@ -20,5 +20,3 @@ alias ll='ls -l'
 alias mv='mv -i'
 alias cp='cp -i'
 
-# Local Aliases
-source "${HOME}/.local-config/aliases.sh"

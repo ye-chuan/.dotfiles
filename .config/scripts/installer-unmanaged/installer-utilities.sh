@@ -9,47 +9,32 @@ if [ "$EUID" -eq 0 ]; then
 fi
 
 SHELL_CONFIG="$HOME/.config/shell"  # For files that are meant to be shared between shells (POSIX Compliant)
+SETUP_DIR="$HOME/.config/scripts/program_setups"    # Directory where program setup scripts are stored
 
-setup_list_file_add() {
-    # Adds setup filename $1 into the .bashrc prgm setup list (should be at ~/.config/shell/.prgm_setup_list)
-    setup_filename="$1"
-
-    setup_list_file="${SHELL_CONFIG}/.prgm_setup_list"
-    if [[ ! -f "${setup_list_file}" ]]; then    # Create the list of programs to setup in .bashrc
-        echo "$HOME/.config/scripts/program_setups/" > "${setup_list_file}"  # First line of this list just denote where to find the setup scripts
-    fi
-
-    if grep "^${setup_filename}\$" "${setup_list_file}" > /dev/null; then
-        echo ">>> ${setup_filename} already exists in ${setup_list_file}"
-    else
-        echo ">>> Adding ${setup_filename} to ${setup_list_file} for .bashrc to source"
-        echo "${setup_filename}" >> "${setup_list_file}"
-    fi
-}
 
 setup_file_source() {
     setup_filename="$1"
+    setup_filepath="${SETUP_DIR}/${setup_filename}"
 
-    setup_list_file="${SHELL_CONFIG}/.prgm_setup_list"
-    # External Programs (execute setup)
-    ## Run scripts that are included in the setup_dir (should contain names of scripts to run)
-    if [[ ! -f "$SHELL_CONFIG/.prgm_setup_list" ]]; then
-        echo ".prgm_setup_list NOT FOUND!" >&2
+    if ! [ -r "${setup_filepath}" ]; then
+        echo ">>> ERROR: ${setup_filepath} DOES NOT EXISTS"
         return 1
     fi
 
-    setup_dir=""
-    while read -r line; do
-        if [ "${line#?}" = "${line#\#}" ]; then   # If the line starts with a # (Parameter Expansion Pattern Matching)
-            continue
-        fi
-
-        if [ -z "${setup_dir}" ]; then      # First valid line should be the path where setup scripts are stored
-            setup_dir="${line}"
-            break
-        fi
-    done < "$SHELL_CONFIG/.prgm_setup_list"
-
-    source "${setup_dir}${setup_filename}"   # Run the setup script
+    source "${setup_filepath}"   # Run the setup script
 }
 
+setup_source_and_add_to_login() {
+    # Make sure the corresponding program setup in "$HOME/.config/scripts/program_setups/"
+    # is sourced at every login (i.e. sourced by .profile)
+    setup_filename="$1"
+    setup_filepath="${SETUP_DIR}/${setup_filename}"
+
+    # Sourcing also checked for existence of the setup file
+    if ! setup_file_source "${setup_filename}"; then
+        return 1
+    fi
+
+    ln -sf "${setup_filepath}" "${SHELL_CONFIG}/profile.d/local/${setup_filename}"
+    echo ">>> Link added: ${SHELL_CONFIG}/profile.d/local/${setup_filename} -> ${setup_filepath}"
+}

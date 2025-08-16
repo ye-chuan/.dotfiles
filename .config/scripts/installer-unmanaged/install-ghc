@@ -77,7 +77,7 @@ install_ghc() {
 
     if ! command -v "ghcup" > /dev/null 2>&1; then
         read -r -p ">>> GHCup doesn't exist! (press to proceed with installing GHCup...)"
-        "${script_dir}/install-ghcup.sh" --user
+        "${script_dir}/install-ghcup" --user
         if [ $? -ne 0 ]; then    # Return if GHCup installation fail
             echo ">>> GHCup installation failed? Aborting GHC installation."
             return 1
