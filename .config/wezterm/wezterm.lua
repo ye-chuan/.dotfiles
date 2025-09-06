@@ -17,6 +17,14 @@ else
 end
 
 config.check_for_updates_interval_seconds = 86400   -- Check for update only once a day
+config.font = wezterm.font_with_fallback {
+    "JetBrains Mono",       -- Included in WezTerm itself
+    "Noto Sans CJK SC",
+    "Noto Sans CJK TC",
+    "Noto Sans CJK JP",
+    "Noto Sans CJK HK",
+    "Noto Sans CJK KR",
+}
 config.color_scheme = "Catppuccin Mocha"
 config.enable_tab_bar = false
 -- config.hide_tab_bar_if_only_one_tab = true
@@ -53,7 +61,9 @@ config.set_environment_variables = {
 
 ---- Keymaps
 config.disable_default_key_bindings = true
-config.leader = { key = "\\", mods = "CTRL", timeout_milliseconds = 1000 }  -- Will be used for multiplexing like tmux
+-- This leader cannot be triggered (considered "off") as we will be mainly using tmux
+-- To enable it we will use the `toggle-leader` event defined below
+config.leader = { key = "\\", mods = "CTRL|SHIFT", timeout_milliseconds = 1000 }
 config.keys = {
     -- Toggle the leader (e.g. for convenience when using tmux)
     {
@@ -304,15 +314,15 @@ config.keys = {
 
 
 ---- Events
--- Toggles Leader between CTRL-B (tmux default) and CTRL-\ (my preference)
+-- Toggles WezTerm's Leader on/off ("off" technically means CTRL-SHIFT-\ which cannot be triggered)
 wezterm.on("toggle-leader", function (window, pane)
     -- WezTerm has an `overrides` table that overrides config per-window during runtime
     local overrides = window:get_config_overrides() or {}
 
-    if not overrides.leader then    -- Unset the config override
-        overrides.leader = { key = "b", mods = "CTRL", timeout_milliseconds = 1000 }
+    if not overrides.leader then
+        overrides.leader = { key = "\\", mods = "CTRL", timeout_milliseconds = 1000 }
         wezterm.log_info("LeafBoat> Toggled Leader to: " .. overrides.leader.mods .. "-" .. overrides.leader.key)
-    else                        -- Set the config override
+    else
         overrides.leader = nil
         wezterm.log_info("LeafBoat> Untoggled Leader back to: " .. config.leader.mods .. "-" .. config.leader.key)
     end
