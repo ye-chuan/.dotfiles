@@ -1,10 +1,10 @@
 -- Vim Keybindings
-local builtin = require('telescope.builtin')
-local actions = require('telescope.actions')
-vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+local builtin = require("telescope.builtin")
+local actions = require("telescope.actions")
+vim.keymap.set("n", "<leader>ff", builtin.find_files, {})
 
 -- Telescope Configuration
-require('telescope').setup{
+require("telescope").setup{
   defaults = {
     -- Default configuration for telescope goes here (non picker specific)
     -- config_key = value,

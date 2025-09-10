@@ -5,17 +5,16 @@ Welcome to my Neovim configuration!
 The `vimrc.vim` file contains base configurations that also should work for vanilla Vim.
 
 ## Plugins
-I value practicality over minimalism so if I think a
-certain plugin is going to help improve my workflow, I will be installing it.
+I value practicality over minimalism so if I think a certain plugin is
+going to help improve my workflow, I will be installing it.
 
 ### LSP + Developer Experience
 - nvim-lspconfig
-    - Allows for easier linking and configuration of LSP with Neovim's built-in LSP client
-    - Comes with sane default configuration for many LSP servers
+    - Database of sane default configuration for many LSP servers
+    - Note: Prior to NeoVim 0.11, it also handles configuration of LSP for Neovim's built-in LSP client
 - nvim-mason
     - Allows for easier installation and management of LSPs, Linters, etc.
 - mason-lspconfig
-    - Bridges `nvim-mason` with `nvim-lspconfig`
     - Allows for predefined list of LSP servers to be automatically installed
 - undotree
     - Browse undo history paths which is impractical (not possible?) without a plugin like this
@@ -23,8 +22,8 @@ certain plugin is going to help improve my workflow, I will be installing it.
     - Highlight & navigate special comments (e.g. `#TODO`)
     - Deps: `nvim-plenary`
 
-> Remember to have the **latest version** of `npm` and `nodejs` which some stable linux distros do not provide in their repo
-> e.g. `pyright` uses `nodejs` to run
+> Remember to have the **latest version** of `npm` and `nodejs` which some stable Linux distros do not provide in their repo
+> e.g. `pyright` uses `npm` for installation and `nodejs` to run
 
 #### Completion
 - nvim-cmp
@@ -63,8 +62,7 @@ certain plugin is going to help improve my workflow, I will be installing it.
 
 
 ## Plugin Management
-As of now, I am experimenting with not using a plugin manager.
-This configuration makes use of the package system that was introduced since Vim version 8.
+This configuration makes use of the package system that was introduced since Vim 8.0
 
 To manage the plugins, I will be using Git's submodule feature.
 
@@ -74,9 +72,9 @@ mydotfiles submodule add --name {abitrary-name} {https://github.com/.../plugin.g
 ```
 
 > Note to **not** use a full path in the destination path, but rather start relative to the git directory (start with `.config/` for my case of whereby `mydotfiles` git repo is the home directory)
-> This is because the destination path is saved in `.gitmodules`, saving the full path will break the path when changing users
+> This is because the destination path is saved in `.gitmodules`, saving the full path ties it to a specific username
 
-> Plugins instead with in the `opt` directory will not be auto-loaded in NeoVim and will have to be manually loaded with `:packadd {abitrary-pkg-name}
+> Plugins installed in the `opt` directory will not be auto-loaded in NeoVim and will have to be manually loaded with `:packadd {abitrary-pkg-name}
 
 To clone to another machine (including all submodules), see how to clone recursively from the main `.dotfiles` repo documentation.
 
@@ -96,8 +94,8 @@ To update all plugins, update all submodules, as per documentation in the main `
 
 ### Overriden in Plugins
 #### nvim-cmp
-- i_<C-N> - Replaced by auto-completion in nvim-cmp (manual completion by <C-N> no longer works)
-- i_<C-P> - Replaced by auto-completion in nvim-cmp (manual completion by <C-P> no longer works)
+- i_<C-N> - Replaced by auto-completion in nvim-cmp (default built-in completion by <C-N> can still be accessed with i_<C-X><C-N>)
+- i_<C-P> - Replaced by auto-completion in nvim-cmp (default built-in completion by <C-N> can still be accessed with i_<C-X><C-N>)
 - i_<C-Y> - Confirm choice in nvim-cmp (originally to copy the character directly above)
 
 #### LuaSnip
@@ -113,13 +111,13 @@ The current configuration would require the following dependencies
     - For Mason to download & install various LSPs
 - gcc & g++ (same package)
     - For Mason to download & install various LSPs
-- npm (usually installed together with node)
-    - For Mason to download & install various LSPs
+- npm & nodejs (usually installed together)
+    - For Mason to download, install, and run various LSPs
 
 ## To Do
-- Remove `nvim-lspconfig` plugin as NeoVim v0.11 introduces better LSP configuration system (see NeoVim Pull Request #31031)
 - Perhaps separate NeoVim Plugin Management with my main dotfiles management, so that NeoVim plugins more conveniently with a "for each submodule pull".
   The current set up means that all other submodules as part of my dotfiles configuration will also be updated.
+  This is **low priority**.
   Suggestion:
     - NeoVim in a separate submodule? But nested submodules are probably not the best idea
     - Using a third-party NeoVim plugin manager?

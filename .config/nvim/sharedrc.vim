@@ -1,8 +1,8 @@
 " This config is meant to be sharable between Vim and NeoVim
 
-" if has("nvim") here doesn't mean that the option is only available for
-" NeoVim, but rather that Debian stable (and hence Ubuntu) hasn't caught up
-" with a version of Vim that supports that feature
+" `if has("nvim")` here doesn't necessarily mean that the option is only
+" available for NeoVim, but rather that Debian stable (and hence Ubuntu)
+" hasn't caught up with a version of Vim that supports that feature
 
 " Paths (should detect Windows/Linux, Vim/NeoVim)
 "" CONFIG_DIR for storing Vim/NeoVim Configurations
