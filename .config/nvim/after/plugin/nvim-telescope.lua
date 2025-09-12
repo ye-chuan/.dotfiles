@@ -10,7 +10,6 @@ require("telescope").setup{
     -- config_key = value,
     prompt_prefix = " ",
     selection_caret = " ",
-    border = false, -- NOTE: Temporary fix until telescope.nvim supports "winborder" from NeoVim v0.11
     mappings = {
       i = {
         -- map actions.which_key to <C-h> (default: <C-/>)
