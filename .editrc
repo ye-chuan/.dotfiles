@@ -1,0 +1,11 @@
+# Config for editline / libedit (se man 5 editrc)
+# Some builts of Python uses libedit instead of readline
+# (Python >= 3.13 uses neither, unless PYTHON_BASIC_REPL=1 is set)
+
+bind -v     # Enable vi mode
+
+# Prefix Search in Vi Normal Mode
+# (-a means to modify the "normal/command mode" keymap)
+bind -a k ed-search-prev-history
+bind -a j ed-search-next-history
+

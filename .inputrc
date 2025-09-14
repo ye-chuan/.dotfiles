@@ -29,11 +29,6 @@ set colored-completion-prefix on
 # Sets default keymap to be vi-insert
 set editing-mode vi
 
-# Vi Insert Mode Keymaps
-set keymap vi-insert
-"\e[A": history-search-backward
-"\e[B": history-search-forward
-
 # Vi Normal Mode Keymaps
 set keymap vi-command
 "k": history-search-backward
