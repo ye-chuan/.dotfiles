@@ -16,15 +16,15 @@
 
 @keyframes blink-warning {
   to {
-    color: @base;
-    background-color: @yellow;
+    color: @crust;
+    /*background-color: @yellow;*/
   }
 }
 
 @keyframes blink-critical {
   to {
-    color: @base;
-    background-color: @red;
+    color: @crust;
+    /*background-color: @red;*/
   }
 }
 
@@ -42,8 +42,8 @@
 }
 
 * {
-  font-family: JetBrainsMono;
-  /* font-size: 13px; */
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 10.8pt;
 }
 
 /* The bar itself */
@@ -245,11 +245,11 @@ tooltip {
   color: @green;
 }
 
-#battery.warning {
+#battery.warning:not(.charging) {
   color: @peach;
 }
 
-#battery.critical {
+#battery.critical:not(.charging) {
   color: @red;
 }
 
