@@ -1,6 +1,6 @@
 [submodule "mason"]
 	path = .config/nvim/pack/lsp/start/nvim-mason
-	url = https://github.com/williamboman/mason.nvim.git
+	url = https://github.com/mason-org/mason.nvim.git
 [submodule "lsp-config"]
 	path = .config/nvim/pack/lsp/start/nvim-lspconfig
 	url = https://github.com/neovim/nvim-lspconfig.git
@@ -46,7 +46,7 @@
 	url = https://github.com/github/copilot.vim.git
 [submodule "mason-lspconfig"]
 	path = .config/nvim/pack/lsp/start/mason-lspconfig
-	url = https://github.com/williamboman/mason-lspconfig.nvim.git
+	url = https://github.com/mason-org/mason-lspconfig.nvim.git
 [submodule "undotree"]
 	path = .config/nvim/pack/vim-also/start/undotree
 	url = https://github.com/mbbill/undotree.git
