@@ -1,2 +1,5 @@
 [General]
-EnableNetworkConfiguration=true     # Use Built-In DHCP Client
+EnableNetworkConfiguration=false     # `true` to use Built-In DHCP Client (e.g. when not using systemd-networkd)
+
+[Scan]
+DisablePeriodicScan=true
