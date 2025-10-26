@@ -30,6 +30,11 @@ SHELL_CONFIG="$HOME/.config/shell"
 #  Installation should be done in ~/.local/opt/)
 append_path "$HOME/.local/bin"
 
+## Editor
+export EDITOR=nvim
+export VISUAL=nvim      # Set default visual editor to be NeoVim
+export SUDO_EDITOR=vim  # Set default editor for sudoedit (safer since plugins are minimal)
+
 ## XDG Specification (using defaults but listing them explicitly for my reference)
 export XDG_DATA_HOME="$HOME/.local/share"   # Persistent application data
 export XDG_CONFIG_HOME="$HOME/.config"      # Application configuration
