@@ -1,10 +1,17 @@
+# Shell
 .config/shell/local/*
 !.config/shell/local/readme.md
 
 .config/shell/profile.d/local/*
 !.config/shell/profile.d/local/readme.md
 
+# Sway
 .config/sway/scripts/local/*
 !.config/sway/scripts/local/readme.md
 .config/sway/config.d/local-*
 !.config/sway/config.d/local-*.example
+
+# Cava unused built-in themes
+.config/cava/shaders/
+.config/cava/themes/solarized_dark
+.config/cava/themes/tricolor
