@@ -21,6 +21,10 @@ set $launcher fuzzel
 set $powermenu ~/.config/sway/scripts/power-menu.sh
 # Lock Screen
 set $lock swaylock
+# File Manager
+set $file_manager thunar
+# Web Browser
+set $web_browser firefox
 
 #
 # Media Keys
@@ -53,10 +57,10 @@ set $lock swaylock
 # App Shortcuts
 #
     # File Explorer
-    bindsym $mod+n exec thunar
+    bindsym $mod+n exec $file_manager
 
     # Web Browser
-    bindsym $mod+o exec firefox
+    bindsym $mod+o exec $web_browser
 
     # Clipboard Manager
     bindsym $mod+Ctrl+v exec cliphist list | fuzzel -d -w 90 -l 30 -p "Select an entry to copy it to your clipboard buffer:"| cliphist decode | wl-copy
@@ -122,10 +126,16 @@ set $lock swaylock
         $mod+$right focus right
 
         # Move Window
-        $mod+Shift+$left move left
-        $mod+Shift+$down move down
-        $mod+Shift+$up move up
-        $mod+Shift+$right move right
+        $mod+Shift+$left move left 200px
+        $mod+Shift+$down move down 200px
+        $mod+Shift+$up move up 200px
+        $mod+Shift+$right move right 200px
+
+        # Smaller Adjustments For Floats
+        $mod+Ctrl+Shift+$left move left 20px
+        $mod+Ctrl+Shift+$down move down 20px
+        $mod+Ctrl+Shift+$up move up 20px
+        $mod+Ctrl+Shift+$right move right 20px
     }
 
 #
@@ -176,9 +186,9 @@ set $lock swaylock
 #
     # Splits Follow Vim Defaults
     # Split Window Vertically
-    bindsym $mod+s splitv   # Default: $mod+v
+    bindsym $mod+s splitv
     # Split Window Horizontally
-    bindsym $mod+v splith   # Default: $mod+b
+    bindsym $mod+v splith
 
     # Switch Layout Styles
     bindsym $mod+q layout stacking

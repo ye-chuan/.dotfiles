@@ -1,33 +1,77 @@
 # Config for application windowing / behaviour
 
+set {
+	$sticky floating enable; sticky enable; shadows enable
+	$float floating enable; shadows enable
+
+	$ii inhibit_idle focus
+	$video inhibit_idle fullscreen; border none; max_render_time off
+	$game inhibit_idle focus; floating enable; border none; fullscreen enable
+	$important inhibit_idle open; floating enable; border pixel 1
+	$max inhibit_idle visible; floating enable; sticky enable; border pixel 1
+}
+
 ## Custom windowing rules
-for_window [class="Yad" instance="yad"] floating enable
-for_window [app_id="yad"] floating enable
-for_window [app_id="blueman-manager"] floating enable,  resize set width 40 ppt height 30 ppt
-for_window [app_id="pavucontrol" ] floating enable, resize set width 40 ppt height 30 ppt
-for_window [window_role="pop-up"] floating enable
-for_window [window_role="bubble"] floating enable
-for_window [window_role="task_dialog"] floating enable
-for_window [window_role="Preferences"] floating enable
-for_window [window_type="dialog"] floating enable
-for_window [window_type="menu"] floating enable
-for_window [window_role="About"] floating enable
-for_window [title="File Operation Progress"] floating enable, border pixel 1, sticky enable, resize set width 40 ppt height 30 ppt
-for_window [app_id="floating_shell_portrait"] floating enable, border pixel 1, sticky enable, resize set width 30 ppt height 40 ppt
-for_window [title="Picture in picture"] floating enable, sticky enable
-for_window [title="waybar_htop"] floating enable, resize set width 70 ppt height 70 ppt
-for_window [title="waybar_nmtui"] floating enable
-for_window [title="Save File"] floating enable
-for_window [app_id="firefox" title="Firefox — Sharing Indicator"] kill
+for_window {
+    # By X11 Window Roles
+    [window_role="pop-up"] $float
+    [window_role="bubble"] $float
+    [window_role="task_dialog"] $float
+    [window_role="Preferences"] $float
+    [window_type="dialog"] $float
+    [window_type="menu"] $float
+    [window_role="About"] $float
 
-# Thunar
-for_window [app_id="thunar" title="Confirm to replace files"] floating enable
+    # Custom Classes
+    # Some programs (e.g. WezTerm) allow us to set custom windowing
+    # system class / app_id.
+    [app_id="\[_float\]"] $float
 
-# VirtualBox
-# Floats with minimum width and height if not resized, bug?
-for_window [class="VirtualBoxVM" window_type="dialog"] floating enable, resize set width 15 ppt height 16 ppt
+    # Generic Title
+    [title="File Operation Progress"] $sticky, resize set width 40 ppt height 30 ppt
+    [title="Picture in picture"] $sticky
+    [title="waybar_htop"] $float, resize set width 70 ppt height 70 ppt
+    [title="waybar_nmtui"] $float
+    [title="Save File"] $float
 
+    [class="Yad" instance="yad"] $float
+    [app_id="yad"] $float
+    [app_id="blueman-manager"] $float,  resize set width 40 ppt height 30 ppt
+    [app_id="pavucontrol" ] $float, resize set width 40 ppt height 30 ppt
+    [app_id="floating_shell_portrait"] $sticky, resize set width 30 ppt height 40 ppt
 
-## Inhibit Idle
-for_window [app_id="firefox"] inhibit_idle fullscreen
-for_window [app_id="Chromium"] inhibit_idle fullscreen
+    [app_id="firefox" title="Firefox — Sharing Indicator"] kill
+
+    # Kitty
+    # Seem to have some dimensional problems with floating
+    [app_id="kitty" floating] resize set width 45 ppt height 50 ppt
+
+    # Thunar
+    [app_id="[Tt]hunar" title="Confirm to replace files"] $float
+    [app_id="[Tt]hunar" title="^Rename .*"] $float
+
+    # Okular
+    [app_id="org.kde.okular" title="^New Text Note — Okular$"] $float
+
+    # VirtualBox
+    # Floats with minimum width and height if not resized, bug? (seems fixed)
+    #[class="VirtualBoxVM" window_type="dialog"] $float, resize set width 15 ppt height 16 ppt
+
+    # ThunderBird
+    [app_id="org.mozilla.Thunderbird"] $float
+    [app_id="org.mozilla.Thunderbird" title="^Mozilla Thunderbird$"] floating disable
+    [app_id="org.mozilla.Thunderbird" title=" - Mozilla Thunderbird$"] floating disable
+    #[app_id="org.mozilla.Thunderbird" title="^\d+ Reminder$"] $float, resize set width 40 ppt height 30 ppt
+    #[app_id="org.mozilla.Thunderbird" title="^New Event:$"] $float
+
+    # Telegram Desktop
+    [app_id="org.telegram.desktop" title="^Media viewer$"] $float, fullscreen disable
+
+    # Waydroid (currently very buggy when tiled)
+    [app_id="^Waydroid$"] $float
+    [app_id="^waydroid\."] $float
+
+    ## Inhibit Idle
+    [app_id="firefox"] inhibit_idle fullscreen
+    [app_id="Chromium"] inhibit_idle fullscreen
+}
