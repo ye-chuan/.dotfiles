@@ -72,8 +72,8 @@ set $web_browser firefox
 # Screenshots
 #
     # Snip a selection and pipe to swappy
-    bindsym print exec grim -g "$(slurp)" - | swappy -f -
-    bindsym $mod+Shift+s exec grim -g "$(slurp)" - | swappy -f -
+    bindsym print exec wayfreeze --hide-cursor --after-freeze-cmd 'grim -g "$(slurp)" - | wl-copy; killall wayfreeze'
+    bindsym $mod+Shift+s exec wayfreeze --hide-cursor --after-freeze-cmd 'grim -g "$(slurp)" - | wl-copy; killall wayfreeze'
     # Screenshot a window and pipe to swappy
     bindsym Ctrl+Print exec ~/.config/sway/scripts/screenshot-window.sh
     # Screenshot the current display and pipe to swappy
