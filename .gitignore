@@ -11,6 +11,9 @@
 .config/sway/config.d/local-*
 !.config/sway/config.d/local-*.example
 
+# Thunar
+.config/Thunar/renamerrc
+
 # Cava unused built-in themes
 .config/cava/shaders/
 .config/cava/themes/solarized_dark
