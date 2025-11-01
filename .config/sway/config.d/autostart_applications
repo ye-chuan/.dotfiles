@@ -24,7 +24,8 @@ exec swayidle idlehint 1
 exec_always swayidle -w before-sleep "swaylock"
 
 # Desktop Notifications
-#exec mako  # mako can start automatically upon D-Bus activation (https://github.com/emersion/mako)
+# Many notification daemons (e.g. mako, swaync) can start automatically upon D-Bus activation
+exec swaync     # Included anyways so the notification centre can be triggered even if there were no notifications
 
 # Battery Notifier
 exec batsignal -w 30 -c 10 -d 5

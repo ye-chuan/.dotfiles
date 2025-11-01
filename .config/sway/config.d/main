@@ -21,6 +21,8 @@ set $launcher fuzzel
 set $powermenu ~/.config/sway/scripts/power-menu.sh
 # Lock Screen
 set $lock swaylock
+# Notification Centre
+set $notif_ctr swaync-client --toggle-panel --skip-wait
 # File Manager
 set $file_manager thunar
 # Web Browser
@@ -67,6 +69,9 @@ set $web_browser firefox
     # Delete an entry from the clipboard manager
     bindsym $mod+Ctrl+x exec cliphist list | fuzzel -d -w 90 -l 30 -t cc9393ff -S cc9393ff -p "Select an entry to delete it from cliphist:"| cliphist delete
     # Note: you can clear all cliphist entries by running `cliphist wipe`
+
+    # Notification Centre
+    bindsym $mod+Shift+n exec $notif_ctr
 
 #
 # Screenshots
