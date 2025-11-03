@@ -96,13 +96,13 @@ config.keys = {
     },
     -- Visuals
     {
-        key = "-",
-        mods = "CTRL",
+        key = "_",
+        mods = "CTRL|SHIFT",
         action = wezterm.action.DecreaseFontSize,
     },
     {
-        key = "=",
-        mods = "CTRL",
+        key = "+",
+        mods = "CTRL|SHIFT",
         action = wezterm.action.IncreaseFontSize,
     },
     -- Scroll
