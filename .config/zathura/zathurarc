@@ -1,0 +1,44 @@
+include catppuccin-mocha
+
+# Best Effort Smooth Scrolling
+# Zathura by default do not have smooth scrolling animations,
+# but we could fallback to GTK's keybinds (assuming GTK is configured)
+# for animated scrolling) by first unbinding them from Zathura.
+map j feedkeys <C-Down>
+map k feedkeys <C-Up>
+map h feedkeys <C-Left>
+map l feedkeys <C-Right>
+
+unmap <PageUp>
+unmap <PageDown>
+map <C-b> feedkeys <PageUp>
+map <C-f> feedkeys <PageDown>
+
+# Note that these GTK scrolling methods do not loading new pages.
+# Using them for too long without using any of Zathura's scroll
+# will lead to reaching to the end of the loaded pages
+# Hence Zathura's default gg and G should be used instead as
+# <End> might not reach the last page if it hasn't been loaded yet.
+#map gg feedkeys <Home>
+#map G feedkeys <End>
+
+#set scroll-full-overlap 0.05    # For <C-f> & <C-b> (only works if handled by Zathura and not GTK)
+
+# scroll-page-aware:
+# When scrolling down it might snap wrt top of next page
+# When scrolling up it might snap wrt bottom of prev page
+# (This only affects scrolling that is handled by Zathura and not GTK of course)
+set scroll-page-aware true
+
+
+# Others
+map <C-[> feedkeys <Esc>
+
+set selection-clipboard clipboard
+set incremental-search true
+
+
+# GUI
+set guioptions ""   # Hide all GUI
+set render-loading false    # Do not show "Loading..." when rendering
+
