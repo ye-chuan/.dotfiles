@@ -71,7 +71,7 @@ set $web_browser firefox
     # Note: you can clear all cliphist entries by running `cliphist wipe`
 
     # Notification Centre
-    bindsym $mod+Shift+n exec $notif_ctr
+    bindsym $mod+Ctrl+n exec $notif_ctr
 
 #
 # Screenshots
@@ -89,6 +89,7 @@ set $web_browser firefox
 #
     # Launch Terminal
     bindsym $mod+Return exec $term
+    bindsym $mod+Shift+Return exec $term --class "wezterm[_float]"
 
     # Power Menu (was the keybinding to exit i3)
     bindsym $mod+Shift+e exec $powermenu
