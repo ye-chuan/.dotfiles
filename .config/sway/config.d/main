@@ -60,9 +60,11 @@ set $web_browser firefox
 #
     # File Explorer
     bindsym $mod+n exec $file_manager
+    bindsym $mod+Shift+n set $$for_this scratchpad:focus; exec $file_manager
 
     # Web Browser
     bindsym $mod+o exec $web_browser
+    bindsym $mod+Shift+o set $$for_this scratchpad:focus; exec $web_browser
 
     # Clipboard Manager
     bindsym $mod+Ctrl+v exec cliphist list | fuzzel -d -w 90 -l 30 -p "Select an entry to copy it to your clipboard buffer:"| cliphist decode | wl-copy
@@ -89,7 +91,7 @@ set $web_browser firefox
 #
     # Launch Terminal
     bindsym $mod+Return exec $term
-    bindsym $mod+Shift+Return exec $term --class "wezterm[_float]"
+    bindsym $mod+Shift+Return set $$for_this scratchpad:focus; exec $term
 
     # Power Menu (was the keybinding to exit i3)
     bindsym $mod+Shift+e exec $powermenu

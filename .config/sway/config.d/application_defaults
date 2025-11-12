@@ -11,6 +11,30 @@ set {
 	$max inhibit_idle visible; floating enable; sticky enable; border pixel 1
 }
 
+# To allow for one-time "for_window" rules for specific windows, we will abuse "container
+# marks", which is supposed to be a list of unique identifiers for a container, but we
+# will set one long mark called the "for_this" mark, which will be in the format of a
+# list of colon-delimited pre-defined "rules": "for_this:rule1:rule2:"
+# The for_window rules here will parse this "for_this" mark for any rules, and apply them
+# appropriately at runtime
+# (This is inspired from https://github.com/swaywm/sway/issues/4045#issuecomment-482823035)
+#
+# I mainly use his to spawn a window in the scratchpad without any seemingly app_id / classname
+# hacks.
+# To spawn a window in scratchpad we simply run: swaymsg 'set $for_this scratchpad:focus; exec prgm'
+# Or in the config: bindsym {keybind} set $$for_this scratchpad:focus; exec prgm
+set $for_this none
+# This reads from the $for_this variable and create the mark. This is done for all windows, which
+# will by default have the mark "for_this:none:"
+# ($$ so the replacement of the $for_this happens at runtime, see `man 5 sway` search `\$\$`)
+for_window [shell="."] mark --add "for_this:$$for_this:"
+# These will parse each rule listed and apply the for_window rule
+for_window [con_mark=^for_this.*:scratchpad:] move to scratchpad
+for_window [con_mark=^for_this.*:focus:] focus
+# Here we clear the mark (we will not be able to see the mark from get_tree anymore)
+# We also reset $for_this back to "none" at runtime for new windows
+for_window [con_mark=^for_this:] mark --toggle "for_this:$$for_this:" ; set $$for_this none
+
 ## Custom windowing rules
 for_window {
     # By X11 Window Roles
