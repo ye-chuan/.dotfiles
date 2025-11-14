@@ -1,0 +1,19 @@
+#!/bin/sh
+
+MAKE="Dell Inc."
+MODEL="DELL P2422H"
+SERIAL="2FC0BJ3"
+CURRENT_TRANSFORM=$(swaymsg -t get_outputs | jq '.[] | select(
+    .make == "'"$MAKE"'"
+    and .model == "'"$MODEL"'"
+    and .serial == "'"$SERIAL"'"
+) | .transform')
+
+if [ "$CURRENT_TRANSFORM" == '"normal"' ]; then
+    echo "Rotating Monitor"
+    swaymsg -- output '"'"$MAKE $MODEL $SERIAL"'"' transform 270    # Expanded twice (see man 1 swaymsg)
+else
+    echo "Reverting Monitor Rotation"
+    swaymsg -- output '"'"$MAKE $MODEL $SERIAL"'"' transform 0
+fi
+
