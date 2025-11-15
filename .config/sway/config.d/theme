@@ -7,6 +7,7 @@ gaps outer -3px
 # default_border [style] [size optional], style can be `pixel` - removes title bar, `normal` adjust border but keeps title bar, or `none`
 default_border pixel 2
 default_floating_border pixel 2
+for_window [floating=".*on"] border pixel 2   # HACK: Some apps (e.g. firefox) currently switches to `border: csd` when floated, so no more sway borders!
 
 # Don't show border if only 1 window in workspace
 #smart_borders on
