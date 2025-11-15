@@ -3,6 +3,9 @@
 # DotFiles Management
 alias mydotfiles='git -C $HOME --git-dir=.dotfiles --work-tree=.'
 
+# Git
+alias cdgit='cd $(git rev-parse --show-toplevel)'
+
 # Mini Helpers
 alias view='nvim -R'
 
