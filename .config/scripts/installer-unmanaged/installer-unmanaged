@@ -28,9 +28,9 @@ script_dir=$(dirname -- "$(readlink --canonicalize -- "${BASH_SOURCE[0]}")")
 
 # List of Program: Installation Command Mappings
 declare -A install_script_for
-install_script_for["Neovim (be sure to also install npm for plugin dependencies)"]="${script_dir}/install-neovim.sh"
-install_script_for["NodeJS (using nvm; also installs npm)"]="${script_dir}/install-node.sh"
-install_script_for["GHC (Haskell Compiler; installed using GHCup)"]="${script_dir}/install-ghc.sh"
+install_script_for["Neovim (be sure to also install npm for plugin dependencies)"]="${script_dir}/install-neovim"
+install_script_for["NodeJS (using nvm; also installs npm)"]="${script_dir}/install-node"
+install_script_for["GHC (Haskell Compiler; installed using GHCup)"]="${script_dir}/install-ghc"
 
 is_system_install=false
 is_root_ok=false

@@ -74,7 +74,7 @@ interactive_apt_install_frm_arr "${stupid_packages[@]}"
 # Manual Installation
 read -r -p ">>> Skip SYSTEM Installations of non-system-managed packages [Y/n]? " choice
 if ! [[ "${choice}" =~ ^([yY][eE][sS]|[yY])$ ]]; then
-    "${installer_unmanaged_dir}/installer-unmanaged.sh" --system
+    "${installer_unmanaged_dir}/installer-unmanaged" --system
 fi
 
 if [ -z ${SUDO_UID} ]; then
@@ -84,7 +84,7 @@ else
     read -r -p ">>> Skip USER Installations for non-system-managed packages for user: ${SUDO_USER} [Y/n]? " choice
     if ! [[ "${choice}" =~ ^([yY][eE][sS]|[yY])$ ]]; then
         echo ""
-        sudo --login --user="${SUDO_USER}" -- "${installer_unmanaged_dir}/installer-unmanaged.sh" --user
+        sudo --login --user="${SUDO_USER}" -- "${installer_unmanaged_dir}/installer-unmanaged" --user
     fi
 fi
 

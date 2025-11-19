@@ -84,7 +84,7 @@ install_ghc() {
         fi
     fi
     echo ">>> Sourcing GHCup setup script"
-    setup_file_source "ghcup_setup.sh"
+    setup_file_source "ghcup_setup"
 
     echo ">>> Installing recommended GHC via GHCup (installing for user [${USER}] only)"
     ghcup install ghc --set

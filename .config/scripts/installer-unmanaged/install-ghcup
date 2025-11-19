@@ -144,7 +144,7 @@ install_ghcup() {
     # Add to path
     mkdir -p "${HOME}/.local/bin/"
     ln -s "${install_path}/bin/ghcup" "${HOME}/.local/bin/ghcup"
-    setup_source_and_add_to_login "ghcup_setup.sh"
+    setup_source_and_add_to_login "ghcup_setup"
 }
 
 install_ghcup "$@"
