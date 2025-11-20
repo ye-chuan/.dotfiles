@@ -5,6 +5,9 @@
 .config/shell/profile.d/local/*
 !.config/shell/profile.d/local/readme.md
 
+# Scripts
+.config/scripts/local/*
+
 # Sway
 .config/sway/scripts/local/*
 !.config/sway/scripts/local/readme.md
