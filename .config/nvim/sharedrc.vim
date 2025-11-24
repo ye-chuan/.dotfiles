@@ -1,8 +1,11 @@
 " This config is meant to be sharable between Vim and NeoVim
 
-" `if has("nvim")` here doesn't necessarily mean that the option is only
-" available for NeoVim, but rather that Debian stable (and hence Ubuntu)
-" hasn't caught up with a version of Vim that supports that feature
+" To check for version we can use say `if v:version >= 802`
+" For finer patches we can use `if has(patch-8.1.2328)` (see :h has-patch)
+" These patch number are Git tags e.g. v8.1.2328, which we can derive using
+" `git blame` and `git tag --points-at {commit}` / `git tag --contains {commit}`
+" If there are too many of these guards I will clean them up by taking
+" Debian's oldstable as reference
 
 " Paths (should detect Windows/Linux, Vim/NeoVim)
 "" CONFIG_DIR for storing Vim/NeoVim Configurations
@@ -82,14 +85,15 @@ set complete+=u     " Scan unloaded buffers in buffer list
 set complete+=t     " Scan tags (tag completion)
 set complete+=i     " Scan also included files (best effort basis)
 set wildmenu        " Enable completion menu in the command line
-if has("nvim")
-    set wildoptions=pum,tagfile     " Uses pop-up menu for `wildmenu`, also include completions from tagfiles
+set wildoptions=tagfile     " Useful for `wildmenu` if we use tagfiles
+if has("patch-8.2.4325")
+    set wildoptions+=pum     " Uses pop-up menu for `wildmenu` (instead of the horizontal bar)
 endif
 
 set formatoptions=      " Remove all format options first, we will them them one by one (see :help fo)
 set formatoptions+=o    " Auto insert comment leader (eg. //) on `o` or `O` in Normal Mode (CTRL-U is meant to quickly undo this auto-addition)
 set formatoptions+=r    " Auto insert comment leader (eg. //) after <CR> in Insert Mode
-if has("nvim")
+if has("patch-8.2.4907")
     set formatoptions+=/    " This makes it such that // won't be auto-inserted in cindent for inline comments (only for line comments)
 endif
 set formatoptions+=j    " Auto remove comment leader when `J` (joining lines) in Normal Mode (where appropriate)
@@ -124,7 +128,9 @@ set mouse=nvi                   " Enable mouse support for Normal, Visual, and I
 set mousemodel=popup_setpos     " Right-Click will move cursor to position and trigger popup
 set smarttab                    " Redundant in this config, only affects when `shiftwidth` is different from `tabstop` or `softtabstop`
 set tabpagemax=50
-set switchbuf=uselast           " Use last used window when jumping from quickfix list
+if has("patch-8.1.2315")
+    set switchbuf=uselast           " Use last used window when jumping from quickfix list
+endif
 set ttyfast                     " Terminals do have fast connection now don't they
 set ttimeoutlen=50
 set viminfo+=!                  " Stores also any GLOBAL_VARIABLES in .viminfo for persistence
