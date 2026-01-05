@@ -27,7 +27,8 @@ require("mason-lspconfig").setup({
     ---@type string[]
     ensure_installed = {
         "clangd",
-        "pyright",
+        --"pyright", -- Trying out basedpyright
+        "basedpyright",
         --"jdtls",  -- Java (requires jdk)
 
         "html",
@@ -82,7 +83,8 @@ vim.lsp.config("*", {
     capabilites = nvim_cmp_capabilities,
 })
 
-vim.lsp.enable("pyright")
+--vim.lsp.enable("pyright") -- Trying out basedpyright
+vim.lsp.enable("basedpyright")
 
 local clangd_config_extend = {}
 if vim.fn.has("win32") == 1 then
