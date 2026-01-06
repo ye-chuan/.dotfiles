@@ -33,7 +33,7 @@ require("mason-lspconfig").setup({
 
         "html",
         "cssls",
-        "ts_ls",
+        "vtsls",    -- Supposedly better than ts_ls (wrapper around VSCode's TS LSP)
 
         "jsonls",
         --"hls",    -- Haskell (requires ghcup)
@@ -129,8 +129,7 @@ vim.lsp.enable("jdtls")
 vim.lsp.enable("html")
 
 vim.lsp.enable("cssls")
-
-vim.lsp.enable("ts_ls")
+vim.lsp.enable("vtsls")
 
 ---- Markup
 vim.lsp.enable("jsonls")
