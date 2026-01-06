@@ -31,13 +31,17 @@ require("mason-lspconfig").setup({
         "basedpyright",
         --"jdtls",  -- Java (requires jdk)
 
+        -- Web Dev
         "html",
         "cssls",
         "vtsls",    -- Supposedly better than ts_ls (wrapper around VSCode's TS LSP)
 
+        -- Markup & Config File Formats
         "jsonls",
-        --"hls",    -- Haskell (requires ghcup)
+        "taplo",    -- TOML
 
+        -- Others
+        --"hls",    -- Haskell (requires ghcup)
         --"texlab", -- Latex
     },
 
@@ -76,6 +80,33 @@ require("mason-lspconfig").setup({
 -- see :h lspconfig-all for recommended configs to include here when using
 -- the `nvim-lspconfig` plugin
 
+---- Helper Functions ----
+local function root_dir_fallback(bufnr, root_markers)
+    -- Arguments `bufnr` and `root_markers` follow :h vim.fs.root
+    --
+    -- To be placed in LSP configs like
+    -- `root_dir = root_dir_fallback(vim.lsp.config["pyright"]["root_markers"])`
+    -- This function will try to find the project root following the given
+    -- `root_markers`, but then fallback to the directory of the file being
+    -- edited if that is not possible.
+    -- Note that if `root_dir` is defined in the LSP config, `root_markers` is
+    -- ignored (See :h vim.lsp.Config)
+
+    -- Mimick NeoVim's behaviour if only `root_markers` is defined
+    local root_dir = vim.fs.root(0, root_markers)
+    if root_dir then
+        return root_dir
+    end
+
+    -- Fallback
+    local filepath = vim.api.nvim_buf_get_name(bufnr)
+    if filepath == "" then  -- Fallback to cwd if unnamed buffer
+        return vim.uv.cwd()
+    end
+    return vim.fs.dirname(filepath) -- Fallback to containing directory
+end
+
+---- Per-LSP Configuration ----
 -- Broacast the extended capabilites that nvim-cmp provided to NeoVim to all
 -- the LSP Servers (these includes snippet support, auto-imports etc.)
 local nvim_cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -127,12 +158,16 @@ vim.lsp.enable("jdtls")
 
 ---- Web Dev
 vim.lsp.enable("html")
-
 vim.lsp.enable("cssls")
 vim.lsp.enable("vtsls")
 
----- Markup
+---- Markup & Config File Formats
 vim.lsp.enable("jsonls")
+
+vim.lsp.config("taplo", {
+    root_dir = root_dir_fallback(0, vim.lsp.config["taplo"]["root_markers"]),
+})
+vim.lsp.enable("taplo")
 
 ---- Others
 vim.lsp.config("hls", {
