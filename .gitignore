@@ -21,3 +21,9 @@
 .config/cava/shaders/
 .config/cava/themes/solarized_dark
 .config/cava/themes/tricolor
+
+# nchat
+.config/nchat/*
+!.config/nchat/*.conf
+!.config/nchat/my-nchat-icon.png
+!.config/nchat/readme.md
