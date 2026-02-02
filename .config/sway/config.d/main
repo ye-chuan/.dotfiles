@@ -13,8 +13,8 @@ set $down j
 set $up k
 set $right l
 
-# Default Terminal Emulator
-set $term wezterm
+# Default Terminal Emulator (exec so we use the TERMINAL environmental variable)
+set $exec_term exec $TERMINAL
 # Application Launcher
 set $launcher fuzzel
 # Power Menu
@@ -90,8 +90,8 @@ set $web_browser firefox
 # Basics
 #
     # Launch Terminal
-    bindsym $mod+Return exec $term
-    bindsym $mod+Shift+Return set $$for_this scratchpad:focus; exec $term
+    bindsym $mod+Return $exec_term
+    bindsym $mod+Shift+Return set $$for_this scratchpad:focus; $exec_term
 
     # Power Menu (was the keybinding to exit i3)
     bindsym $mod+Shift+e exec $powermenu
