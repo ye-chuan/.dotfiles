@@ -25,5 +25,6 @@
 # nchat
 .config/nchat/*
 !.config/nchat/*.conf
+!.config/nchat/version
 !.config/nchat/my-nchat-icon.png
 !.config/nchat/readme.md
