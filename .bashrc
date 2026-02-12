@@ -33,7 +33,12 @@ shopt -s extglob    # Extended glob (nice for exclusions in glob patterns)
 source "$SHELL_CONFIG/aliases.bash"
 ## Prompt
 source "$SHELL_CONFIG/prompt.bash"
-## Local Drop-Ins
+## Local Drop-Ins (See ~/.config/shell/readme.md)
+for f in "$SHELL_CONFIG"/local/*; do
+    if [[ "$f" =~ \.sh$ && ! -f "${f%.*}.bash" ]]; then
+        source "$f";
+    fi
+done; unset f
 for f in "$SHELL_CONFIG"/local/*; do
     if [[ "$f" =~ \.bash$ ]]; then
         source "$f";

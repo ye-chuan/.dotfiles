@@ -1,7 +1,10 @@
 The file extensions here states the shell that the file is configuration for.
 The .sh extension are for config that can be sourced by any POSIX-compliant shell.
 
-e.g. Bash might source `config.bash`, which in turn might also source `config.sh`
+For multiple scripts with the same name (different extension), my system is for only the one with the more specific extension to run.
+Feel free to source the other script with a more generic extension in the more specific script.
+
+e.g. With `config.bash` and `config.sh`. My implementation is for Bash to **only** source `config.bash`, which *might* in turn source `config.sh`
 
 For reference:
 - `.bashrc` is meant for **interactive** Bash Shells
