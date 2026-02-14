@@ -64,5 +64,5 @@ fi
 . "$HOME/.config/environment/graphical.sh"
 
 ## fastfetch (neofetch replacement)
-! command -v fastfetch > /dev/null 2>&1 || fastfetch
+command -v fastfetch > /dev/null 2>&1 && fastfetch
 
