@@ -24,7 +24,7 @@ set $lock swaylock
 # Notification Centre
 set $notif_ctr swaync-client --toggle-panel --skip-wait
 # File Manager
-set $file_manager thunar
+set $file_manager $exec_term -e yazi
 # Web Browser
 set $web_browser firefox
 

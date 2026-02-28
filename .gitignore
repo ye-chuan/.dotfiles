@@ -28,3 +28,7 @@
 !.config/nchat/version
 !.config/nchat/my-nchat-icon.png
 !.config/nchat/readme.md
+
+# Yazi
+.config/yazi/plugins/*
+!.config/yazi/plugins/my-jump.yazi
