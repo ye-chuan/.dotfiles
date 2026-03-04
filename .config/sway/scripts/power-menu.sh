@@ -6,7 +6,7 @@ ANCHOR="center"
 X_MARGIN="0"
 Y_MARGIN="0"
 
-SELECTION="$(printf "󰌾 Lock\n󰤄 Suspend\n󰍃 Log out\n Reboot\n Reboot to UEFI\n󰐥 Shutdown" |
+SELECTION="$(printf "󰌾 Lock\n󰤄 Suspend\n󰍃 Log out\n Reboot\n Reboot to UEFI\n󰐥 Shutdown\n󰤁 Hibernate" |
     fuzzel --dmenu -a "$ANCHOR" --x-margin="$X_MARGIN" --y-margin="$Y_MARGIN" -l 6 -w 18 -p "Select an option: ")"
 
 confirm_action() {
@@ -38,5 +38,9 @@ case $SELECTION in
     *"󰐥 Shutdown"*)
         if confirm_action "Shutdown"; then
             systemctl poweroff
+        fi;;
+    *"󰤁 Hibernate"*)
+        if confirm_action "Hibernate"; then
+            systemctl hibernate
         fi;;
 esac
