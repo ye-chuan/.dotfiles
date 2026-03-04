@@ -164,7 +164,8 @@ set $web_browser firefox
         $mod+17 workspace number 8
         $mod+18 workspace number 9
         $mod+19 workspace number 10
-        $mod+22 workspace back_and_forth   # Backspace
+        # mod+22 is Backspace
+        $mod+22 workspace back_and_forth
 
         # Send To Workspace
         $mod+Shift+10 move container to workspace number 1 ; workspace number 1
@@ -177,6 +178,7 @@ set $web_browser firefox
         $mod+Shift+17 move container to workspace number 8 ; workspace number 8
         $mod+Shift+18 move container to workspace number 9 ; workspace number 9
         $mod+Shift+19 move container to workspace number 10; workspace number 10
+        $mod+Shift+22 move container to workspace back_and_forth; workspace back_and_forth
     }
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
@@ -214,6 +216,7 @@ set $web_browser firefox
 
     # Switch Focus To Parent Container
     bindsym $mod+a focus parent
+    bindsym $mod+shift+a focus child
 
 #
 # Scratchpad:

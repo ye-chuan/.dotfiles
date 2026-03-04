@@ -20,5 +20,16 @@
 
 # Monitor Positions
 # (indicates x,y of top-left corner, after accounting for scaling)
+# Remember to check for the actual resolution and scaling of the monitor in
+# `swaymsg -t get_outputs` when calculating position, do not assume a width of 1920
 # e.g. output "eDP-1" position 0 0
 # e.g. output "Dell Inc. P2422H" position 1920 0
+
+# Example Setup
+#
+#output "Dell Inc. DELL P2422H 2FC0BJ3" position 0 0
+#output "Samsung Electric Company C24F390 H4ZM600668" position 1920 0
+#output "California Institute of Technology 0x1626 0x00006002" position 3520 0
+#
+#set $mod Mod4
+#bindsym $mod+F12 exec ~/.config/sway/scripts/local/rotate-monitor
