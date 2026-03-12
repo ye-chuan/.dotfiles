@@ -1,18 +1,19 @@
 include catppuccin-mocha
 
-# Best Effort Smooth Scrolling
-# Zathura by default do not have smooth scrolling animations,
-# but we could fallback to GTK's keybinds (assuming GTK is configured)
-# for animated scrolling) by first unbinding them from Zathura.
-map j feedkeys <C-Down>
-map k feedkeys <C-Up>
-map h feedkeys <C-Left>
-map l feedkeys <C-Right>
-
-unmap <PageUp>
-unmap <PageDown>
-map <C-b> feedkeys <PageUp>
-map <C-f> feedkeys <PageDown>
+# NOTE: Commented out due to update causing this hack to not work anymore. Suspect: https://github.com/pwmt/zathura/commit/605d50437d78c74fbe5c92c87a49d11cd454e6fb
+## Best Effort Smooth Scrolling
+## Zathura by default do not have smooth scrolling animations,
+## but we could fallback to GTK's keybinds (assuming GTK is configured)
+## for animated scrolling) by first unbinding them from Zathura.
+#map j feedkeys <C-Down>
+#map k feedkeys <C-Up>
+#map h feedkeys <C-Left>
+#map l feedkeys <C-Right>
+#
+#unmap <PageUp>
+#unmap <PageDown>
+#map <C-b> feedkeys <PageUp>
+#map <C-f> feedkeys <PageDown>
 
 # Note that these GTK scrolling methods do not loading new pages.
 # Using them for too long without using any of Zathura's scroll
