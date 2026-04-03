@@ -53,3 +53,6 @@
 [submodule "nvim-todo-comments"]
 	path = .config/nvim/pack/neovim-only/start/nvim-todo-comments
 	url = https://github.com/folke/todo-comments.nvim.git
+[submodule "firefox-cascade"]
+	path = .config/mozilla/firefox/my-userchromes/cascade
+	url = git@github.com:ye-chuan/firefox-cascade.git
