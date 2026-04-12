@@ -40,6 +40,8 @@ require("mason-lspconfig").setup({
         "jsonls",
         "taplo",    -- TOML
 
+        "lua_ls",
+
         -- Others
         --"hls",    -- Haskell (requires ghcup)
         --"texlab", -- Latex
@@ -75,7 +77,7 @@ require("mason-lspconfig").setup({
 -- We will be using mostly sane default configs provided by the `nvim-lspconfig`
 -- plugin, which has `lsp/{lsp-name}.lua` configs for many major LSPs
 -- Note: There is no need to `require("lspconfig")`, the plugin is now
--- a data-only plugin and does not run any code
+-- a data-only plugin
 --
 -- see :h lspconfig-all for recommended configs to include here when using
 -- the `nvim-lspconfig` plugin
@@ -177,6 +179,8 @@ vim.lsp.config("hls", {
 })
 vim.lsp.enable("hls")
 
+vim.lsp.enable("lua_ls")
+
 --vim.lsp.config("texlab", {
 --    settings = {
 --        texlab = {
@@ -234,7 +238,7 @@ vim.keymap.set("n", "<Leader>d", vim.diagnostic.setloclist) -- Tip: :lcl to clos
 -- AFTER The language server attaches to the current buffer
 vim.api.nvim_create_autocmd("LspAttach", {      -- Attach this autocmd to the built-in event "LspAttach" (see :he LspAttach)
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),     -- Creates a new group for these autocmds called "UserLspConfig
-  callback = function(ev)   -- ev is the event, which has an attribute .buf that is the current buffer number
+  callback = function (ev)   -- ev is the event, which has an attribute .buf that is the current buffer number
     -- Enable completion triggered by <C-X><C-O> (currently disabled for auto-completion plugin instead)
     -- vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"  -- vim.bo[ev.buf] indexes and returns current buffer, then override/set it's omnifunc (see :he omnifunc) with the one in our lsp
 

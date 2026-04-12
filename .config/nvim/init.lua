@@ -11,10 +11,10 @@ else
 vim.cmd.source(vim.fn.stdpath("config") .. "/early-config/airlinerc.vim")
 
 -- Import shared config file (shared with vanilla Vim)
-local sharedrc = vim.fn.stdpath("config") .. "/sharedrc.vim"
-vim.cmd.source(sharedrc)
+vim.cmd.source(vim.fn.stdpath("config") .. "/sharedrc.vim")
 
 require "nvimrc"
-require "mainmodule"
+require "treesitter"
+--require "mainmodule"
 
 end
