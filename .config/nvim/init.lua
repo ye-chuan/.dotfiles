@@ -9,6 +9,7 @@ else
 -- (specifically: sourcing after the `syntax on` line seems to cause the
 -- setting of `let g:vimtex_view_method = "zathura"` to occur too late?)
 vim.cmd.source(vim.fn.stdpath("config") .. "/early-config/airlinerc.vim")
+vim.cmd.source(vim.fn.stdpath("config") .. "/early-config/vimtexrc.vim")
 
 -- Import shared config file (shared with vanilla Vim)
 vim.cmd.source(vim.fn.stdpath("config") .. "/sharedrc.vim")
