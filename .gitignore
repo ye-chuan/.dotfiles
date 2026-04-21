@@ -8,6 +8,10 @@
 # Scripts
 .config/scripts/local/*
 
+# Vim
+.vim/undo/
+.vim/.netrwhist
+
 # Sway
 .config/sway/scripts/local/*
 !.config/sway/scripts/local/readme.md

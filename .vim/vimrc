@@ -2,7 +2,7 @@
 let sharedrc = '~/.config/nvim/sharedrc.vim'
 exec "source " . sharedrc
 
-colorscheme catppuccin-mocha
+colorscheme catppuccin_mocha
 " Remove background so that terminal transparency can be respected
 highlight Normal guibg=NONE ctermbg=NONE
 

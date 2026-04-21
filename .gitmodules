@@ -11,7 +11,7 @@
 	path = .config/nvim/pack/neovim-only/start/nvim-lua-plenary
 	url = https://github.com/nvim-lua/plenary.nvim.git
 [submodule "airline"]
-	path = .config/nvim/pack/vim-also/start/vim-airline
+	path = .vim/pack/vim-only/start/vim-airline
 	url = https://github.com/vim-airline/vim-airline.git
 [submodule "telescope"]
 	path = .config/nvim/pack/neovim-only/start/nvim-telescope
@@ -59,3 +59,6 @@
 [submodule "firefox-cascade"]
 	path = .config/mozilla/firefox/my-userchromes/cascade
 	url = git@github.com:ye-chuan/firefox-cascade.git
+[submodule "vim-catppuccin-theme"]
+	path = .vim/pack/vim-only/start/catppuccin
+	url = https://github.com/catppuccin/vim.git
