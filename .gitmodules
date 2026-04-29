@@ -1,18 +1,27 @@
+[submodule "catppuccin-theme"]
+	path = .config/nvim/pack/neovim-only/start/nvim-catppuccin-theme
+	url = https://github.com/catppuccin/nvim.git
+[submodule "vim-catppuccin-theme"]
+	path = .vim/pack/vim-only/start/catppuccin
+	url = https://github.com/catppuccin/vim.git
+[submodule "nvim-lualine"]
+	path = .config/nvim/pack/neovim-only/start/nvim-lualine
+	url = https://github.com/nvim-lualine/lualine.nvim.git
+[submodule "nvim-web-devicons"]
+	path = .config/nvim/pack/neovim-only/start/nvim-web-devicons
+	url = https://github.com/nvim-tree/nvim-web-devicons.git
+[submodule "airline"]
+	path = .vim/pack/vim-only/start/vim-airline
+	url = https://github.com/vim-airline/vim-airline.git
 [submodule "mason"]
 	path = .config/nvim/pack/lsp/start/nvim-mason
 	url = https://github.com/mason-org/mason.nvim.git
 [submodule "lsp-config"]
 	path = .config/nvim/pack/lsp/start/nvim-lspconfig
 	url = https://github.com/neovim/nvim-lspconfig.git
-[submodule "catppuccin-theme"]
-	path = .config/nvim/pack/neovim-only/start/nvim-catppuccin-theme
-	url = https://github.com/catppuccin/nvim.git
 [submodule "nvim-lua-plenary"]
 	path = .config/nvim/pack/neovim-only/start/nvim-lua-plenary
 	url = https://github.com/nvim-lua/plenary.nvim.git
-[submodule "airline"]
-	path = .vim/pack/vim-only/start/vim-airline
-	url = https://github.com/vim-airline/vim-airline.git
 [submodule "telescope"]
 	path = .config/nvim/pack/neovim-only/start/nvim-telescope
 	url = https://github.com/nvim-telescope/telescope.nvim.git
@@ -20,9 +29,6 @@
 [submodule "treesitter"]
 	path = .config/nvim/pack/neovim-only/start/nvim-treesitter
 	url = https://github.com/nvim-treesitter/nvim-treesitter.git
-[submodule "nvim-web-devicons"]
-	path = .config/nvim/pack/neovim-only/start/nvim-web-devicons
-	url = https://github.com/nvim-tree/nvim-web-devicons.git
 [submodule "lua-snip"]
 	path = .config/nvim/pack/completion/start/lua-snip
 	url = https://github.com/L3MON4D3/LuaSnip.git
@@ -59,6 +65,3 @@
 [submodule "firefox-cascade"]
 	path = .config/mozilla/firefox/my-userchromes/cascade
 	url = git@github.com:ye-chuan/firefox-cascade.git
-[submodule "vim-catppuccin-theme"]
-	path = .vim/pack/vim-only/start/catppuccin
-	url = https://github.com/catppuccin/vim.git

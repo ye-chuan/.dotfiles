@@ -21,6 +21,8 @@ going to help improve my workflow, I will be installing it.
 - nvim-todo-comments
     - Highlight & navigate special comments (e.g. `#TODO`)
     - Deps: `nvim-plenary`
+- vimtex
+    - All-in-one LaTeX plugin, including compilation, table of contents, jumps, etc.
 
 > Remember to have the **latest version** of `npm` and `nodejs` which some stable Linux distros do not provide in their repo
 > e.g. `pyright` uses `npm` for installation and `nodejs` to run
@@ -35,6 +37,8 @@ going to help improve my workflow, I will be installing it.
 - cmp-luasnip
     - nvim-cmp source for LuaSnip's snippets
     - Note that snippet expansion is done by LuaSnip, nvim-cmp just does the completion of the snippet triggers
+- friendly-snippets
+    - The actual snippets that LuaSnip reads from
 - cmp-nvim-lsp
     - nvim-cmp source for NeoVim's built-in LSP client
     - Note that nvim-cmp adds extra capabilities (e.g. snippets support when used with a snippets engine) to NeoVim
@@ -42,23 +46,37 @@ going to help improve my workflow, I will be installing it.
 - cmp-buffer
     - nvim-cmp source for words within a buffer (like the built-in i_CTRL-N, but integrated into nvim-cmp)
 - copilot-vim (opt)
-    - Just to test out GitHub's Copilot, might remove in the future
+    - Just to demonstrate the power of Vim :D, remove in the future
 
 ### Project Navigation
 - nvim-telescope
     - Deps: `nvim-plenary`
 
 ### Aesthetics
-- nvim-catpuccin-theme
-- vim-airline
+- nvim-catppuccin-theme
+- vim-catppuccin-theme
+    - **Only used for vanilla Vim**
 - nvim-web-devicons
     - File icons support for other plugins
 - nvim-treesitter
     - Mainly for improved syntax highlighting (replaces `:syntax`)
+    - Warning: Archived (see below)
+- vim-airline
+    - **Only used for vanilla Vim**
+- nvim-lualine
 
 ### Others
 - nvim-plenary
     - Plenary dependancy for nvim-telescope
+    - Warning: Deprecated (see below)
+
+> [!WARNING]
+> `nvim-plenary` is deprecated. Security updates stops on 2026-06-30, developers of nvim-telescope are currently working on removing the dependency
+> 
+> `nvim-treesitter` is currently archived due to some drama, the maintainer seems burnt out.
+> For now, we'll just wait and see how the drama concludes.
+> Perhaps Treesitter is going to be [included upstream to NeoVim itself](https://github.com/neovim/neovim/issues/39006).
+
 
 
 ## Plugin Management
@@ -86,22 +104,22 @@ Remember to generate helptags in nvim with
 To update all plugins, update all submodules, as per documentation in the main `.dotfiles` repo.
 
 ## Overriden Mappings
-- <C-L> - Originally Redraw Screen
-- Y - Originally yy
-- <C-W> - Delete word in Insert Mode (remapped to maintain function but after setting an undo point)
-- <C-U> - Delete till start in Insert Mode (remapped to maintain function but after setting an undo point)
-- Q - Neovim's default is to replay last recorded macro instead of entering Ex mode, this .vimrc has code that mimicks Neovim's implementation
+- `<C-L>` - Originally Redraw Screen
+- `Y` - Originally same as `yy`
+- `<C-W>` - Delete word in Insert Mode (remapped to maintain function but after setting an undo point)
+- `<C-U>` - Delete till start in Insert Mode (remapped to maintain function but after setting an undo point)
+- `Q` - Neovim's default is to replay last recorded macro instead of entering Ex mode, this .vimrc has code that mimicks Neovim's implementation
 
 ### Overriden in Plugins
 #### nvim-cmp
-- i_<C-N> - Replaced by auto-completion in nvim-cmp (default built-in completion by <C-N> can still be accessed with i_<C-X><C-N>)
-- i_<C-P> - Replaced by auto-completion in nvim-cmp (default built-in completion by <C-N> can still be accessed with i_<C-X><C-N>)
-- i_<C-Y> - Confirm choice in nvim-cmp (originally to copy the character directly above)
+- `i_<C-N>` - Replaced by auto-completion in nvim-cmp (default built-in completion by `<C-N>` can still be accessed with `i_<C-X><C-N>`)
+- `i_<C-P>` - Replaced by auto-completion in nvim-cmp (default built-in completion by `<C-N>` can still be accessed with `i_<C-X><C-N>`)
+- `i_<C-Y>` - Confirm choice in nvim-cmp (originally to copy the character directly above)
 
 #### LuaSnip
-- i_<C-K> - Expand / jump to next field in snippet (originally for inserting digraphs)
-- i_<C-J> - Jump to previous field in snippet (originally to begin newline, like <CR>)
-- i_<C-L> - Cycle through choices in snippet (originally not mapped)
+- `i_<C-K>` - Expand / jump to next field in snippet (originally for inserting digraphs)
+- `i_<C-J>` - Jump to previous field in snippet (originally to begin newline, like `<CR>`)
+- `i_<C-L>` - Cycle through choices in snippet (originally not mapped)
 
 ## Dependencies
 The current configuration would require the following dependencies

@@ -1,4 +1,5 @@
 require("catppuccin").setup({
+    flavour = "auto",
     transparent_background = true,  -- Disables setting bg color (some terminal will just override transparency with bg color)
     integrations = {
         treesitter = true,
@@ -12,4 +13,4 @@ require("catppuccin").setup({
     end,
 })
 
-vim.cmd.colorscheme "catppuccin"
+vim.cmd.colorscheme "catppuccin-nvim"
