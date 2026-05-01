@@ -1,11 +1,13 @@
 require("catppuccin").setup({
     flavour = "auto",
     transparent_background = true,  -- Disables setting bg color (some terminal will just override transparency with bg color)
+    float = {
+        transparent = true,     -- Enables transparency on floating windows (e.g. autocomplete)
+        solid = false,          -- "true" refers to a style of using background colors instead of borders for float
+    },
     integrations = {
-        treesitter = true,
         cmp = true,
     },
-    
     custom_highlights = function(colors)
         return {
             CmpItemMenu = { fg = colors.overlay1 },  -- The source label (e.g. [lsp], [buf]) for completion (this gives more of a subtle colour)
