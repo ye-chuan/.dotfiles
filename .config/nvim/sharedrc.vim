@@ -69,6 +69,8 @@ set autoindent      " autoindent: Always maintain same indentation as previous l
 set nosmartindent   " smartindent: Might add more indentation (we will be using the better `filetype indent on`
 set nocindent       " cindent: Follow C syntax for indent (will be auto enabled for c files if we use `filetype indent on`)
 
+set foldlevelstart=99   " Default to having all folds open
+
 " Built-in Filetype Plugin (use `:filetype` to view which features are enabled, `:h filetype` for help)
 filetype on         " Enables filetype detection (a bit redundant since it is on by default and when setting `filetype indent on` etc)
 filetype indent on  " Enables indentation based on filetype by setting `indentexpr` using built-in scripts for each filetype (see `$VIMRUNTIME/indent/<filetype>.vim` which might redirect to a function in `$VIMRUNTIME/autoload/<filetype>.vim`)
@@ -192,7 +194,7 @@ function! QImplementation()
 endfunction
 
 "" Terminal (Vim 8+)
-tnoremap <C-]> <C-\>|                                           " Prevent class with tmux leader <C-\>
+"tnoremap <C-]> <C-\>|                                           " Used to be to prevent clash with tmux prefix <C-\>, reverting as my tmux prefix is now <C-Space>
 nnoremap <F12> <Cmd>call ToggleTerminal("default")<CR>|         " Create/Show the Terminal named "default"
 tnoremap <F12> <C-\><C-N>:call ToggleTerminal("default")<CR>|   " Exit Terminal Mode and Hides Terminal Window
  
