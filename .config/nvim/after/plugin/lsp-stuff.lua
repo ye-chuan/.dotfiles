@@ -203,13 +203,63 @@ vim.lsp.enable("lua_ls")
 vim.lsp.enable("texlab")
 
 
+----- Diagnostics Config -----
+-- See :h vim.diagnostic.config(); Options are given in :h vim.diagnostic.Opts
+local virtual_lines_opts = true     -- Used for toggling (can be an options table)
+local function onDiagnosticJump(diagnostic, bufnr)
+    vim.diagnostic.open_float({
+        bufnr = bufnr,
+        scope = "cursor",
+        focus = false,  -- See NeoVim Discussion #39706
+    })
+end
+
+vim.diagnostic.config({
+    virtual_lines = false,  -- Toggled via keymap
+    virtual_text = false,   -- Inline diagnostics
+    underline = {
+        severity = { min = vim.diagnostic.severity.WARN },     -- Only underline only for WARNs and above
+    },
+    update_in_insert = false,   -- Do not show diagnostics while typings
+    severity_sort = true,       -- Priority of sign is sorted according to the severity of the diagnostic
+    jump = {
+        on_jump = onDiagnosticJump,
+        wrap = false,
+    },
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = " ",
+            [vim.diagnostic.severity.WARN] = " ",
+            [vim.diagnostic.severity.HINT] = "󰌶 ",
+            [vim.diagnostic.severity.INFO] = " ",
+        },
+        -- The colour of the line of code (colour according to highlight groups, see `:highlight`)
+        linehl = {
+            --[vim.diagnostic.severity.ERROR] = "ErrorMsg",
+        },
+        -- The colour of the line number
+        numhl = {
+            --[vim.diagnostic.severity.WARN] = "WarningMsg",
+        },
+    },
+})
+
+
 ----- KEY MAPPINGS -----
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 -- vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float)
-vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, wrap = false }) end)    -- Goto prev error
-vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, wrap = false }) end)     -- Goto next error
-vim.keymap.set("n", "<Leader>d", vim.diagnostic.setloclist) -- Tip: :lcl to close location list
+vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end)    -- Goto prev error
+vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end)     -- Goto next error
+vim.keymap.set("n", "<Leader>d", vim.diagnostic.setloclist) -- Tip: :lcl to close location list (the same keymap also toggles the loclist)
+
+vim.keymap.set("n", "<Leader>v", function ()
+    if vim.diagnostic.config().virtual_lines == false then
+        vim.diagnostic.config({ virtual_lines = virtual_lines_opts })
+    else
+        vim.diagnostic.config({ virtual_lines = false })
+    end
+end, { desc = "Toggle diagnostic virtual_lines" })
 
 ---- Default Mappings (see :h lsp-defaults)
 --- Global
@@ -237,8 +287,8 @@ vim.keymap.set("n", "<Leader>d", vim.diagnostic.setloclist) -- Tip: :lcl to clos
 -- Use LspAttach autocommand to map the following keys ONLY
 -- AFTER The language server attaches to the current buffer
 vim.api.nvim_create_autocmd("LspAttach", {      -- Attach this autocmd to the built-in event "LspAttach" (see :he LspAttach)
-  group = vim.api.nvim_create_augroup("UserLspConfig", {}),     -- Creates a new group for these autocmds called "UserLspConfig
-  callback = function (ev)   -- ev is the event, which has an attribute .buf that is the current buffer number
+    group = vim.api.nvim_create_augroup("UserLspConfig", {}),     -- Creates a new group for these autocmds called "UserLspConfig
+    callback = function (ev)   -- ev is the event, which has an attribute .buf that is the current buffer number
     -- Enable completion triggered by <C-X><C-O> (currently disabled for auto-completion plugin instead)
     -- vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"  -- vim.bo[ev.buf] indexes and returns current buffer, then override/set it's omnifunc (see :he omnifunc) with the one in our lsp
 
@@ -261,32 +311,3 @@ vim.api.nvim_create_autocmd("LspAttach", {      -- Attach this autocmd to the bu
     --end, opts)
   end,
 })
-
--- See :h vim.diagnostic.config(); Options are given in :h vim.diagnostic.Opts
-vim.diagnostic.config({
-    virtual_text = {
-        severity = { min = vim.diagnostic.severity.WARN }      -- Only show inline diagnostics for WARNs and above
-    },
-    underline = {
-        severity = { min = vim.diagnostic.severity.WARN }      -- Only underline only for WARNs and above
-    },
-    signs = {
-        text = {
-            [vim.diagnostic.severity.ERROR] = " ",
-            [vim.diagnostic.severity.WARN] = " ",
-            [vim.diagnostic.severity.HINT] = "󰌶 ",
-            [vim.diagnostic.severity.INFO] = " ",
-        },
-        -- The colour of the line of code (colour according to highlight groups, see `:highlight`)
-        linehl = {
-            --[vim.diagnostic.severity.ERROR] = "ErrorMsg",
-        },
-        -- The colour of the line number
-        numhl = {
-            --[vim.diagnostic.severity.WARN] = "WarningMsg",
-        },
-    },
-    update_in_insert = false,   -- Do not show diagnostics while typings
-    severity_sort = true,       -- Priority of sign is sorted according to the severity of the diagnostic
-})
-
