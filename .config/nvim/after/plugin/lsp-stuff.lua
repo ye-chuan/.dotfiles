@@ -29,6 +29,7 @@ require("mason-lspconfig").setup({
         "clangd",
         --"pyright", -- Trying out basedpyright
         "basedpyright",
+        "roslyn_ls",    -- C#
         --"jdtls",  -- Java (requires jdk)
 
         -- Web Dev
@@ -149,6 +150,7 @@ if vim.fn.has("win32") == 1 then
 end
 vim.lsp.config("clangd", clangd_config_extend)
 vim.lsp.enable("clangd")
+vim.lsp.enable("roslyn_ls")
 
 local existing_conf = vim.lsp.config["jdtls"] or {}
 local root_markers_extended = vim.deepcopy(existing_conf["root_markers"] or {})

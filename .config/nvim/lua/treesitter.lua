@@ -14,6 +14,11 @@
 -- more parsers, we will use a centralised Autocmd here to attempt to start
 -- Treesitter Highlighting and set the Folding methods if the parser is installed.
 
+local utils = require("utils")
+
+-- We might want to disable TreeSitter indentation in favour of the default ftplugin indentations
+local disable_ts_indent = {"cs"}    -- c_sharp parser is buggy when it comes to indentation
+
 vim.api.nvim_create_autocmd("Filetype", {
     group = vim.api.nvim_create_augroup("TreesitterGlobalConfig", {}),
     callback = function (ev)
@@ -48,8 +53,13 @@ vim.api.nvim_create_autocmd("Filetype", {
                         vim.opt_local.foldmethod = "expr"
                         vim.opt_local.foldexpr = "v:lua.vim.treesitter.foldexpr()"
                     end
+
                     -- NOTE: Temporarily using nvim-treesitter plugin for this until core integrates treesitter indentations
-                    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+                    if utils.arr_contains(disable_ts_indent, vim.bo[bufnr].filetype) then
+                        vim.print("Config: TreeSitter Indentation Disabled")
+                    else
+                        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+                    end
                 end)
             end)
         end

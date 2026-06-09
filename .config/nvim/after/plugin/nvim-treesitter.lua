@@ -9,7 +9,7 @@
 
 require("nvim-treesitter").install {
     -- Some might require tree-sitter CLI (e.g `npm -g install tree-sitter-cli`)
-    "c", "python", "java", "cpp", "lua",
+    "c", "python", "java", "cpp", "lua", "c_sharp",
     "html", "javascript", "jsdoc", "typescript", "tsx", "vue",
     "bash", "json",
     "haskell",
