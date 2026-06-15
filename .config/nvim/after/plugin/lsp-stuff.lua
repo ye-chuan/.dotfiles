@@ -36,6 +36,7 @@ require("mason-lspconfig").setup({
         "html",
         "cssls",
         "vtsls",    -- Supposedly better than ts_ls (wrapper around VSCode's TS LSP)
+        "eslint",   -- The ESLint LSP to integrate ESLint into NeoVim (not ESLint itself, which is typically installed via npm in the project)
 
         -- Markup & Config File Formats
         "jsonls",
@@ -164,6 +165,7 @@ vim.lsp.enable("jdtls")
 vim.lsp.enable("html")
 vim.lsp.enable("cssls")
 vim.lsp.enable("vtsls")
+vim.lsp.enable("eslint")
 
 ---- Markup & Config File Formats
 vim.lsp.enable("jsonls")
