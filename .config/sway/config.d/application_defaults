@@ -19,8 +19,7 @@ set {
 # appropriately at runtime
 # (This is inspired from https://github.com/swaywm/sway/issues/4045#issuecomment-482823035)
 #
-# I mainly use his to spawn a window in the scratchpad without any seemingly app_id / classname
-# hacks.
+# I mainly use his to spawn a window in the scratchpad without any app_id / classname hacks.
 # To spawn a window in scratchpad we simply run: swaymsg 'set $for_this scratchpad:focus; exec prgm'
 # Or in the config: bindsym {keybind} set $$for_this scratchpad:focus; exec prgm
 set $for_this none
@@ -46,16 +45,9 @@ for_window {
     [window_type="menu"] $float
     [window_role="About"] $float
 
-    # Custom Classes
-    # Some programs (e.g. WezTerm) allow us to set custom windowing
-    # system class / app_id.
-    [app_id="\[_float\]"] $float
-
     # Generic Title
     [title="File Operation Progress"] $sticky, resize set width 40 ppt height 30 ppt
     [title="Picture in picture"] $sticky
-    [title="waybar_htop"] $float, resize set width 70 ppt height 70 ppt
-    [title="waybar_nmtui"] $float
     [title="Save File"] $float
 
     [class="Yad" instance="yad"] $float
@@ -64,10 +56,8 @@ for_window {
     [app_id="pavucontrol" ] $float, resize set width 40 ppt height 30 ppt
     [app_id="floating_shell_portrait"] $sticky, resize set width 30 ppt height 40 ppt
 
-    [app_id="firefox" title="Firefox — Sharing Indicator"] kill
-
     # Kitty
-    # Seem to have some dimensional problems with floating
+    # Seem to have some dimensional problems when floating
     [app_id="kitty" floating] resize set width 45 ppt height 50 ppt
 
     # Thunar
@@ -88,12 +78,23 @@ for_window {
     #[app_id="org.mozilla.Thunderbird" title="^\d+ Reminder$"] $float, resize set width 40 ppt height 30 ppt
     #[app_id="org.mozilla.Thunderbird" title="^New Event:$"] $float
 
+    # Firefox
+    # Recommended config to kill indicator when screen sharing (to consider)
+    #[app_id="firefox" title="Firefox — Sharing Indicator"] kill
+
     # Telegram Desktop
     [app_id="org.telegram.desktop" title="^Media viewer$"] $float, fullscreen disable
 
     # Waydroid (currently very buggy when tiled)
     [app_id="^Waydroid$"] $float
     [app_id="^waydroid\."] $float
+
+    # Godot XWayland (might not require anymore once Wayland support is stable)
+    [class="^Godot$"] $float
+    [class="^Godot$" title="Godot Engine$"] floating disable
+    [class="^Godot$" title="^Create New Node$"] resize set height 80 ppt
+    [class="^Godot$" title="^Project Settings"] resize set height 80 ppt
+    [class="^Godot$" title="\(DEBUG\)$"] floating disable
 
     ## Inhibit Idle
     [app_id="firefox"] inhibit_idle fullscreen

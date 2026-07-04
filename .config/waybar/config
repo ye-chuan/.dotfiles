@@ -48,7 +48,7 @@
         "tooltip-format-ethernet": "{ifname:^25}\n{ipaddr:>18}/{cidr:<7}\n{bandwidthDownBits:>} 󰶡 {bandwidthUpBits:>} 󰶣   ",
         "format-disconnected": "󱚼 ",
         "tooltip-format-disconnected": "Disconnected",
-        "on-click": "wezterm start --class 'org.wezfurlong.wezterm [_float]' nmtui",
+        "on-click": "swaymsg 'set $for_this scratchpad:focus; exec kitty -e nmtui'",
         "interval": 2,
     },
 
