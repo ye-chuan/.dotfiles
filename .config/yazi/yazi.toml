@@ -76,12 +76,16 @@ edit_office = [
 	# if the filename happens to start with `-` since we are matching by mimetype
 	{ run = "libreoffice /.%S", desc = "LibreOffice", for = "linux" },
 ]
+edit_svg = [
+    { run = "inkscape %S", desc = "Edit with Inkscape"}
+]
 
 [open]
 prepend_rules = [
  	# Text
  	{ mime = "text/*", use = [ "edit_text_new", "edit", "reveal" ] },
 	# Image
+    #{ mime = "image/svg+xml", use = [ "open", "edit_svg", "edit_image", "reveal" ] },
 	{ mime = "image/*", use = [ "open", "edit_image", "reveal" ] },
 	# Word Document
 	{ mime = "application/{clarisworks,docbook+xml,macwriteii,msword,prs.plucker,rtf,*apple.pages,*lotus-wordpro,*ms-word,*ms-word.document.macroEnabled.12,*ms-word.template.macroEnabled.12,*ms-works,*oasis.opendocument.text,*oasis.opendocument.text-flat-xml,*oasis.opendocument.text-master,*oasis.opendocument.text-master-template,*oasis.opendocument.text-template,*oasis.opendocument.text-web,*openxmlformats-officedocument.wordprocessingml.document,*openxmlformats-officedocument.wordprocessingml.template,*palm,*stardivision.writer-global,*sun.xml.writer,*sun.xml.writer.global,*sun.xml.writer.template,*wordperfect,wordperfect,x-abiword,x-aportisdoc,x-doc,x-extension-txt,x-fictionbook+xml,x-hwp,x-iwork-pages-sffpages,x-mswrite,x-pocket-word,x-sony-bbeb,x-starwriter,x-starwriter-global,x-t602}", use = [ "open", "edit_office", "reveal" ] },
