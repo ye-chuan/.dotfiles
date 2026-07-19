@@ -59,6 +59,10 @@ config.set_environment_variables = {
   prompt = '$E]7;file://localhost/$P$E\\$E[32m$T$E[0m $E[35m$P$E[36m$_$G$E[0m ',
 }
 
+-- Enable support for Kitty Keyboard Protocol when a program asks for it
+-- (Pretty much no reason not to do this as it will only be active if the program requests for it)
+--config.enable_kitty_keyboard = true
+
 ---- Keymaps
 config.disable_default_key_bindings = true
 -- This leader cannot be triggered (considered "off") as we will be mainly using tmux
