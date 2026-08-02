@@ -27,6 +27,9 @@ set $notif_ctr swaync-client --toggle-panel --skip-wait
 set $file_manager $exec_term -e yazi
 # Web Browser
 set $web_browser firefox
+# AI Temporary Chat
+# (Gemini requries the plugin separately I wrote to allow for the `temporary` flag)
+set $ai_temp chromium --app="https://gemini.google.com/app?temporary=true"
 
 #
 # Media Keys
@@ -74,6 +77,9 @@ set $web_browser firefox
 
     # Notification Centre
     bindsym $mod+Ctrl+n exec $notif_ctr
+
+    # AI
+    bindsym $mod+Shift+i set $$for_this scratchpad:focus; exec $ai_temp
 
 #
 # Screenshots
