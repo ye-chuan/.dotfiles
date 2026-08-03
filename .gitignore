@@ -36,3 +36,7 @@
 # Yazi
 .config/yazi/plugins/*
 !.config/yazi/plugins/my-jump.yazi
+
+# Firefox
+.config/mozilla/firefox/*
+!.config/mozilla/firefox/my-userchromes/
