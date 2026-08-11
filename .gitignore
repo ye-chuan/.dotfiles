@@ -21,6 +21,10 @@
 # Thunar
 .config/Thunar/renamerrc
 
+# Rclone
+.config/rclone/*
+!.config/rclone/*.example
+
 # Cava unused built-in themes
 .config/cava/shaders/
 .config/cava/themes/solarized_dark
@@ -40,3 +44,6 @@
 # Firefox
 .config/mozilla/firefox/*
 !.config/mozilla/firefox/my-userchromes/
+
+# Other Local Files
+.config/wallpapers/local/

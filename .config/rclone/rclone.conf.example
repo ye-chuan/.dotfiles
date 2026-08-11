@@ -1,0 +1,14 @@
+[onedrive]
+type = onedrive
+token = {"access_token":"XXX","token_type":"Bearer","refresh_token":"XXX","expiry":"XXX","expires_in":XXX}
+drive_id = XXX
+drive_type = personal
+
+[google]
+type = drive
+client_id = XXX
+client_secret = XXX
+scope = drive
+token = {"access_token":"XXX","token_type":"Bearer","refresh_token":"XXX","expiry":"XXX","expires_in":XXX}
+team_drive =
+
