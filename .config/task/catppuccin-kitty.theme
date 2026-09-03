@@ -1,0 +1,79 @@
+# vim:ft=taskrc
+# My theme colors that works on Kitty's Catppuccin Mocha Port
+# This is also tested to work well with Termux's Catppuccin Mocha Port
+#
+# Take note:
+# - Avoid `color16`: renders as orange in Termux, use `color237` instead
+#
+# Tip: Use `task colors`, `task colors legend`
+
+# General decoration
+color.label=blue
+color.label.sort=bold blue
+color.alternate=on color233
+color.header=blue
+color.footnote=yellow
+color.warning=bold red
+color.error=black on red
+color.debug=blue
+
+# Task state
+color.completed=color244
+color.deleted=color240
+color.active=green
+color.recurring=blue
+color.scheduled=yellow
+color.until=yellow on red
+color.blocked=gray15
+color.blocking=cyan
+
+# Project
+#color.project.none=
+
+# Priority
+color.uda.priority.H=bold
+color.uda.priority.M=
+color.uda.priority.L=
+
+# Tags
+color.tag.next=bold yellow
+color.tag.none=
+color.tagged=
+
+# Due
+color.due=magenta
+color.due.today=red
+color.overdue=black on red
+
+# Report: burndown
+color.burndown.done=on green
+color.burndown.pending=on magenta
+color.burndown.started=on yellow
+
+# Report: history
+color.history.add=black on blue
+color.history.delete=black on red
+color.history.done=black on green
+
+# Report: summary
+color.summary.background=
+color.summary.bar=black on green
+
+# Command: calendar
+color.calendar.due.today=underline bold red
+color.calendar.due=red
+color.calendar.holiday=green
+color.calendar.scheduled=yellow
+color.calendar.overdue=bold black on red
+color.calendar.today=underline
+color.calendar.weekend=gray20
+color.calendar.weeknumber=blue
+
+# Command: sync
+color.sync.added=green
+color.sync.changed=yellow
+color.sync.rejected=red
+
+# Command: undo
+color.undo.after=green
+color.undo.before=red
