@@ -61,6 +61,9 @@ going to help improve my workflow, I will be installing it.
 - nvim-treesitter
     - Mainly for improved syntax highlighting (replaces `:syntax`)
     - Warning: Archived (see below)
+- nvim-render-markdown
+    - Lightweight markdown renderer within NeoVim
+    - Chosen over markview.nvim because it feels more responsive and has more decent support for soft wraps
 - vim-airline
     - **Only used for vanilla Vim**
 - nvim-lualine
@@ -122,7 +125,7 @@ To update all plugins, update all submodules, as per documentation in the main `
 - `i_<C-L>` - Cycle through choices in snippet (originally not mapped)
 
 ## Dependencies
-The current configuration would require the following dependencies
+The current configuration would require the following system dependencies
 - git
     - For Mason to download & install various LSPs
 - unzip
@@ -131,6 +134,12 @@ The current configuration would require the following dependencies
     - For Mason to download & install various LSPs
 - npm & nodejs (usually installed together)
     - For Mason to download, install, and run various LSPs
+
+And the following optional system dependencies
+- nvim-render-markdown
+    - [libtexprintf](https://github.com/bartp5/libtexprintf) - To render LaTeX math with utf-8 on a best-effort basis
+- vimtex
+    - zathura - VimTeX has good support for zathura as the PDF viewer
 
 ## To Do
 - Perhaps separate NeoVim Plugin Management with my main dotfiles management, so that NeoVim plugins more conveniently with a "for each submodule pull".

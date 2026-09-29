@@ -8,12 +8,13 @@
 -- There is no need to configure this plugin (i.e. `.setup`)
 
 require("nvim-treesitter").install {
-    -- Some might require tree-sitter CLI (e.g `npm -g install tree-sitter-cli`)
+    -- Reminder that nvim-treesitter requires the tree-sitter CLI to be installed (via system package manager or npm)
     "c", "python", "java", "cpp", "lua", "c_sharp",
     "html", "javascript", "jsdoc", "typescript", "tsx", "vue",
-    "bash", "json",
-    "haskell",
-    "markdown", "markdown_inline", 
+    "json", "yaml", "toml", "diff",
+    "bash",
+    "markdown", "markdown_inline",
     "vim", "vimdoc",
-    --latex",   -- (requires tree-sitter CLI)
+    "haskell",
+    "latex",
 }

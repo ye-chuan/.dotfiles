@@ -62,6 +62,9 @@
 [submodule "vimtex"]
 	path = .config/nvim/pack/vim-also/start/vimtex
 	url = https://github.com/lervag/vimtex.git
+[submodule "nvim-render-markdown"]
+	path = .config/nvim/pack/suite/start/nvim-render-markdown
+	url = https://github.com/MeanderingProgrammer/render-markdown.nvim.git
 [submodule "firefox-cascade"]
 	path = .config/mozilla/firefox/my-userchromes/cascade
 	url = git@github.com:ye-chuan/firefox-cascade.git
