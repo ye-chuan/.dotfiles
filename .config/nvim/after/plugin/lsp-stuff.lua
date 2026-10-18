@@ -41,6 +41,7 @@ require("mason-lspconfig").setup({
         -- Markup & Config File Formats
         "jsonls",
         "taplo",    -- TOML
+        "markdown_oxide",
 
         "lua_ls",
 
@@ -174,6 +175,8 @@ vim.lsp.config("taplo", {
     root_dir = root_dir_fallback(0, vim.lsp.config["taplo"]["root_markers"]),
 })
 vim.lsp.enable("taplo")
+
+vim.lsp.enable("markdown_oxide")
 
 ---- Others
 vim.lsp.config("hls", {

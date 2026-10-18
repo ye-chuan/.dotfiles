@@ -13,7 +13,7 @@ require("nvim-treesitter").install {
     "html", "javascript", "jsdoc", "typescript", "tsx", "vue",
     "json", "yaml", "toml", "diff",
     "bash",
-    "markdown", "markdown_inline",
+    "markdown", "markdown_inline", "mermaid",
     "vim", "vimdoc",
     "haskell",
     "latex",

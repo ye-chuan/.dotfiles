@@ -30,12 +30,12 @@ require("catppuccin").setup({
             return {
                 -- Plugin: render-markdown.nvim
                 --- Adjust the blending to have slightly more contrast
-                RenderMarkdownH1Bg = { bg = utils.hex_blend(mocha.red, "#1e1e2e", 0.15) },
-                RenderMarkdownH2Bg = { bg = utils.hex_blend(mocha.peach, "#1e1e2e", 0.15) },
-                RenderMarkdownH3Bg = { bg = utils.hex_blend(mocha.yellow, "#1e1e2e", 0.15) },
-                RenderMarkdownH4Bg = { bg = utils.hex_blend(mocha.green, "#1e1e2e", 0.15) },
-                RenderMarkdownH5Bg = { bg = utils.hex_blend(mocha.sapphire, "#1e1e2e", 0.15) },
-                RenderMarkdownH6Bg = { bg = utils.hex_blend(mocha.lavender, "#1e1e2e", 0.15) },
+                RenderMarkdownH1Bg = { bg = utils.hex_blend(mocha.red, mocha.base, 0.15) },
+                RenderMarkdownH2Bg = { bg = utils.hex_blend(mocha.peach, mocha.base, 0.15) },
+                RenderMarkdownH3Bg = { bg = utils.hex_blend(mocha.yellow, mocha.base, 0.15) },
+                RenderMarkdownH4Bg = { bg = utils.hex_blend(mocha.green, mocha.base, 0.15) },
+                RenderMarkdownH5Bg = { bg = utils.hex_blend(mocha.sapphire, mocha.base, 0.15) },
+                RenderMarkdownH6Bg = { bg = utils.hex_blend(mocha.lavender, mocha.base, 0.15) },
             }
         end
     }

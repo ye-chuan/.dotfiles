@@ -1,3 +1,6 @@
+[submodule "firefox-cascade"]
+	path = .config/mozilla/firefox/my-userchromes/cascade
+	url = git@github.com:ye-chuan/firefox-cascade.git
 [submodule "catppuccin-theme"]
 	path = .config/nvim/pack/neovim-only/start/nvim-catppuccin-theme
 	url = https://github.com/catppuccin/nvim.git
@@ -65,6 +68,9 @@
 [submodule "nvim-render-markdown"]
 	path = .config/nvim/pack/suite/start/nvim-render-markdown
 	url = https://github.com/MeanderingProgrammer/render-markdown.nvim.git
-[submodule "firefox-cascade"]
-	path = .config/mozilla/firefox/my-userchromes/cascade
-	url = git@github.com:ye-chuan/firefox-cascade.git
+[submodule "nvim-image"]
+	path = .config/nvim/pack/neovim-only/start/nvim-image
+	url = https://github.com/3rd/image.nvim.git
+[submodule "nvim-diagram"]
+	path = .config/nvim/pack/neovim-only/start/nvim-diagram
+	url = https://github.com/3rd/diagram.nvim.git
